@@ -30,6 +30,7 @@ We use the [GitHub Flow](https://guides.github.com/introduction/flow/) in this p
     ```
 
 5. When the feature is done create a new Pull Request (PR) using the GitHub web interface.
+See [this blog](https://github.com/blog/1943-how-to-write-the-perfect-pull-request) for tips on writing a good Pull Request.
 6. The PR has to be reviewed before it can be merged. You can request a reviewer.
 The build will also be tested automatically, these tests have to pass.
 (See Travis CI status: [![Build Status](https://travis-ci.org/BakkerTom/happy-news.svg?branch=master)](https://travis-ci.org/BakkerTom/happy-news))
