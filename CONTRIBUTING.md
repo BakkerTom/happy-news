@@ -49,5 +49,3 @@ Write some feedback and select if you want to approve the merge.
 Comments on a specific lines can be added by hovering the line in the source code viewer and selecting the '+' icon.
 
 Changes added after your last review can be viewed using the 'View changes' button next to your review in the 'Conversation' tab.
-
-pull-request test
