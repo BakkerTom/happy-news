@@ -5,8 +5,8 @@ Before submitting your pull request, consider the following: Does your code...
 - [ ] Build without errors
 - [ ] Contain and pass unit testing
 - [ ] Conform to the Style Guide
-- [ ] Have no merge conflicts with ```MASTER```
+- [ ] Have no merge conflicts with ```master```
 
-When you've checked all of the boxes above your code is up for review. If approved it can be merged with the ```MASTER``` branch.
+When you've checked all of the boxes above your code is up for review. If approved it can be merged with the ```master``` branch.
 
 If you want feedback on your work before having finished your code, add ```[WIP]``` to the title of your PR.
