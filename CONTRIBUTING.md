@@ -2,6 +2,30 @@
 
 We use the [GitHub Flow](https://guides.github.com/introduction/flow/) in this project. Specific guidelines are discussed below.
  
+## Getting Started
+
+Follow these instructions to set up your development environment. You can find additional instructions for IntelliJ below.
+
+1. Clone the repository.
+2. Download the [Android SDK](https://developer.android.com/sdk/index.html).
+3. Create a `local.properties` file in the project root containing the path to your Android SDK:
+
+    ```properties
+    sdk.dir=/path/to/android/sdk
+    ```
+
+That's everything you need to start developing. The Gradle wrapper (`gradlew` and `gradlew.bat`) can be used to execute gradle tasks.
+
+If you want some information on getting your IDE ready, please do read on.
+
+### IntelliJ
+
+1. Create a new project from existing sources and select the cloned project.
+2. Choose to import from Gradle.
+3. When asked choose to enable auto-import.
+4. When asked auto configure the Android project.
+5. Run the `idea` Gradle task.
+
 ## Creating Changes
 
 1. Start a new branch from `master` and name it according to the relevant user story. The format is `#-name`. Example:
