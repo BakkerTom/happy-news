@@ -11,6 +11,8 @@ buildscript {
 }
 
 allprojects {
+    apply plugin:'idea'
+
     group 'nl.fhict.happynews'
     version '1.0-SNAPSHOT'
 
@@ -21,6 +23,10 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
+
+// Don't generate .ipr and .iws files when running 'idea' task
+ideaProject.enabled = false
+ideaWorkspace.enabled = false
 
 task clean {
     delete "${buildDir}/"
