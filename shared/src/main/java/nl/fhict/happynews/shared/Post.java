@@ -1,3 +1,5 @@
+package nl.fhict.happynews.shared;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
