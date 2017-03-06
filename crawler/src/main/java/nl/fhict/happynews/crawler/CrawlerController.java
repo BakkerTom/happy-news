@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Service
 public class CrawlerController {
-    
+
     @Autowired
     private NewsRetriever newsRetriever;
 
@@ -29,19 +29,22 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${crawler.delay}")
     public List<Post> getNewsPosts() {
-        String[] sources = {"the-next-web", "buzzfeed", "the-telegraph", "time"};
+        String[] sources = {"the-next-web","aassociated-press", "buzzfeed", "the-telegraph", "time","business-insider","business-insider-uk","daily-mail","engadget"};
 
         List<Post> posts = new ArrayList<>();
         //Loop through all available sources
         for (String sourceUrl : sources) {
             //retrieve news from the source
-            NewsSource ns = newsRetriever.getNewsPerSource(sourceUrl);
-            for (Article a : ns.getArticles()) {
-                //Create database ready objects
-                Post p = new Post(ns.getSource(),a.getAuthor(),a.getTitle(),a.getDescription(),a.getUrl(),a.getUrlToImage(),a.getPublishedAt());
-                posts.add(p);
+            NewsSource ns = newsRetriever.getNewsPerSource(sourceUrl, "latest");
+            if(ns != null) {
+                for (Article a : ns.getArticles()) {
+                    //Create database ready objects
+                    Post p = new Post(ns.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
+                    posts.add(p);
+                }
             }
         }
+        System.out.println(posts.size());
         return posts;
     }
 
