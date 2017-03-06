@@ -14,12 +14,13 @@ import java.util.Date;
 public class CrawlerController{
 
 
-
-
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+    /**
+     * Get the data from the newsApi.org website.
+     */
     @Scheduled(fixedDelayString = "${crawler.delay}")
-    public void reportCurrentTime() {
+    public void getNewsPosts() {
         System.out.println("The time is now "+ dateFormat.format(new Date()));
     }
 
