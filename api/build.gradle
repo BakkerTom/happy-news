@@ -1,0 +1,55 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'api'
+    version = '1.0-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+idea {
+    module {
+        iml {
+            withXml {
+                // Get root of module as groovy.util.Node.
+                def moduleRoot = it.asNode()
+
+                // Find if component with name 'FacetManager'
+                // is already set.
+                def facetManager = moduleRoot.component.find { component -> component.'@name' == 'FacetManager'}
+                if (!facetManager) {
+                    // Create new component with name 'FacetManager'
+                    facetManager = moduleRoot.appendNode('component', [name: 'FacetManager'])
+                }
+
+                // Find Spring facet it might already be there.
+                def springFacet = facetManager.facet.find { facet -> facet.'@type' == 'Spring' && facet.'@name' == 'Spring' }
+                if (!springFacet) {
+                    // If not set create new facet node with name 'Spring'
+                    // and type 'Spring' and apply a default configuration.
+                    springFacet = facetManager.appendNode('facet', [type: 'Spring', name: 'Spring'])
+                    springFacet.appendNode('configuration')
+                }
+            }
+        }
+    }
+}

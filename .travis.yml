@@ -1,4 +1,14 @@
-language: java
+language: android
 jdk:
-  - openjdk8
-dist: trusty
+  - oraclejdk8
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-25.0.2
+    - android-25
+    - extra-android-m2repository
+    - extra-google-m2repository
+  licenses:
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
