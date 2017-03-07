@@ -1,11 +1,15 @@
 package nl.fhict.happynews.android;
 
+import android.content.Context;
+import com.google.gson.reflect.TypeToken;
+import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.shared.Post;
 import com.koushikdutta.ion.Ion;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -17,12 +21,22 @@ public class PostManager {
         return ourInstance;
     }
 
+    private String API_URL = "";
+
     private PostManager() {
     }
 
-    public ArrayList<Post> getNewPosts(){
-        ArrayList<Post> newPosts = new ArrayList<>();
-
+    public ArrayList<Post> getNewPosts(Context c){
+        final ArrayList<Post> newPosts = new ArrayList<>();
+        Ion.with(c)
+                .load(API_URL)
+                .as(new TypeToken<List<Post>>(){})
+                .setCallback(new FutureCallback<List<Post>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<Post> posts) {
+                       newPosts.addAll(posts);
+                    }
+                });
         return newPosts;
     }
 
