@@ -1,14 +1,16 @@
 package nl.fhict.happynews.shared;
 
-import javax.persistence.Entity;
+
+import org.springframework.data.annotation.Id;
 import java.util.Date;
 
 /** The class that contains information about a newspost
  * Created by daan_ on 6-3-2017.
  */
-@Entity
+
 public class Post {
 
+    @Id
     private String uid;
     private String source;
     private String author;

@@ -20,24 +20,34 @@ public class NewsRetriever {
     @Value("${crawler.apiurl}")
     private String API_URL;
 
+
+    private RestTemplate restTemplate;
+    private Logger logger;
+
+    public NewsRetriever() {
+        restTemplate = new RestTemplate();
+        logger = LoggerFactory.getLogger(NewsRetriever.class);
+    }
+
     /**
      * Get newsposts from the api and return a string
      * @param source The newsapi.org source name
+     * @param type Type of requeest(latest or top)
+     * @return NewsSource object containing list of articles and source information
      */
     public NewsSource getNewsPerSource(String source, String type){
+        NewsSource ns = null;
+
         String url = API_URL +
                 "source=" + source +
                 "&sortBy=" + type +
                 "&apiKey=" +API_KEY;
-        System.out.println(url);
 
-        NewsSource ns = null;
         try {
-            RestTemplate restTemplate = new RestTemplate();
             ns = restTemplate.getForObject(url, NewsSource.class);
+            logger.info("received "+ ns.getArticles().size() + " articles from " + source );
         }
         catch(HttpClientErrorException ex) {
-            Logger logger = LoggerFactory.getLogger(NewsRetriever.class);
             logger.error("Bad Request", ex);
         }
         return ns;
