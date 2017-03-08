@@ -14,7 +14,7 @@ import java.util.Date;
 public class Post {
 
     @Id
-    private String uid;
+    private String uuid;
     private String source;
     private String author;
     private String title;

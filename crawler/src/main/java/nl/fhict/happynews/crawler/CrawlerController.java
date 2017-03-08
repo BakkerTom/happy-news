@@ -52,16 +52,28 @@ public class CrawlerController {
         for (String sourceUrl : sources) {
             //retrieve news from the source
             NewsSource ns = newsRetriever.getNewsPerSource(sourceUrl, "latest");
-            if(ns != null) { //Check if request was successful
-                for (Article a : ns.getArticles()) {
-                    //Create database ready objects
-                    Post p = new Post(ns.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
-                    posts.add(p);
-                }
-            }
+            posts = convertToPost(ns);
         }
         logger.info("Received total of " + posts.size() + " articles");
         savePosts(posts);
+        return posts;
+    }
+
+
+    /**
+     * Converts the newssource object to database ready posts
+     * @param ns newssource containing news url and list of articles
+     * @return list of database ready tests
+     */
+    private List<Post> convertToPost(NewsSource ns) {
+        List<Post> posts = new ArrayList<>();
+        if(ns != null) { //Check if request was successful
+            for (Article a : ns.getArticles()) {
+                //Create database ready objects
+                Post p = new Post(ns.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
+                posts.add(p);
+            }
+        }
         return posts;
     }
 
