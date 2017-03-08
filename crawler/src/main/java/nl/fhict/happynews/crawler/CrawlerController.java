@@ -8,6 +8,9 @@ import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +61,23 @@ public class CrawlerController {
             }
         }
         logger.info("Received total of " + posts.size() + " articles");
-        postRepository.save(posts);
+        savePosts(posts);
         return posts;
+    }
+
+    private void savePosts(List<Post> posts){
+        for(Post p : posts){
+            ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withMatcher("url", ExampleMatcher.GenericPropertyMatchers.exact());
+
+            if(!postRepository.exists(Example.of(p, matcher))) {
+                logger.info("Inserting " + p.getUrl());
+                postRepository.save(p);
+            }
+            else{
+                logger.info("Duplicate post. Not inserted "+p.getUrl());
+            }
+        }
     }
 
 

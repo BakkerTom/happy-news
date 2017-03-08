@@ -21,7 +21,6 @@ jar {
 sourceCompatibility = 1.8
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
