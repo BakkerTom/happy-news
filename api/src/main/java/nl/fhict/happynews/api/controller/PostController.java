@@ -2,6 +2,8 @@ package nl.fhict.happynews.api.controller;
 
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +56,8 @@ public class PostController {
         try {
             properdate = sdf.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(PostRepository.class);
+            logger.error("Date cannot be parsed.", e);
         }
         return this.postRepository.findByPublishedAtAfter(properdate);
     }
