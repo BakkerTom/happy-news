@@ -1,4 +1,9 @@
+package nl.fhict.happynews.shared;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -8,6 +13,9 @@ import java.util.Date;
 @Entity
 public class Post {
 
+    @Id
+    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid-gen")
     private String uid;
     private String source;
     private String author;
@@ -29,7 +37,7 @@ public class Post {
         this.imageUrl = imageUrl;
         this.publishedAt = publishedAt;
     }
-
+    public String getUid() { return uid; }
     public String getSource() {
         return source;
     }
