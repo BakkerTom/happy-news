@@ -1,6 +1,9 @@
 rootProject.name = 'happynews'
 include 'shared'
-include 'android'
 include 'crawler'
 include 'api'
 include 'web'
+
+if (!hasProperty('skipAndroid')) {
+    include 'android'
+}
