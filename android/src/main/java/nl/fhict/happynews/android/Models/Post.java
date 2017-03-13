@@ -1,25 +1,17 @@
-package nl.fhict.happynews.shared;
-
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+package nl.fhict.happynews.android.Models;
 
 import java.util.Date;
 
 /** The class that contains information about a newspost
  * Created by daan_ on 6-3-2017.
  */
-@Document
 public class Post {
 
-    @Id
-    private String uuid;
+    private String uid;
     private String source;
     private String author;
     private String title;
     private String description;
-    @Indexed(unique = true)
     private String url;
     private String imageUrl;
     private Date publishedAt;
