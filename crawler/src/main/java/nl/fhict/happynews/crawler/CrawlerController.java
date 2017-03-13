@@ -3,7 +3,9 @@ package nl.fhict.happynews.crawler;
 
 import nl.fhict.happynews.crawler.models.newsapi.Article;
 import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.models.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.PostRepository;
+import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,9 @@ public class CrawlerController {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private SourceRepository sourceRepository;
+
     private Logger logger;
 
 
@@ -43,13 +48,13 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${crawler.delay}")
     public List<Post> getNewsPosts() {
-        String[] sources = {"the-next-web", "associated-press", "buzzfeed", "the-telegraph", "time", "business-insider", "business-insider-uk", "daily-mail", "engadget"};
+        List<Source> sources = sourceRepository.findAll();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
 
-        for (String sourceUrl : sources) {
+        for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsRetriever.getNewsPerSource(sourceUrl, "latest");
+            NewsSource newsSource = newsRetriever.getNewsPerSource(s.getName(), s.getType());
             posts = convertToPost(newsSource);
         }
         logger.info("Received total of " + posts.size() + " articles");
