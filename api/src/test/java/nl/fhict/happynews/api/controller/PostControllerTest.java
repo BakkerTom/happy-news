@@ -1,13 +1,17 @@
 package nl.fhict.happynews.api.controller;
 
+import com.mongodb.Mongo;
+import cz.jirutka.spring.embedmongo.EmbeddedMongoBuilder;
 import nl.fhict.happynews.api.Application;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.swing.text.DateFormatter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +52,11 @@ public class PostControllerTest {
     private MockMvc mockMvc;
 
     private List<Post> posts;
+
+    @BeforeClass
+    public static void startDatabase() throws IOException {
+        mongo();
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -122,5 +132,14 @@ public class PostControllerTest {
         this.mockMvc.perform(get("/post/afterdate/{date}", new Date(2010, 11, 10)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Bean(destroyMethod="close")
+    public static Mongo mongo() throws IOException {
+        return new EmbeddedMongoBuilder()
+                .version("2.4.5")
+                .bindIp("127.0.0.1")
+                .port(12345)
+                .build();
     }
 }
