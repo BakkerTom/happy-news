@@ -22,30 +22,24 @@ public class PostAdapter extends ArrayAdapter<Post> {
     public PostAdapter(Context context, @LayoutRes int resource) {
             super(context, resource);
             posts = new ArrayList<>();
-            posts.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "https://segunfamisa.com", "dit is de link naar een foto", "asd"));
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Post p = posts.get(position);
         int xml_type;
-        TextView postname;
-
         if(position % 2 == 0){
             xml_type = R.layout.list_item_post;
         }
         else{
             xml_type = R.layout.list_item_post_2;
         }
-
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(xml_type, parent, false);
-            postname = (TextView) convertView.findViewById(R.id.postTitle);
-            postname.setText(p.getTitle());
+            TextView postName = (TextView) convertView.findViewById(R.id.postTitle);
+            postName.setText(p.getTitle());
         }
-
-
         return convertView;
     }
 

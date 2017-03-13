@@ -6,13 +6,9 @@ import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.android.Adapters.PostAdapter;
 import nl.fhict.happynews.android.Models.Post;
 import com.koushikdutta.ion.Ion;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Sander on 06/03/2017.

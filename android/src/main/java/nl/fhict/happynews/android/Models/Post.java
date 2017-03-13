@@ -2,7 +2,8 @@ package nl.fhict.happynews.android.Models;
 
 import java.util.Date;
 
-/** The class that contains information about a newspost
+/**
+ * The class that contains information about a newspost
  * Created by daan_ on 6-3-2017.
  */
 public class Post {

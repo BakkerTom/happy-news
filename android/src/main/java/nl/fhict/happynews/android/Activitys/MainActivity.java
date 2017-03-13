@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import nl.fhict.happynews.android.Adapters.PostAdapter;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.PostManager;
@@ -35,18 +36,16 @@ public class MainActivity extends AppCompatActivity {
         postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Uri uri;
                 Post clickedPost = adapter.getItem(position);
                 if (!clickedPost.getUrl().isEmpty()) {
-                    uri = Uri.parse(clickedPost.getUrl());
+                    Uri uri = Uri.parse(clickedPost.getUrl());
+                    CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                    CustomTabsIntent customTabsIntent = intentBuilder.build();
+                    customTabsIntent.launchUrl(MainActivity.this, uri);
                 } else {
-                    uri = Uri.parse("https://segunfamisa.com");
+                    Toast.makeText(getApplicationContext(), "Link not found",
+                            Toast.LENGTH_LONG).show();
                 }
-
-                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                CustomTabsIntent customTabsIntent = intentBuilder.build();
-                customTabsIntent.launchUrl(MainActivity.this, uri);
-
             }
         });
     }
