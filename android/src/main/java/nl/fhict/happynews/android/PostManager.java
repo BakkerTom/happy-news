@@ -26,6 +26,12 @@ public class PostManager {
     private PostManager() {
     }
 
+    /**
+     * Method that returns the new posts from the api
+     *
+     * @param c context of the apps
+     * @return
+     */
     public ArrayList<Post> getNewPosts(Context c){
         final ArrayList<Post> newPosts = new ArrayList<>();
         Ion.with(c)
