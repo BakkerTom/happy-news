@@ -18,11 +18,11 @@ public interface PostRepository extends CrudRepository<Post, String> {
     Collection<Post> findAll();
 
     /**
-     * Retrieves a Post by it's UID.
-     * @param uid The UID.
+     * Retrieves a Post by it's UUID.
+     * @param uuid The UUID.
      * @return The Post.
      */
-    Post findByUid(String uid);
+    Post findByUuid(String uuid);
 
     /**
      * Retrieves all Posts published after the date parameter.

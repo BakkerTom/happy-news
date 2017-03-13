@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -31,13 +33,13 @@ public class PostController {
     }
 
     /**
-     * Handles a GET request by returning a Post by it's UID.
-     * @param uid The UID.
+     * Handles a GET request by returning a Post by it's UUID.
+     * @param uuid The UUID.
      * @return The Post in JSON.
      */
-    @RequestMapping(value = "/post/uid/{uid}", method = RequestMethod.GET, produces = "application/json")
-    public Post getPostByUid(@PathVariable("uid") String uid) {
-        return this.postRepository.findByUid(uid);
+    @RequestMapping(value = "/post/uuid/{uuid}", method = RequestMethod.GET, produces = "application/json")
+    public Post getPostByUuid(@PathVariable("uuid") String uuid) {
+        return this.postRepository.findByUuid(uuid);
     }
 
     /**
@@ -45,9 +47,16 @@ public class PostController {
      * @param date The date after which posts should be retrieved.
      * @return The Posts in JSON.
      */
-    @RequestMapping(value = "/post/date/{date}", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getPostAfterDate(@PathVariable("date") Date date) {
-        return this.postRepository.findByPublishedAtAfter(date);
+    @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
+    public Collection<Post> getPostAfterDate(@PathVariable("date") String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d hh:mm:ss z yyyy");
+        Date properdate = null;
+        try {
+            properdate = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this.postRepository.findByPublishedAtAfter(properdate);
     }
 
 

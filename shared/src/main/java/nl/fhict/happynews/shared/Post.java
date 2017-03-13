@@ -1,17 +1,10 @@
 package nl.fhict.happynews.shared;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-package nl.fhict.happynews.shared;
-
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
 /** The class that contains information about a newspost
@@ -45,7 +38,7 @@ public class Post {
         this.imageUrl = imageUrl;
         this.publishedAt = publishedAt;
     }
-    public String getUid() {
+    public String getUuid() {
         return uuid;
     }
 
