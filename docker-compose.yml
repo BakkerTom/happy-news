@@ -1,0 +1,44 @@
+version: '2'
+services:
+  api:
+    build: api/
+    restart: always
+    ports:
+      - "8080:8080"
+      - "9080:9080"
+    links:
+      - db
+    environment:
+      - MONGO_URL=db
+      - MONGO_PORT=27017
+  crawler:
+    build: crawler/
+    restart: always
+    ports:
+      - "8081:8081"
+      - "9081:9081"
+    links:
+      - db
+    environment:
+      - MONGO_URL=db
+      - MONGO_PORT=27017
+  web:
+    build: web/
+    restart: always
+    ports:
+      - "8082:8082"
+      - "9082:9082"
+    links:
+      - api
+    environment:
+      - API_URL=http://api:8080/
+  db:
+    image: mongo:3.4
+    restart: always
+    volumes:
+      - "./.docker/data/db:/data/db"
+#  watchtower:
+#    image: centurylink/watchtower
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    restart: always
