@@ -34,7 +34,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             xml_type = R.layout.list_item_post;
         }
         else{
-            xml_type = R.layout.list_item_post_2;
+            xml_type = R.layout.list_item_post_image;
         }
 
         // Check if an existing view is being reused, otherwise inflate the view
