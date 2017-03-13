@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PostManager pm;
     private ListView postList;
+    private PostAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +25,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         pm = PostManager.getInstance();
         postList = (ListView) findViewById(R.id.listView);
-        final PostAdapter adapter = new PostAdapter(getApplicationContext(), R.layout.activity_main, getMockPosts());
+        adapter = new PostAdapter(getApplicationContext(), R.layout.activity_main, getMockPosts());
         postList.setAdapter(adapter);
+        Date now = Calendar.getInstance().getTime();
+
+        ArrayList<Post> updatedList = getMockPosts();
+        updatedList.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "asdffhasddf", "dit is de link naar een foto", now));
+        adapter.updateData(updatedList);
+
     }
 
+    /**
+     * method that returns a few mock posts to test the adapter
+     * @return
+     */
     public ArrayList<Post> getMockPosts(){
         ArrayList<Post> mockPosts = new ArrayList<>();
         Date now = Calendar.getInstance().getTime();
@@ -35,6 +46,4 @@ public class MainActivity extends AppCompatActivity {
         mockPosts.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "asdffhasddf", "dit is de link naar een foto", now));
         return mockPosts;
     }
-
-
 }

@@ -24,7 +24,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
         this.posts = posts;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -44,6 +43,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
         return posts.size();
     }
 
-
-
+    public void updateData(ArrayList<Post> posts){
+        this.posts = posts;
+        this.notifyDataSetChanged();
+    }
 }
