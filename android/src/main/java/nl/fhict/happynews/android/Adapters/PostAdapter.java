@@ -26,15 +26,24 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
         Post p = posts.get(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_post, parent, false);
+        int xml_type;
+        TextView postname;
+
+        if(position % 2 == 0){
+            xml_type = R.layout.list_item_post;
+        }
+        else{
+            xml_type = R.layout.list_item_post_2;
         }
 
-        TextView postName = (TextView) convertView.findViewById(R.id.postTitle);
-        postName.setText(p.getTitle());
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(xml_type, parent, false);
+            postname = (TextView) convertView.findViewById(R.id.postTitle);
+            postname.setText(p.getTitle());
+        }
+
 
         return convertView;
     }
