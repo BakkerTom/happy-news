@@ -56,4 +56,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
         this.posts = posts;
         this.notifyDataSetChanged();
     }
+
+    public Post getItem(int position) {
+        return posts.get(position);
+    }
 }
