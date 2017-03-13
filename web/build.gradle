@@ -24,9 +24,14 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-configuration-processor')
+
     runtime('org.springframework.boot:spring-boot-devtools')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+compileJava.dependsOn(processResources)
 
 idea {
     module {
@@ -37,7 +42,7 @@ idea {
 
                 // Find if component with name 'FacetManager'
                 // is already set.
-                def facetManager = moduleRoot.component.find { component -> component.'@name' == 'FacetManager'}
+                def facetManager = moduleRoot.component.find { component -> component.'@name' == 'FacetManager' }
                 if (!facetManager) {
                     // Create new component with name 'FacetManager'
                     facetManager = moduleRoot.appendNode('component', [name: 'FacetManager'])

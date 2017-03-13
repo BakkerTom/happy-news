@@ -30,6 +30,8 @@ services:
       - "9082:9082"
     links:
       - api
+    environment:
+      - API_URL=http://api:8080/
   db:
     image: mongo:3.4
     restart: always
