@@ -36,7 +36,7 @@ public class NewsRetriever {
      * @return NewsSource object containing list of articles and source information
      */
     public NewsSource getNewsPerSource(String source, String type){
-        NewsSource ns = null;
+        NewsSource newsSource = null;
 
         String url = API_URL +
                 "source=" + source +
@@ -44,12 +44,12 @@ public class NewsRetriever {
                 "&apiKey=" +API_KEY;
 
         try {
-            ns = restTemplate.getForObject(url, NewsSource.class);
-            logger.info("received "+ ns.getArticles().size() + " articles from " + source );
+            newsSource = restTemplate.getForObject(url, NewsSource.class);
+            logger.info("received "+ newsSource.getArticles().size() + " articles from " + source );
         }
         catch(HttpClientErrorException ex) {
             logger.error("Bad Request", ex);
         }
-        return ns;
+        return newsSource;
     }
 }

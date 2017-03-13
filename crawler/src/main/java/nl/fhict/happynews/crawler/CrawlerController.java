@@ -8,15 +8,12 @@ import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -51,8 +48,8 @@ public class CrawlerController {
 
         for (String sourceUrl : sources) {
             //retrieve news from the source
-            NewsSource ns = newsRetriever.getNewsPerSource(sourceUrl, "latest");
-            posts = convertToPost(ns);
+            NewsSource newsSource = newsRetriever.getNewsPerSource(sourceUrl, "latest");
+            posts = convertToPost(newsSource);
         }
         logger.info("Received total of " + posts.size() + " articles");
         savePosts(posts);
@@ -62,21 +59,25 @@ public class CrawlerController {
 
     /**
      * Converts the newssource object to database ready posts
-     * @param ns newssource containing news url and list of articles
+     * @param newsSource newssource containing news url and list of articles
      * @return list of database ready tests
      */
-    private List<Post> convertToPost(NewsSource ns) {
+    public List<Post> convertToPost(NewsSource newsSource) {
         List<Post> posts = new ArrayList<>();
-        if(ns != null) { //Check if request was successful
-            for (Article a : ns.getArticles()) {
+        if(newsSource != null) { //Check if request was successful
+            for (Article a : newsSource.getArticles()) {
                 //Create database ready objects
-                Post p = new Post(ns.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
+                Post p = new Post(newsSource.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
                 posts.add(p);
             }
         }
         return posts;
     }
 
+    /**
+     * Save the posts to the database
+     * @param posts list of posts to be added
+     */
     private void savePosts(List<Post> posts){
         for(Post p : posts){
             ExampleMatcher matcher = ExampleMatcher.matching()
