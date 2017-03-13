@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "crawler.delay",
+      "type": "java.lang.String",
+      "description": "Delay between each crawl."
+    }
+  ]
+}
