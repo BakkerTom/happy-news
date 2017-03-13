@@ -3,4 +3,11 @@
     <color name="colorPrimary">#A773EB</color>
     <color name="colorPrimaryDark">#9566D1</color>
     <color name="colorAccent">#A773EB</color>
+
+    <color name="colorArticle">#ba37c6</color>
+    <color name="colorTweet">#33BAFA</color>
+    <color name="colorQuote">#2AD02B</color>
+    <color name="colorInstagram">#E57D14</color>
+
+    <color name="colorBackground">#F2F2F2</color>
 </resources>
