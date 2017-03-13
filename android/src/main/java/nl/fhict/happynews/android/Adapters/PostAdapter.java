@@ -19,9 +19,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     private ArrayList<Post> posts;
 
-    public PostAdapter(Context context, @LayoutRes int resource, ArrayList<Post> posts ) {
-        super(context, resource);
-        this.posts = posts;
+    public PostAdapter(Context context, @LayoutRes int resource) {
+            super(context, resource);
+            posts = new ArrayList<>();
+            posts.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "https://segunfamisa.com", "dit is de link naar een foto", "asd"));
     }
 
     @Override
@@ -53,8 +54,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
     }
 
     public void updateData(ArrayList<Post> posts){
-        this.posts = posts;
-        this.notifyDataSetChanged();
+        if(posts != null){
+            this.posts = posts;
+            this.notifyDataSetChanged();
+        }
     }
 
     public Post getItem(int position) {

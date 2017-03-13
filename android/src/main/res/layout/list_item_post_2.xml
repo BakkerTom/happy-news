@@ -9,5 +9,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/postTitle" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
 </RelativeLayout>

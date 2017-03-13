@@ -1,6 +1,5 @@
 package nl.fhict.happynews.android.Activitys;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +11,6 @@ import nl.fhict.happynews.android.Adapters.PostAdapter;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,23 +25,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         postManager = PostManager.getInstance();
         postList = (ListView) findViewById(R.id.listView);
-        adapter = new PostAdapter(getApplicationContext(), R.layout.activity_main, getMockPosts());
-        postList.setAdapter(adapter);
-        Date now = Calendar.getInstance().getTime();
 
-        ArrayList<Post> updatedList = getMockPosts();
-        updatedList.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "https://segunfamisa.com", "dit is de link naar een foto", now));
-        adapter.updateData(updatedList);
+        adapter = new PostAdapter(getApplicationContext(), R.layout.activity_main);
+        postList.setAdapter(adapter);
+
+        postManager.setPostAdapter(adapter);
+        postManager.updatePosts(getApplicationContext());
 
         postList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Uri uri;
                 Post clickedPost = adapter.getItem(position);
-                if(!clickedPost.getUrl().isEmpty()){
+                if (!clickedPost.getUrl().isEmpty()) {
                     uri = Uri.parse(clickedPost.getUrl());
-                }
-                else{
+                } else {
                     uri = Uri.parse("https://segunfamisa.com");
                 }
 
@@ -56,17 +49,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    /**
-     * method that returns a few mock posts to test the adapter
-     * @return
-     */
-    public ArrayList<Post> getMockPosts(){
-        ArrayList<Post> mockPosts = new ArrayList<>();
-        Date now = Calendar.getInstance().getTime();
-        mockPosts.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "https://segunfamisa.com", "dit is de link naar een foto", now));
-        mockPosts.add(new Post("source", "Henk van tiggel", "Vanaf vandaag peren voor een EUROOO", "vandaag blabla blalbal ksjdhskdfs sdf", "https://segunfamisa.com", "dit is de link naar een foto", now));
-        return mockPosts;
     }
 }
