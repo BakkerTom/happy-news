@@ -1,5 +1,12 @@
 package nl.fhict.happynews.shared;
 
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+package nl.fhict.happynews.shared;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -10,17 +17,18 @@ import java.util.Date;
 /** The class that contains information about a newspost
  * Created by daan_ on 6-3-2017.
  */
-@Entity
+@Document
 public class Post {
 
     @Id
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     @GeneratedValue(generator = "uuid-gen")
-    private String uid;
+    private String uuid;
     private String source;
     private String author;
     private String title;
     private String description;
+    @Indexed(unique = true)
     private String url;
     private String imageUrl;
     private Date publishedAt;
@@ -37,7 +45,10 @@ public class Post {
         this.imageUrl = imageUrl;
         this.publishedAt = publishedAt;
     }
-    public String getUid() { return uid; }
+    public String getUid() {
+        return uuid;
+    }
+
     public String getSource() {
         return source;
     }
