@@ -3,7 +3,7 @@ package nl.fhict.happynews.android.Adapters;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.widget.ArrayAdapter;
-import nl.fhict.happynews.shared.Post;
+import nl.fhict.happynews.android.Models.Post;
 
 /**
  * Created by Sander on 06/03/2017.

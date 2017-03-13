@@ -3,7 +3,7 @@ package nl.fhict.happynews.android;
 import android.content.Context;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
-import nl.fhict.happynews.shared.Post;
+import nl.fhict.happynews.android.Models.Post;
 import com.koushikdutta.ion.Ion;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
