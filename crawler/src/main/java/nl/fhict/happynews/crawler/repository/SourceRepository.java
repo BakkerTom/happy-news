@@ -1,6 +1,7 @@
 package nl.fhict.happynews.crawler.repository;
 
 
+import com.mongodb.Mongo;
 import nl.fhict.happynews.crawler.models.newsapi.Source;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

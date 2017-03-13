@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
+/** Class that holds the source and the type(latest or top) information necesarry for the newsapi.org apicall
  * Created by daan_ on 13-3-2017.
  */
 @Document
