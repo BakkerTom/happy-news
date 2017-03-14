@@ -2,6 +2,7 @@ package nl.fhict.happynews.android.Adapters;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -51,6 +54,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         //Set content
         headlineTextView.setText(post.getTitle());
         sourceTextView.setText(post.getSource());
+        timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
 
         //If convertView is an image card...
         if (xmlType == R.layout.list_item_post_image){
@@ -62,6 +66,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
 
         return convertView;
+    }
+
+    /**
+     * Creates a neatly formatted string displaying the Relative Time Span
+     * @param input the start time as a Unix Timestamp
+     * @return relative Timestamp (eg. '4 hours ago')
+     */
+    public String relativeTimeSpan(String input){
+        long unixSeconds = Long.parseLong(input);
+
+        return DateUtils.getRelativeTimeSpanString(unixSeconds).toString();
     }
 
     @Override
