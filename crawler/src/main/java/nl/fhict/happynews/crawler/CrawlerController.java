@@ -88,7 +88,7 @@ public class CrawlerController {
      *
      * @param posts list of posts to be added
      */
-    private void savePosts(List<Post> posts) {
+    public void savePosts(List<Post> posts) {
         for (Post p : posts) {
             ExampleMatcher matcher = ExampleMatcher.matching()
                     .withMatcher("url", ExampleMatcher.GenericPropertyMatchers.exact());
