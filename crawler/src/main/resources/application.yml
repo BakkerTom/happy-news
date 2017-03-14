@@ -1,7 +1,7 @@
 crawler:
   delay: 3600000
   apikey: "c96e519c4c484966b2929b4177b91749"
-  apiurl: "https://newsapi.org/v1/articles?"
+  apiurl: "https://newsapi.org/v1/articles"
 server:
   port: 8081
 management:

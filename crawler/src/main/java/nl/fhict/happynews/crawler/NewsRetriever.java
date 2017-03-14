@@ -41,7 +41,7 @@ public class NewsRetriever {
         NewsSource newsSource = null;
 
         String url = API_URL +
-                "source=" + source +
+                "?source=" + source +
                 "&sortBy=" + type +
                 "&apiKey=" + API_KEY;
 

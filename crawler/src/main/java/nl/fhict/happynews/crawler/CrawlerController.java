@@ -1,9 +1,12 @@
 package nl.fhict.happynews.crawler;
 
 
+import com.mongodb.MongoClient;
 import nl.fhict.happynews.crawler.models.newsapi.Article;
 import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.models.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.PostRepository;
+import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.mongodb.core.MongoAction;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,9 @@ public class CrawlerController {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private SourceRepository sourceRepository;
+
     private Logger logger;
 
 
@@ -43,20 +50,29 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${crawler.delay}")
     public List<Post> getNewsPosts() {
-        String[] sources = {"the-next-web", "associated-press", "buzzfeed", "the-telegraph", "time", "business-insider", "business-insider-uk", "daily-mail", "engadget"};
+        List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
 
-        for (String sourceUrl : sources) {
+        for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsRetriever.getNewsPerSource(sourceUrl, "latest");
-            posts = convertToPost(newsSource);
+            NewsSource newsSource = newsRetriever.getNewsPerSource(s.getName(), s.getType());
+            posts.addAll(convertToPost(newsSource));
         }
         logger.info("Received total of " + posts.size() + " articles");
         savePosts(posts);
         return posts;
     }
 
+
+    /**
+     * Get sources from database
+     * @return list of sources
+     */
+    public List<Source> getSources(){
+        return sourceRepository.findAll();
+
+    }
 
     /**
      * Converts the newssource object to database ready posts
@@ -81,7 +97,7 @@ public class CrawlerController {
      *
      * @param posts list of posts to be added
      */
-    private void savePosts(List<Post> posts) {
+    public void savePosts(List<Post> posts) {
         for (Post p : posts) {
             ExampleMatcher matcher = ExampleMatcher.matching()
                     .withMatcher("url", ExampleMatcher.GenericPropertyMatchers.exact());
