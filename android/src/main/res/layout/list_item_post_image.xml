@@ -16,14 +16,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
             <ImageView android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
+                       android:layout_height="200dp"
                        android:id="@+id/imageView" android:background="@mipmap/ic_launcher"
                        android:scaleType="centerCrop"/>
+
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@mipmap/articlebadge"
+                       android:layout_gravity="right"
+                       android:layout_marginTop="-16dp"
+                       android:layout_marginRight="8dp"/>
+
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-32dp"
                     android:padding="16dp">
 
                 <LinearLayout
