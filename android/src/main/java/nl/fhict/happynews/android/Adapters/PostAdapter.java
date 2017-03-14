@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -26,24 +27,31 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Post p = posts.get(position);
+        Post post = posts.get(position);
         int xml_type;
 
-        TextView postname;
+//        TextView sourceTextView;
+//        TextView timeTextView;
+//        TextView headlineTextView;
 
-        if (position % 2 == 0) {
+        if (post.getImageUrl() == null) {
             xml_type = R.layout.list_item_post;
         } else {
             xml_type = R.layout.list_item_post_image;
-
         }
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(xml_type, parent, false);
-            TextView postName = (TextView) convertView.findViewById(R.id.postTitle);
-            postName.setText(p.getTitle());
-
         }
+
+        TextView sourceTextView = (TextView) convertView.findViewById(R.id.sourceTextView);
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.timeTextView);
+        TextView headlineTextView = (TextView) convertView.findViewById(R.id.headlineTextView);
+
+        headlineTextView.setText(post.getTitle());
+        sourceTextView.setText(post.getSource());
+
         return convertView;
     }
 

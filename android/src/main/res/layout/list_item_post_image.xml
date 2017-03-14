@@ -44,7 +44,7 @@
 
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
-                              android:id="@+id/sourceView"
+                              android:id="@+id/sourceTextView"
                               android:text="Source"
                               android:layout_marginRight="4dp" android:textColor="@color/colorArticle"
                               android:textAllCaps="false" android:textStyle="normal|bold"/>
@@ -57,7 +57,7 @@
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:text="4h Ago"
-                              android:id="@+id/timeView"/>
+                              android:id="@+id/timeTextView"/>
                 </LinearLayout>
 
                 <TextView
@@ -66,7 +66,7 @@
                         android:text="Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas"
                         android:textAppearance="@android:style/TextAppearance.Material" android:textSize="18sp"
                         android:fontFamily="sans-serif" android:lineSpacingExtra="4sp"
-                        android:id="@+id/headlineView"/>
+                        android:id="@+id/headlineTextView"/>
             </LinearLayout>
         </LinearLayout>
 
