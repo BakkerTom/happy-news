@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
 import org.w3c.dom.Text;
@@ -28,29 +30,36 @@ public class PostAdapter extends ArrayAdapter<Post> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Post post = posts.get(position);
-        int xml_type;
-
-//        TextView sourceTextView;
-//        TextView timeTextView;
-//        TextView headlineTextView;
+        int xmlType;
 
         if (post.getImageUrl() == null) {
-            xml_type = R.layout.list_item_post;
+            xmlType = R.layout.list_item_post;
         } else {
-            xml_type = R.layout.list_item_post_image;
+            xmlType = R.layout.list_item_post_image;
         }
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(xml_type, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
         }
 
+        // Get the Views as part of the convertView
         TextView sourceTextView = (TextView) convertView.findViewById(R.id.sourceTextView);
         TextView timeTextView = (TextView) convertView.findViewById(R.id.timeTextView);
         TextView headlineTextView = (TextView) convertView.findViewById(R.id.headlineTextView);
 
+        //Set content
         headlineTextView.setText(post.getTitle());
         sourceTextView.setText(post.getSource());
+
+        //If convertView is an image card...
+        if (xmlType == R.layout.list_item_post_image){
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+
+            //Load image into imageView
+            Ion.with(imageView)
+                    .load(post.getImageUrl());
+        }
 
         return convertView;
     }
