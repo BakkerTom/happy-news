@@ -47,6 +47,9 @@ public class CrawlerController {
     }
 
 
+    /**
+     * Insert sources into database after server startup.
+     */
     @PostConstruct
     public void insertSources(){
         List<Source> sources = new ArrayList<>();
