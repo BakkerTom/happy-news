@@ -39,12 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 Post clickedPost = adapter.getItem(position);
                 if (!clickedPost.getUrl().isEmpty()) {
                     Uri uri = Uri.parse(clickedPost.getUrl());
-                    CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-                    CustomTabsIntent customTabsIntent = intentBuilder.build();
+                    CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
                     customTabsIntent.launchUrl(MainActivity.this, uri);
                 } else {
                     Toast.makeText(getApplicationContext(), "Link not found",
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

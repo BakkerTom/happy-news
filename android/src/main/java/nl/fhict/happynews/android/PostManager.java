@@ -1,6 +1,7 @@
 package nl.fhict.happynews.android;
 
 import android.content.Context;
+import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.android.Adapters.PostAdapter;
@@ -29,13 +30,11 @@ public class PostManager {
     }
 
     /**
-     * Method that returns the new posts from the api
+     * Method that updates the postAdapter with a new list of posts from the api
      *
      * @param c context of the apps
-     * @return
      */
     public void updatePosts(Context c) {
-        newPosts = new ArrayList<>();
         Ion.with(c)
                 .load(API_URL)
                 .as(new TypeToken<List<Post>>() {
@@ -43,12 +42,21 @@ public class PostManager {
                 .setCallback(new FutureCallback<List<Post>>() {
                     @Override
                     public void onCompleted(Exception e, List<Post> posts) {
-                        newPosts.addAll(posts);
-                        postAdapter.updateData(newPosts);
+                        if(e != null){
+                            postAdapter.updateData((ArrayList<Post>) posts);
+                        }
+                        else{
+                            Log.e("PostManager", "JSON Exception", e);
+                        }
                     }
                 });
     }
 
+    /**
+     * Assigns a postAdapter to the PostManager
+     *
+     * @param postAdapter
+     */
     public void setPostAdapter(PostAdapter postAdapter) {
         this.postAdapter = postAdapter;
     }
