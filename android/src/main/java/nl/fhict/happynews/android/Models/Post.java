@@ -1,35 +1,26 @@
-package nl.fhict.happynews.shared;
+package nl.fhict.happynews.android.Models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.GeneratedValue;
 import java.util.Date;
 
-/** The class that contains information about a newspost
+/**
+ * The class that contains information about a newspost
  * Created by daan_ on 6-3-2017.
  */
-@Document
 public class Post {
 
-    @Id
-    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid-gen")
-    private String uuid;
+    private String uid;
     private String source;
     private String author;
     private String title;
     private String description;
-    @Indexed(unique = true)
     private String url;
     private String imageUrl;
-    private Date publishedAt;
+    private String publishedAt;
 
     public Post() {
     }
 
-    public Post(String source, String author, String title, String description, String url, String imageUrl, Date publishedAt) {
+    public Post(String source, String author, String title, String description, String url, String imageUrl, String publishedAt) {
         this.source = source;
         this.author = author;
         this.title = title;
@@ -37,9 +28,6 @@ public class Post {
         this.url = url;
         this.imageUrl = imageUrl;
         this.publishedAt = publishedAt;
-    }
-    public String getUuid() {
-        return uuid;
     }
 
     public String getSource() {
@@ -66,7 +54,7 @@ public class Post {
         return imageUrl;
     }
 
-    public Date getPublishedAt() {
+    public String getPublishedAt() {
         return publishedAt;
     }
 }

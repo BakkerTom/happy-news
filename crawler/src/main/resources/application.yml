@@ -2,3 +2,12 @@ crawler:
   delay: 3600000
   apikey: "c96e519c4c484966b2929b4177b91749"
   apiurl: "https://newsapi.org/v1/articles"
+server:
+  port: 8081
+management:
+  port: 9081
+spring:
+  data:
+    mongodb:
+      host: ${MONGO_URL:localhost}
+      port: ${MONGO_PORT:27017}
