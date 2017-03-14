@@ -16,6 +16,11 @@ public class Source {
     private String name;
     private String type;
 
+    public Source(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
     public Source(){
 
     }

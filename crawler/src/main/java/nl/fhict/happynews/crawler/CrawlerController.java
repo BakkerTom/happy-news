@@ -50,7 +50,7 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${crawler.delay}")
     public List<Post> getNewsPosts() {
-        List<Source> sources = sourceRepository.findAll();
+        List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
 
@@ -64,6 +64,15 @@ public class CrawlerController {
         return posts;
     }
 
+
+    /**
+     * Get sources from database
+     * @return list of sources
+     */
+    public List<Source> getSources(){
+        return sourceRepository.findAll();
+
+    }
 
     /**
      * Converts the newssource object to database ready posts
