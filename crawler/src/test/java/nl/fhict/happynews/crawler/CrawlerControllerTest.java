@@ -120,6 +120,7 @@ public class CrawlerControllerTest {
     @Test
     public void getSources(){
         List<Source> sources = new ArrayList<>();
+        sourceRepository.deleteAll();
         sources.add(new Source("the-next-web", "latest"));
         sources.add(new Source("cnn", "latest"));
         sources.add(new Source("bbc", "top"));
