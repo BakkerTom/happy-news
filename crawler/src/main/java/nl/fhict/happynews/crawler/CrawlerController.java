@@ -70,7 +70,7 @@ public class CrawlerController {
                 sourceRepository.save(s);
                 logger.info(s.getName() + " added as source.");
             } catch (DuplicateKeyException ex) {
-                logger.info("Source already in Database", ex);
+                logger.warn("Source already in Database", ex);
             }
         }
 
