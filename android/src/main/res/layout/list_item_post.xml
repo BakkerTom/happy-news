@@ -54,7 +54,7 @@
     </android.support.v7.widget.CardView>
 
     <ImageView
-            android:background="@mipmap/articlebadge"
+            android:background="@drawable/articlebadge"
             android:layout_marginTop="-8dp"
             android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
