@@ -12,11 +12,7 @@ import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Sander on 06/03/2017.
