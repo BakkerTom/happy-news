@@ -21,6 +21,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     private ArrayList<Post> posts;
 
+
     public PostAdapter(Context context, @LayoutRes int resource) {
         super(context, resource);
         posts = new ArrayList<>();
@@ -42,15 +43,25 @@ public class PostAdapter extends ArrayAdapter<Post> {
             convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
         }
 
+        String headline = post.getTitle();
+        String source = post.getSource();
+        String publishedAt = relativeTimeSpan(post.getPublishedAt());
+
+        if (headline == null) { headline = "Hello World"; }
+        if (source == null) { source = "Article"; }
+        if (publishedAt == null) {
+            publishedAt = relativeTimeSpan(String.valueOf(System.currentTimeMillis()));
+        }
+
         // Get the Views as part of the convertView
         TextView sourceTextView = (TextView) convertView.findViewById(R.id.sourceTextView);
         TextView timeTextView = (TextView) convertView.findViewById(R.id.timeTextView);
         TextView headlineTextView = (TextView) convertView.findViewById(R.id.headlineTextView);
 
         //Set content
-        headlineTextView.setText(post.getTitle());
-        sourceTextView.setText(post.getSource());
-        timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
+        headlineTextView.setText(headline);
+        sourceTextView.setText(source);
+        timeTextView.setText(publishedAt);
 
         //If convertView is an image card...
         if (xmlType == R.layout.list_item_post_image){
@@ -69,10 +80,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
      * @param input the start time as a Unix Timestamp
      * @return relative Timestamp (eg. '4 hours ago')
      */
-    public String relativeTimeSpan(String input){
-        long unixSeconds = Long.parseLong(input);
+    public String relativeTimeSpan(String input) throws NumberFormatException{
 
+        long unixSeconds = Long.parseLong(input);
         return DateUtils.getRelativeTimeSpanString(unixSeconds).toString();
+
     }
 
     @Override
