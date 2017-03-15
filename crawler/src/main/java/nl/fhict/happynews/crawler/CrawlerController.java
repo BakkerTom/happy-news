@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.MongoAction;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,37 @@ public class CrawlerController {
         logger = LoggerFactory.getLogger(CrawlerController.class);
     }
 
+
+    /**
+     * Insert sources into database after server startup.
+     */
+    @PostConstruct
+    public void insertSources() {
+        List<Source> sources = new ArrayList<>();
+        sources.add(new Source("the-next-web", "latest"));
+        sources.add(new Source("associated-press", "latest"));
+        sources.add(new Source("bbc-news", "top"));
+        sources.add(new Source("bloomberg", "top"));
+        sources.add(new Source("business-insider", "latest"));
+        sources.add(new Source("buzzfeed", "latest"));
+        sources.add(new Source("cnbc", "top"));
+        sources.add(new Source("cnn", "top"));
+        sources.add(new Source("daily-mail", "latest"));
+        sources.add(new Source("entertainment-weekly", "top"));
+        sources.add(new Source("espn", "top"));
+        sources.add(new Source("financial-times", "latest"));
+        for (Source s : sources) {
+            try {
+                sourceRepository.save(s);
+                logger.info(s.getName() + " added as source.");
+            } catch (DuplicateKeyException ex) {
+                logger.warn("Source already in Database", ex);
+            }
+        }
+
+    }
+
+
     /**
      * Get the data from the newsApi.org website on a fixed rate specified in application.yml.
      */
@@ -67,9 +99,10 @@ public class CrawlerController {
 
     /**
      * Get sources from database
+     *
      * @return list of sources
      */
-    public List<Source> getSources(){
+    public List<Source> getSources() {
         return sourceRepository.findAll();
 
     }
@@ -107,7 +140,7 @@ public class CrawlerController {
                 try {
                     postRepository.save(p);
                 } catch (DuplicateKeyException ex) {
-                    logger.error("unexpected duplicate key error",ex);
+                    logger.error("unexpected duplicate key error", ex);
                 }
             } else {
                 logger.info("Duplicate post. Not inserted " + p.getUrl());
