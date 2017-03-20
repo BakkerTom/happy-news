@@ -49,7 +49,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 convertView.setTag("no-image");
             }
         }else{
-
+            //check if the convertView is the right one, if not, inflate a new one with the right xmltype
             if(convertView.getTag().equals("image") && xmlType == R.layout.list_item_post ){
                 convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
                 convertView.setTag("no-image");
@@ -58,7 +58,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
                 convertView.setTag("image");
             }
-
         }
 
         String headline = post.getTitle();
