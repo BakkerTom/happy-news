@@ -42,19 +42,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
-            if(xmlType == R.layout.list_item_post_image){
+            if (xmlType == R.layout.list_item_post_image) {
                 convertView.setTag("image");
-            }
-            else {
+            } else {
                 convertView.setTag("no-image");
             }
-        }else{
+        } else {
             //check if the convertView is the right one, if not, inflate a new one with the right xmltype
-            if(convertView.getTag().equals("image") && xmlType == R.layout.list_item_post ){
+            if (convertView.getTag().equals("image") && xmlType == R.layout.list_item_post) {
                 convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
                 convertView.setTag("no-image");
-            }
-            else if(convertView.getTag().equals("no-image") && xmlType == R.layout.list_item_post_image){
+            } else if (convertView.getTag().equals("no-image") && xmlType == R.layout.list_item_post_image) {
                 convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
                 convertView.setTag("image");
             }
