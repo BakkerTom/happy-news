@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         postManager = PostManager.getInstance();
         postList = (ListView) findViewById(R.id.listView);
 
-        adapter = new PostAdapter(getApplicationContext(), R.layout.activity_main);
+        adapter = new PostAdapter(this, R.layout.activity_main);
         postList.setAdapter(adapter);
 
         postManager.setPostAdapter(adapter);

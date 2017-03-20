@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
+
 import java.util.ArrayList;
 
 /**
@@ -47,10 +48,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
         String source = post.getSource();
         String publishedAt = relativeTimeSpan(post.getPublishedAt());
 
-        if (headline == null) { headline = "Hello World"; }
-        if (source == null) { source = "Article"; }
-        if (publishedAt == null) {
-            publishedAt = relativeTimeSpan(String.valueOf(System.currentTimeMillis()));
+        if (headline == null) {
+            headline = "Hello World";
+        }
+        if (source == null) {
+            source = "Article";
         }
 
         // Get the Views as part of the convertView
@@ -64,7 +66,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         timeTextView.setText(publishedAt);
 
         //If convertView is an image card...
-        if (xmlType == R.layout.list_item_post_image){
+        if (xmlType == R.layout.list_item_post_image) {
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
 
             //Load image into imageView
@@ -77,14 +79,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
     /**
      * Creates a neatly formatted string displaying the Relative Time Span
+     *
      * @param input the start time as a Unix Timestamp
      * @return relative Timestamp (eg. '4 hours ago')
      */
-    public String relativeTimeSpan(String input) throws NumberFormatException{
+    public String relativeTimeSpan(long input) {
 
-        long unixSeconds = Long.parseLong(input);
-        return DateUtils.getRelativeTimeSpanString(unixSeconds).toString();
+        if (input == 0) {
+            return DateUtils.getRelativeTimeSpanString(System.currentTimeMillis()).toString();
+        }
 
+        return DateUtils.getRelativeTimeSpanString(input).toString();
     }
 
     @Override

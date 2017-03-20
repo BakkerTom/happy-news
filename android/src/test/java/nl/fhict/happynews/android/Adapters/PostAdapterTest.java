@@ -40,16 +40,10 @@ public class PostAdapterTest {
         ShadowSystemClock.setCurrentTimeMillis(now);
 
         //Process the time
-        String actual = adapter.relativeTimeSpan(String.valueOf(fourHoursAgo));
+        String actual = adapter.relativeTimeSpan(fourHoursAgo);
 
         Assert.assertEquals("4 hours ago", actual);
     }
 
-    @Test (expected = NumberFormatException.class)
-    public void relativeTimeSpanParsingError() throws Exception {
-        PostAdapter adapter = new PostAdapter(RuntimeEnvironment.application.getApplicationContext(), R.layout.activity_main);
-
-        adapter.relativeTimeSpan("Hello World!");
-    }
 
 }
