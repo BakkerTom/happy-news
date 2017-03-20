@@ -30,7 +30,7 @@ public class PostController {
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getAllPost(@RequestParam(required = false, defaultValue = "false", value="ordered") boolean ordered) {
+    public Collection<Post> getAllPost(@RequestParam(required = false, defaultValue = "true", value="ordered") boolean ordered) {
         if(ordered){
             return this.postRepository.findAllByOrderByPublishedAtDesc();
         }else{
@@ -55,7 +55,7 @@ public class PostController {
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getPostAfterDate(@PathVariable("date") String date, @RequestParam(required = false, defaultValue = "false", value="ordered") boolean ordered) {
+    public Collection<Post> getPostAfterDate(@PathVariable("date") String date, @RequestParam(required = false, defaultValue = "true", value="ordered") boolean ordered) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d hh:mm:ss z yyyy");
         Date properdate = null;
         try {

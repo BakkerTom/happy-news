@@ -73,7 +73,7 @@ public class PostControllerTest {
                         "lorem ipsum enz.",
                         "http://www.fakeurl.com/whatisthis/this.html",
                         "none",
-                        new Date(1995, 11, 10)
+                        new Date(2000, 11, 10)
                 )));
 
         posts.add(this.repo.save(
@@ -97,13 +97,13 @@ public class PostControllerTest {
                 )));
 
         posts.add(this.repo.save(
-                new Post("The Post",
+                new Post("The Post 2",
                         "Henry Hicker",
                         "People are terrible.",
                         "lorem.",
                         "http://www.abc.nl",
                         "none",
-                        new Date(2000, 11, 10)
+                        new Date(1995, 11, 10)
                 )));
 
     }
@@ -115,16 +115,19 @@ public class PostControllerTest {
 
     @Test
     public void getAllPost() throws Exception {
+        //regular get all posts
         this.mockMvc.perform(get("/post"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(5)));
-    }
-
-    @Test
-    public void getAllPostOrderDesc() throws Exception {
+                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+        //superfluous ordered parameter
         this.mockMvc.perform(get("/post?ordered={ordered}", true))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+        //unordered list
+        this.mockMvc.perform(get("/post?ordered={ordered}", false))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[1].source", is("The Post")));
     }
 
     @Test
@@ -136,16 +139,19 @@ public class PostControllerTest {
 
     @Test
     public void getPostAfterDate() throws Exception {
+        //regular get after date
         this.mockMvc.perform(get("/post/afterdate/{date}", new Date(2010, 11, 10)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
-    }
-
-    @Test
-    public void getPostAfterDateOrderDesc() throws Exception {
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+        //superfluous ordered parameter
         this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), true))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+        //unordered list
+        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), false))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].source", is("The NY Times")));
     }
 
     @Bean(destroyMethod="close")
