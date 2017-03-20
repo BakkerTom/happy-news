@@ -140,7 +140,7 @@ public class CrawlerController {
                 try {
                     postRepository.save(p);
                 } catch (DuplicateKeyException ex) {
-                    logger.error("Unexpected duplicate key error, post not inserted"+ p.getUrl());
+                    logger.error("Unexpected duplicate key error, post not inserted "+ p.getUrl());
                 }
             } else {
                 logger.info("Duplicate post. Not inserted " + p.getUrl());
