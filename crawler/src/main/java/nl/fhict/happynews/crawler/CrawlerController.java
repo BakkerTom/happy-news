@@ -70,7 +70,7 @@ public class CrawlerController {
                 sourceRepository.save(s);
                 logger.info(s.getName() + " added as source.");
             } catch (DuplicateKeyException ex) {
-                logger.warn("Source already in Database", ex);
+                logger.warn(s.getName()+" already in database, not inserted");
             }
         }
 
@@ -140,7 +140,7 @@ public class CrawlerController {
                 try {
                     postRepository.save(p);
                 } catch (DuplicateKeyException ex) {
-                    logger.error("unexpected duplicate key error", ex);
+                    logger.error("Unexpected duplicate key error, post not inserted "+ p.getUrl());
                 }
             } else {
                 logger.info("Duplicate post. Not inserted " + p.getUrl());
