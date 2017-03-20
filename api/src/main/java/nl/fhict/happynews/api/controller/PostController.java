@@ -26,6 +26,7 @@ public class PostController {
 
     /**
      * Handles a GET request by returning all posts.
+     * @param ordered Whether the list should be ordered by latest or not.
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
@@ -50,6 +51,7 @@ public class PostController {
     /**
      * Handles a GET request by returning a collection of Post after a certain date.
      * @param date The date after which posts should be retrieved.
+     * @param ordered Whether the list should be ordered by latest or not.
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
