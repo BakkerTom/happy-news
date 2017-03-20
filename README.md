@@ -31,14 +31,14 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
 #### Example JSON
 ```json
 {
-  "uuid":"58cfc5132ab79c00019adeca",
-  "source":"business-insider",
-  "author":"Julien Rath",
-  "title":"IPG CEO on YouTube advertiser boycott: 'The best way to fix it is to hold them economically accountable'",
-  "description":"Speaking at Advertising Week Europe IPG CEO Michael Roth said he would freeze spends if ads continued to appear next to extremist content on YouTube and Google",
-  "url":"http://www.businessinsider.com/ipg-ceo-hold-google-economically-accountable-to-fix-extremist-ads-2017-3",
-  "imageUrl":"http://static5.businessinsider.com/image/58cfc081d349f91e008b5506-1190-625/ipg-ceo-on-youtube-advertiser-boycott-the-best-way-to-fix-it-is-to-hold-them-economically-accountable.jpg",
-  "publishedAt":1490011207000
+    "uuid": "58cfcb4aa7b11b00013d4e0a",
+    "source": "cnbc",
+    "author": "James Vincent",
+    "title": "Jeff Bezos looks a little too happy piloting a giant mechanical robot",
+    "description": "A billionaire entrepreneur with a side-line building space rockets has been showing off piloting a 13-foot-tall robot.",
+    "url": "https://www.cnbc.com/2017/03/20/jeff-bezos-looks-a-little-too-happy-piloting-a-giant-mechanical-robot.html",
+    "imageUrl": "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/03/20/104351978-C7Vl-gtWkAAkj-Y.1910x1000.jpg",
+    "publishedAt": 1490012058000
 }
 ```
 
