@@ -49,9 +49,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         if (headline == null) { headline = "Hello World"; }
         if (source == null) { source = "Article"; }
-        if (publishedAt == null) {
-            publishedAt = relativeTimeSpan(String.valueOf(System.currentTimeMillis()));
-        }
 
         // Get the Views as part of the convertView
         TextView sourceTextView = (TextView) convertView.findViewById(R.id.sourceTextView);
@@ -80,11 +77,13 @@ public class PostAdapter extends ArrayAdapter<Post> {
      * @param input the start time as a Unix Timestamp
      * @return relative Timestamp (eg. '4 hours ago')
      */
-    public String relativeTimeSpan(String input) throws NumberFormatException{
+    public String relativeTimeSpan(long input) {
 
-        long unixSeconds = Long.parseLong(input);
-        return DateUtils.getRelativeTimeSpanString(unixSeconds).toString();
+        if (input == 0){
+            return DateUtils.getRelativeTimeSpanString(System.currentTimeMillis()).toString();
+        }
 
+        return DateUtils.getRelativeTimeSpanString(input).toString();
     }
 
     @Override
