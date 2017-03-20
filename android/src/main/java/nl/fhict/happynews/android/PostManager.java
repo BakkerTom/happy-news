@@ -42,10 +42,9 @@ public class PostManager {
                 .setCallback(new FutureCallback<List<Post>>() {
                     @Override
                     public void onCompleted(Exception e, List<Post> posts) {
-                        if(e == null){
+                        if (e == null) {
                             postAdapter.updateData((ArrayList<Post>) posts);
-                        }
-                        else{
+                        } else {
                             Log.e("PostManager", "JSON Exception", e);
                         }
                     }
