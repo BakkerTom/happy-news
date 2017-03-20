@@ -83,7 +83,7 @@ public class PostControllerTest {
                         "lorem ipsum enz.",
                         "http://www.fakeurl2.com/whatisthis/this.html",
                         "none",
-                        new Date(2017, 1, 27)
+                        new Date(2016, 1, 27)
                 )));
 
         posts.add(this.repo.save(
@@ -93,7 +93,7 @@ public class PostControllerTest {
                         "ipsum lorem.",
                         "http://www.neppetilburg.nl/dit",
                         "none",
-                        new Date(2016, 11, 8)
+                        new Date(2017, 11, 8)
                 )));
 
         posts.add(this.repo.save(
@@ -121,6 +121,13 @@ public class PostControllerTest {
     }
 
     @Test
+    public void getAllPostOrderDesc() throws Exception {
+        this.mockMvc.perform(get("/post?ordered={ordered}", true))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+    }
+
+    @Test
     public void getPostByUuid() throws Exception {
         this.mockMvc.perform(get("/post/uuid/{uuid}", posts.get(1).getUuid()))
                 .andExpect(status().isOk())
@@ -132,6 +139,13 @@ public class PostControllerTest {
         this.mockMvc.perform(get("/post/afterdate/{date}", new Date(2010, 11, 10)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void getPostAfterDateOrderDesc() throws Exception {
+        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), true))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
     }
 
     @Bean(destroyMethod="close")

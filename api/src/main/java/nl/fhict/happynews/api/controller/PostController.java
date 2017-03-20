@@ -5,14 +5,13 @@ import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -30,8 +29,12 @@ public class PostController {
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getAllPost() {
-        return this.postRepository.findAll();
+    public Collection<Post> getAllPost(@RequestParam(required = false, defaultValue = "false", value="ordered") boolean ordered) {
+        if(ordered){
+            return this.postRepository.findAllByOrderByPublishedAtDesc();
+        }else{
+            return this.postRepository.findAll();
+        }
     }
 
     /**
@@ -50,7 +53,7 @@ public class PostController {
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getPostAfterDate(@PathVariable("date") String date) {
+    public Collection<Post> getPostAfterDate(@PathVariable("date") String date, @RequestParam(required = false, defaultValue = "false", value="ordered") boolean ordered) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d hh:mm:ss z yyyy");
         Date properdate = null;
         try {
@@ -59,8 +62,10 @@ public class PostController {
             Logger logger = LoggerFactory.getLogger(PostRepository.class);
             logger.error("Date cannot be parsed.", e);
         }
-        return this.postRepository.findByPublishedAtAfter(properdate);
+        if(ordered){
+            return this.postRepository.findByPublishedAtAfterOrderByPublishedAtDesc(properdate);
+        }else{
+            return this.postRepository.findByPublishedAtAfter(properdate);
+        }
     }
-
-
 }

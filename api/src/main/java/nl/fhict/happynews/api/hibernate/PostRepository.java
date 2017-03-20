@@ -18,6 +18,12 @@ public interface PostRepository extends CrudRepository<Post, String> {
     Collection<Post> findAll();
 
     /**
+     * Retrieves all Posts, ordered by publish date.
+     * @return A collection of posts.
+     */
+    Collection<Post> findAllByOrderByPublishedAtDesc();
+
+    /**
      * Retrieves a Post by it's UUID.
      * @param uuid The UUID.
      * @return The Post.
@@ -30,4 +36,11 @@ public interface PostRepository extends CrudRepository<Post, String> {
      * @return A collection of posts.
      */
     Collection<Post> findByPublishedAtAfter(Date date);
+
+    /**
+     * Retrieves all Posts published after the date parameter, ordered by date (Descending).
+     * @param date The date after which to retrieve posts from.
+     * @return A collection of posts.
+     */
+    Collection<Post> findByPublishedAtAfterOrderByPublishedAtDesc(Date date);
 }
