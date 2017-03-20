@@ -7,11 +7,13 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'com.github.ksoichiro:gradle-build-info-plugin:0.2.0'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.github.ksoichiro.build.info'
 
 jar {
     baseName = 'web'
