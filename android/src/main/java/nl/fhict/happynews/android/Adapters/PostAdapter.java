@@ -42,6 +42,23 @@ public class PostAdapter extends ArrayAdapter<Post> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
+            if(xmlType == R.layout.list_item_post_image){
+                convertView.setTag("image");
+            }
+            else {
+                convertView.setTag("no-image");
+            }
+        }else{
+
+            if(convertView.getTag().equals("image") && xmlType == R.layout.list_item_post ){
+                convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
+                convertView.setTag("no-image");
+            }
+            else if(convertView.getTag().equals("no-image") && xmlType == R.layout.list_item_post_image){
+                convertView = LayoutInflater.from(getContext()).inflate(xmlType, parent, false);
+                convertView.setTag("image");
+            }
+
         }
 
         String headline = post.getTitle();
@@ -73,7 +90,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             Ion.with(imageView)
                     .load(post.getImageUrl());
         }
-
         return convertView;
     }
 
