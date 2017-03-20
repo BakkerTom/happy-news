@@ -15,12 +15,12 @@ public class Post {
     private String description;
     private String url;
     private String imageUrl;
-    private String publishedAt;
+    private long publishedAt;
 
     public Post() {
     }
 
-    public Post(String source, String author, String title, String description, String url, String imageUrl, String publishedAt) {
+    public Post(String source, String author, String title, String description, String url, String imageUrl, long publishedAt) {
         this.source = source;
         this.author = author;
         this.title = title;
@@ -54,7 +54,7 @@ public class Post {
         return imageUrl;
     }
 
-    public String getPublishedAt() {
+    public long getPublishedAt() {
         return publishedAt;
     }
 }
