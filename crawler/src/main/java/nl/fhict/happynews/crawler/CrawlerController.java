@@ -61,7 +61,6 @@ public class CrawlerController {
         sources.add(new Source("buzzfeed", "latest"));
         sources.add(new Source("cnbc", "top"));
         sources.add(new Source("cnn", "top"));
-        sources.add(new Source("daily-mail", "latest"));
         sources.add(new Source("entertainment-weekly", "top"));
         sources.add(new Source("espn", "top"));
         sources.add(new Source("financial-times", "latest"));

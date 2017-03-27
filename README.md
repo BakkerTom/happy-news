@@ -32,13 +32,20 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
 ```json
 {
     "uuid": "58cfcb4aa7b11b00013d4e0a",
-    "source": "cnbc",
+    "source": "associated-press",
+    "sourceName" : "Associated Press",
     "author": "James Vincent",
     "title": "Jeff Bezos looks a little too happy piloting a giant mechanical robot",
-    "description": "A billionaire entrepreneur with a side-line building space rockets has been showing off piloting a 13-foot-tall robot.",
+    "contentText": "A billionaire entrepreneur with a side-line building space rockets has been showing off piloting a 13-foot-tall robot.",
     "url": "https://www.cnbc.com/2017/03/20/jeff-bezos-looks-a-little-too-happy-piloting-a-giant-mechanical-robot.html",
-    "imageUrl": "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/03/20/104351978-C7Vl-gtWkAAkj-Y.1910x1000.jpg",
-    "publishedAt": 1490012058000
+    "imageUrls": ["https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/03/20/104351978-C7Vl-gtWkAAkj-Y.1910x1000.jpg"],
+    "videoUrl": "www.video.nl",
+    "publishedAt": 1490012058000,
+    "indexedAt" : 1490012058000,
+    "positivityScore" : 7.6,
+    "expirationDate" : null,
+    "type" : "article",
+    "tags" : []
 }
 ```
 
