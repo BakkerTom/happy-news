@@ -25,7 +25,7 @@ Retrieves all posts. ordered is not required, and defaults to `true`.
 
 Retrieves a post by it's `uuid`.
 
-#### » `https://happynews-api.svendubbeld.nl/post/date/{date}?ordered={ordered}`
+#### » `https://happynews-api.svendubbeld.nl/post/afterdate/{date}?ordered={ordered}`
 
 Retrieves all posts after a Java `Date`. ordered is not required, and defaults to `true`.
 
