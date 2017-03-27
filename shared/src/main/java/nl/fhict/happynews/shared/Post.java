@@ -1,6 +1,7 @@
 package nl.fhict.happynews.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
@@ -92,8 +93,9 @@ public class Post {
         return expirationDate;
     }
 
+    @JsonIgnore
     public boolean isMarkedForDeletion() {
-        return expirationDate == null;
+        return expirationDate != null;
     }
 
     public Type getType() {
