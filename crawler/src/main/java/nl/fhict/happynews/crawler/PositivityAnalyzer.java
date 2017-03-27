@@ -25,28 +25,30 @@ public class PositivityAnalyzer {
     private HashSet<String> negativeWords;
 
 
-    public int analyzeText(String inputText) {
+    public double analyzeText(String inputText) {
         HashSet<String> inputWords = getUniqueWords(inputText);
         loadPositiveWords();
         loadNegativeWords();
-        int score = 0;
+        int pos = 0;
+        int neg = 0;
         Iterator iterator = inputWords.iterator();
         while (iterator.hasNext()) {
             String word = (String) iterator.next();
-            if(positiveWords.contains(word)){
-                score++;
-            }
-            else if(negativeWords.contains(word)){
-                score++;
+            if (positiveWords.contains(word)) {
+                System.out.println("Positive word found: " + word);
+                pos++;
+            } else if (negativeWords.contains(word)) {
+                System.out.println("Negative word found: " + word);
+                neg++;
             }
         }
-
-        return score;
+        return 10 * ((1.5 * pos - neg) / (1.5 * (pos + neg)));
     }
 
     private HashSet<String> getUniqueWords(String inputText) {
-        String[] words = inputText.split("\\w");
+        String[] words = inputText.split("[,.:;\\s\\n]");
         HashSet<String> uniqueWords = new HashSet<>();
+        uniqueWords.remove("");
         for (String word : words) {
             uniqueWords.add(word);
         }
