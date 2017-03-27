@@ -104,7 +104,6 @@ public class CrawlerController {
      */
     public List<Source> getSources() {
         return sourceRepository.findAll();
-
     }
 
     /**
@@ -147,6 +146,4 @@ public class CrawlerController {
             }
         }
     }
-
-
 }
