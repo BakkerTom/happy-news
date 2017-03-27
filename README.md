@@ -1,6 +1,7 @@
 # happy-news
 
 [![Build Status](https://travis-ci.org/BakkerTom/happy-news.svg?branch=master)](https://travis-ci.org/BakkerTom/happy-news)
+[![codebeat badge](https://codebeat.co/badges/503aab65-3852-4b7b-9c46-938a56e05b97)](https://codebeat.co/projects/github-com-bakkertom-happy-news-master)
 
 ## Table of Contents
 * [Description](#description)
@@ -24,7 +25,7 @@ Retrieves all posts. ordered is not required, and defaults to `true`.
 
 Retrieves a post by it's `uuid`.
 
-#### » `https://happynews-api.svendubbeld.nl/post/date/{date}?ordered={ordered}`
+#### » `https://happynews-api.svendubbeld.nl/post/afterdate/{date}?ordered={ordered}`
 
 Retrieves all posts after a Java `Date`. ordered is not required, and defaults to `true`.
 
@@ -44,7 +45,7 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
 
 
 ## Team
-[![Sander van Andel](https://avatars1.githubusercontent.com/u/25583174?v=3&s=250)](https://github.com/SanderVanAndel) | [![Tom Bakker](https://avatars0.githubusercontent.com/u/1022998?v=3&s=250)](https://github.com/BakkerTom) | [![Tobi van Bronswijk](https://avatars3.githubusercontent.com/u/20115031?v=3&s=250)](https://github.com/TvanBronswijk) | [![Sven Dubbeld](https://avatars1.githubusercontent.com/u/4523069?v=3&s=250)](https://github.com/SvenDub) | [![Daan Tuller](https://avatars3.githubusercontent.com/u/15889244?v=3&s=250)](https://github.com/DaanTul)
+[![Sander van Andel](https://avatars1.githubusercontent.com/u/25583174?v=3&s=250)](https://github.com/SanderVanAndel) | [![Tom Bakker](https://avatars0.githubusercontent.com/u/1022998?v=3&s=250)](https://github.com/BakkerTom) | [![Tobi van Bronswijk](https://avatars2.githubusercontent.com/u/15573392?v=3&s=250)](https://github.com/TvanBronswijk) | [![Sven Dubbeld](https://avatars1.githubusercontent.com/u/4523069?v=3&s=250)](https://github.com/SvenDub) | [![Daan Tuller](https://avatars3.githubusercontent.com/u/15889244?v=3&s=250)](https://github.com/DaanTul)
 ---|---|---|---|---
 [Sander van Andel](https://github.com/SanderVanAndel) | [Tom Bakker](https://github.com/BakkerTom) | [Tobi van Bronswijk](https://github.com/TvanBronswijk) | [Sven Dubbeld](https://github.com/SvenDub) | [Daan Tuller](https://github.com/DaanTul)
 
