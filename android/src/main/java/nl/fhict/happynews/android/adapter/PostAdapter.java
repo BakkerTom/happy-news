@@ -1,4 +1,4 @@
-package nl.fhict.happynews.android.Adapters;
+package nl.fhict.happynews.android.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
-import nl.fhict.happynews.android.Models.Post;
+import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         Post post = posts.get(position);
         int xmlType;
 
-        if (post.getImageUrl() == null) {
+        if (post.getImageUrls().isEmpty()) {
             xmlType = R.layout.list_item_post;
         } else {
             xmlType = R.layout.list_item_post_image;
@@ -60,7 +60,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         String headline = post.getTitle();
         String source = post.getSource();
-        String publishedAt = relativeTimeSpan(post.getPublishedAt());
+        String publishedAt = relativeTimeSpan(post.getPublishedAt().getTime());
 
         if (headline == null) {
             headline = "Hello World";
@@ -85,7 +85,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
             //Load image into imageView
             Ion.with(imageView)
-                    .load(post.getImageUrl());
+                    .load(post.getImageUrls().get(0));
         }
         return convertView;
     }

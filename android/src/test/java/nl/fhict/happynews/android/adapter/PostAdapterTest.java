@@ -1,26 +1,13 @@
-package nl.fhict.happynews.android.Adapters;
+package nl.fhict.happynews.android.adapter;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.os.SystemClock;
-import android.provider.Settings;
-import android.test.AndroidTestCase;
 import android.text.format.DateUtils;
-import nl.fhict.happynews.android.Activitys.MainActivity;
 import nl.fhict.happynews.android.R;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowSystemClock;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tom on 15/03/2017.

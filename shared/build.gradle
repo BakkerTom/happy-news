@@ -3,4 +3,5 @@ apply plugin:'java'
 dependencies{
     compile('org.springframework.boot:spring-boot-starter-data-mongodb:1.5.2.RELEASE')
     compile('org.hibernate:hibernate-annotations:3.5.6-Final')
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.8.0')
 }

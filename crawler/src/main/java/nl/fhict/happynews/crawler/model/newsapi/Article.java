@@ -1,4 +1,4 @@
-package nl.fhict.happynews.crawler.models.newsapi;
+package nl.fhict.happynews.crawler.model.newsapi;
 
 import java.util.Date;
 
