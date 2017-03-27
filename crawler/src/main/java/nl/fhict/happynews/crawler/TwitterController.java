@@ -1,12 +1,12 @@
 package nl.fhict.happynews.crawler;
 
-import javafx.geometry.Pos;
 import nl.fhict.happynews.shared.Post;
-import org.slf4j.*;
 import org.slf4j.LoggerFactory;
 import twitter4j.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,12 +26,12 @@ public class TwitterController {
     public List<Post> getTweets() {
         logger.info("Start getting tweets");
         List<Post> posts = new ArrayList<>();
-        Query query = new Query("#happynews");
+        Query query = new Query("#happy");
         query.count(10); //max amount of tweets
         try {
             QueryResult result = twitter.search(query);
             for (Status status : result.getTweets()) {
-                System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
+                posts.add(convertToPost(status));
             }
 
         } catch (TwitterException e) {
@@ -42,6 +42,36 @@ public class TwitterController {
 
     public Post convertToPost(Status status) {
         Post newPost = new Post();
+
+        newPost.setAuthor(status.getUser().getScreenName());
+        newPost.setType(Post.Type.TWEET);
+        newPost.setContentText(status.getText());
+        newPost.setIndexedAt(new Date());
+        newPost.setPublishedAt(status.getCreatedAt());
+
+        //retrieve URLS
+        URLEntity urls[] = status.getURLEntities();
+        List<String> imageURLS = new ArrayList<>();
+        for (URLEntity url1 : urls) {
+            imageURLS.add(url1.getURL());
+        }
+        newPost.setImageUrls(imageURLS);
+
+        //Retrieve HashTags
+        HashtagEntity[] hashtags = status.getHashtagEntities();
+        List<String> hashtagList = new ArrayList<>();
+        for (HashtagEntity hashtag : hashtags) {
+            hashtagList.add(hashtag.getText());
+        }
+        newPost.setTags(hashtagList);
+
+        String url = "https://twitter.com/" + status.getUser().getScreenName()
+                + "/status/" + status.getId();
+        newPost.setUrl(url);
+
+        newPost.setSource(status.getSource());
+        newPost.setSourceName(status.getSource());
+
         return newPost;
     }
 }
