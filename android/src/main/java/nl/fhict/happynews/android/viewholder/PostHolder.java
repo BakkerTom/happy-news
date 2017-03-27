@@ -8,8 +8,8 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.model.Post;
 
 import java.util.Date;
 
