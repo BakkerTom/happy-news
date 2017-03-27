@@ -1,7 +1,7 @@
 package nl.fhict.happynews.crawler;
 
 
-import com.mongodb.MongoClient;
+import nl.fhict.happynews.crawler.api.NewsAPI;
 import nl.fhict.happynews.crawler.models.newsapi.Article;
 import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.models.newsapi.Source;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.mongodb.core.MongoAction;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,7 @@ import java.util.List;
 public class CrawlerController {
 
     @Autowired
-    private NewsRetriever newsRetriever;
+    private NewsAPI newsAPI;
 
     @Autowired
     private PostRepository postRepository;
@@ -80,7 +79,7 @@ public class CrawlerController {
     /**
      * Get the data from the newsApi.org website on a fixed rate specified in application.yml.
      */
-    @Scheduled(fixedDelayString = "${crawler.delay}")
+    @Scheduled(fixedDelayString = "${news.delay}")
     public List<Post> getNewsPosts() {
         List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
@@ -88,7 +87,7 @@ public class CrawlerController {
 
         for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsRetriever.getNewsPerSource(s.getName(), s.getType());
+            NewsSource newsSource = newsAPI.getRaw(s.getName(), s.getType());
             posts.addAll(convertToPost(newsSource));
         }
         logger.info("Received total of " + posts.size() + " articles");
@@ -147,6 +146,5 @@ public class CrawlerController {
             }
         }
     }
-
 
 }
