@@ -45,7 +45,7 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
 
 
 ## Team
-[![Sander van Andel](https://avatars1.githubusercontent.com/u/25583174?v=3&s=250)](https://github.com/SanderVanAndel) | [![Tom Bakker](https://avatars0.githubusercontent.com/u/1022998?v=3&s=250)](https://github.com/BakkerTom) | [![Tobi van Bronswijk](https://avatars3.githubusercontent.com/u/20115031?v=3&s=250)](https://github.com/TvanBronswijk) | [![Sven Dubbeld](https://avatars1.githubusercontent.com/u/4523069?v=3&s=250)](https://github.com/SvenDub) | [![Daan Tuller](https://avatars3.githubusercontent.com/u/15889244?v=3&s=250)](https://github.com/DaanTul)
+[![Sander van Andel](https://avatars1.githubusercontent.com/u/25583174?v=3&s=250)](https://github.com/SanderVanAndel) | [![Tom Bakker](https://avatars0.githubusercontent.com/u/1022998?v=3&s=250)](https://github.com/BakkerTom) | [![Tobi van Bronswijk](https://avatars2.githubusercontent.com/u/15573392?v=3&s=250)](https://github.com/TvanBronswijk) | [![Sven Dubbeld](https://avatars1.githubusercontent.com/u/4523069?v=3&s=250)](https://github.com/SvenDub) | [![Daan Tuller](https://avatars3.githubusercontent.com/u/15889244?v=3&s=250)](https://github.com/DaanTul)
 ---|---|---|---|---
 [Sander van Andel](https://github.com/SanderVanAndel) | [Tom Bakker](https://github.com/BakkerTom) | [Tobi van Bronswijk](https://github.com/TvanBronswijk) | [Sven Dubbeld](https://github.com/SvenDub) | [Daan Tuller](https://github.com/DaanTul)
 
