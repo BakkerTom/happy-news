@@ -16,9 +16,7 @@ import java.util.Date;
 /**
  * Created by tom on 27/03/2017.
  */
-public class PostHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-    private Post post;
+public class PostHolder extends ViewHolder {
 
     private TextView sourceTextView;
     private TextView timeTextView;
@@ -32,46 +30,14 @@ public class PostHolder extends RecyclerView.ViewHolder implements View.OnClickL
         timeTextView = (TextView) view.findViewById(R.id.timeTextView);
         headlineTextView = (TextView) view.findViewById(R.id.headlineTextView);
 
-        //Set OnClick Listener
-        view.setOnClickListener(this);
     }
 
     public void bindType(Post post) {
-        this.post = post;
+        super.bindType(post);
 
-        sourceTextView.setText(this.post.getSource());
-        timeTextView.setText(relativeTimeSpan(this.post.getPublishedAt()));
-        headlineTextView.setText(this.post.getTitle());
+        sourceTextView.setText(post.getSource());
+        timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
+        headlineTextView.setText(post.getTitle());
     }
 
-    /**
-     * Creates a neatly formatted string displaying the Relative Time Span
-     *
-     * @param input the start time as a Date object
-     * @return relative Timestamp (eg. '4 hours ago')
-     */
-    private String relativeTimeSpan(Date input) {
-
-        long unixTime = input.getTime();
-
-        if (unixTime == 0) {
-            return DateUtils.getRelativeTimeSpanString(System.currentTimeMillis()).toString();
-        }
-
-        return DateUtils.getRelativeTimeSpanString(unixTime).toString();
-    }
-
-    @Override
-    public void onClick(View v) {
-        Context context = itemView.getContext();
-
-        if (!post.getUrl().isEmpty()) {
-            Uri uri = Uri.parse(post.getUrl());
-            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
-            customTabsIntent.launchUrl(context, uri);
-        } else {
-            Toast.makeText(context, "Can't find link",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 }
