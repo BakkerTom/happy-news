@@ -1,10 +1,9 @@
 package nl.fhict.happynews.crawler;
 
 
-import com.mongodb.MongoClient;
-import nl.fhict.happynews.crawler.models.newsapi.Article;
-import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
-import nl.fhict.happynews.crawler.models.newsapi.Source;
+import nl.fhict.happynews.crawler.model.newsapi.Article;
+import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.PostRepository;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
@@ -14,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.mongodb.core.MongoAction;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -61,7 +61,6 @@ public class CrawlerController {
         sources.add(new Source("buzzfeed", "latest"));
         sources.add(new Source("cnbc", "top"));
         sources.add(new Source("cnn", "top"));
-        sources.add(new Source("daily-mail", "latest"));
         sources.add(new Source("entertainment-weekly", "top"));
         sources.add(new Source("espn", "top"));
         sources.add(new Source("financial-times", "latest"));
@@ -70,7 +69,7 @@ public class CrawlerController {
                 sourceRepository.save(s);
                 logger.info(s.getName() + " added as source.");
             } catch (DuplicateKeyException ex) {
-                logger.warn(s.getName()+" already in database, not inserted");
+                logger.warn(s.getName() + " already in database, not inserted");
             }
         }
 
@@ -115,12 +114,31 @@ public class CrawlerController {
     public List<Post> convertToPost(NewsSource newsSource) {
         List<Post> posts = new ArrayList<>();
         if (newsSource != null) { //Check if request was successful
-            for (Article a : newsSource.getArticles()) {
+            for (Article article : newsSource.getArticles()) {
                 //Create database ready objects
-                Post p = new Post(newsSource.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
-                posts.add(p);
+                Post post = new Post();
+                post.setSource(newsSource.getSource());
+                post.setAuthor(article.getAuthor());
+                post.setTitle(article.getTitle());
+                post.setContentText(article.getDescription());
+                post.setUrl(article.getUrl());
+
+                if (article.getUrlToImage() != null) {
+                    post.setImageUrls(Collections.singletonList(article.getUrlToImage()));
+                }
+
+                if (article.getPublishedAt() != null) {
+                    post.setPublishedAt(article.getPublishedAt());
+                } else {
+                    post.setIndexedAt(new Date());
+                }
+
+                post.setType(Post.Type.ARTICLE);
+
+                posts.add(post);
             }
         }
+
         return posts;
     }
 
@@ -139,7 +157,7 @@ public class CrawlerController {
                 try {
                     postRepository.save(p);
                 } catch (DuplicateKeyException ex) {
-                    logger.error("Unexpected duplicate key error, post not inserted "+ p.getUrl());
+                    logger.error("Unexpected duplicate key error, post not inserted " + p.getUrl());
                 }
             } else {
                 logger.info("Duplicate post. Not inserted " + p.getUrl());

@@ -1,6 +1,6 @@
 package nl.fhict.happynews.crawler;
 
-import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
