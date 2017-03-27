@@ -33,7 +33,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Post post = posts.get(position);
 
-        if (post.getImageUrls() != null) {
+        if (post.getImageUrls().size() > 0) {
             return 1;
         }
 
