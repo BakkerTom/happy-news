@@ -1,6 +1,7 @@
 # happy-news
 
 [![Build Status](https://travis-ci.org/BakkerTom/happy-news.svg?branch=master)](https://travis-ci.org/BakkerTom/happy-news)
+[![codebeat badge](https://codebeat.co/badges/503aab65-3852-4b7b-9c46-938a56e05b97)](https://codebeat.co/projects/github-com-bakkertom-happy-news-master)
 
 ## Table of Contents
 * [Description](#description)
