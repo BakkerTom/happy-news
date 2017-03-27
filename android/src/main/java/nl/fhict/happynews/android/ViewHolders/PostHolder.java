@@ -34,7 +34,7 @@ public class PostHolder extends RecyclerView.ViewHolder implements View.OnClickL
         view.setOnClickListener(this);
     }
 
-    public void bindType(Post post){
+    public void bindType(Post post) {
         this.post = post;
 
         sourceTextView.setText(this.post.getSource());

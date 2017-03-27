@@ -33,7 +33,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Post post = posts.get(position);
 
-        if (post.getImageUrl() != null){
+        if (post.getImageUrl() != null) {
             return 1;
         }
 
@@ -44,7 +44,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
 
-        switch (viewType){
+        switch (viewType) {
             case 0:
                 view = LayoutInflater
                         .from(parent.getContext())
@@ -64,7 +64,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Post post = posts.get(position);
 
-        switch (holder.getItemViewType()){
+        switch (holder.getItemViewType()) {
             case 0:
                 PostHolder postHolder = (PostHolder) holder;
                 postHolder.bindType(post);
