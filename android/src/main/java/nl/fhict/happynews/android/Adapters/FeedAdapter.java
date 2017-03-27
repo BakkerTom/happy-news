@@ -2,6 +2,7 @@ package nl.fhict.happynews.android.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (posts != null) {
             this.posts = posts;
             this.notifyDataSetChanged();
+            Log.d("FeedAdapter", "Updated Data");
         }
     }
 }

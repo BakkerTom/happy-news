@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
+import nl.fhict.happynews.android.Adapters.FeedAdapter;
 import nl.fhict.happynews.android.Adapters.PostAdapter;
 import nl.fhict.happynews.android.Models.Post;
 import com.koushikdutta.ion.Ion;
@@ -25,9 +26,32 @@ public class PostManager {
     private String API_URL = "https://happynews-api.svendubbeld.nl/post";
     private ArrayList<Post> newPosts;
     private PostAdapter postAdapter;
+    private FeedAdapter feedAdapter;
 
     private PostManager() {
     }
+
+//    /**
+//     * Method that updates the postAdapter with a new list of posts from the api
+//     *
+//     * @param c context of the apps
+//     */
+//    public void updatePosts(Context c) {
+//        Ion.with(c)
+//                .load(API_URL)
+//                .as(new TypeToken<List<Post>>() {
+//                })
+//                .setCallback(new FutureCallback<List<Post>>() {
+//                    @Override
+//                    public void onCompleted(Exception e, List<Post> posts) {
+//                        if (e == null) {
+//                            postAdapter.updateData((ArrayList<Post>) posts);
+//                        } else {
+//                            Log.e("PostManager", "JSON Exception", e);
+//                        }
+//                    }
+//                });
+//    }
 
     /**
      * Method that updates the postAdapter with a new list of posts from the api
@@ -43,7 +67,7 @@ public class PostManager {
                     @Override
                     public void onCompleted(Exception e, List<Post> posts) {
                         if (e == null) {
-                            postAdapter.updateData((ArrayList<Post>) posts);
+                            feedAdapter.updateData((ArrayList<Post>) posts);
                         } else {
                             Log.e("PostManager", "JSON Exception", e);
                         }
@@ -59,4 +83,6 @@ public class PostManager {
     public void setPostAdapter(PostAdapter postAdapter) {
         this.postAdapter = postAdapter;
     }
+
+    public void setFeedAdapter(FeedAdapter feedAdapter) {this.feedAdapter = feedAdapter; }
 }
