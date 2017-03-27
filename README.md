@@ -39,6 +39,7 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
     "contentText": "A billionaire entrepreneur with a side-line building space rockets has been showing off piloting a 13-foot-tall robot.",
     "url": "https://www.cnbc.com/2017/03/20/jeff-bezos-looks-a-little-too-happy-piloting-a-giant-mechanical-robot.html",
     "imageUrls": ["https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/03/20/104351978-C7Vl-gtWkAAkj-Y.1910x1000.jpg"],
+    "videoUrl": "www.video.nl",
     "publishedAt": 1490012058000,
     "indexedAt" : 1490012058000,
     "positivityScore" : 7.6,
