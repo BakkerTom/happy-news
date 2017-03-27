@@ -1,4 +1,4 @@
-package nl.fhict.happynews.crawler.models.newsapi;
+package nl.fhict.happynews.crawler.model.newsapi;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
