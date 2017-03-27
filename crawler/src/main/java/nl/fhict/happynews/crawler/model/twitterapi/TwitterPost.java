@@ -1,4 +1,4 @@
-package nl.fhict.happynews.crawler.models.twitterapi;
+package nl.fhict.happynews.crawler.model.twitterapi;
 
 /**
  * Created by Tobi on 27-Mar-17.

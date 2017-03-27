@@ -1,14 +1,16 @@
 package nl.fhict.happynews.crawler.crawler;
 
 import nl.fhict.happynews.crawler.api.NewsAPI;
-import nl.fhict.happynews.crawler.models.newsapi.Article;
-import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
-import nl.fhict.happynews.crawler.models.newsapi.Source;
+import nl.fhict.happynews.crawler.model.newsapi.Article;
+import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,10 +54,25 @@ public class NewsCrawler extends Crawler<NewsSource> {
     List<Post> rawToPosts(NewsSource entity) {
         List<Post> posts = new ArrayList<>();
         if (entity != null) { //Check if request was successful
-            for (Article a : entity.getArticles()) {
+            for (Article article : entity.getArticles()) {
                 //Create database ready objects
-                Post p = new Post(entity.getSource(), a.getAuthor(), a.getTitle(), a.getDescription(), a.getUrl(), a.getUrlToImage(), a.getPublishedAt());
-                posts.add(p);
+                Post post = new Post();
+                post.setSource(entity.getSource());
+                post.setAuthor(article.getAuthor());
+                post.setTitle(article.getTitle());
+                post.setContentText(article.getDescription());
+                post.setUrl(article.getUrl());
+
+                if (article.getUrlToImage() != null) {
+                    post.setImageUrls(Collections.singletonList(article.getUrlToImage()));
+                }
+
+                if (article.getPublishedAt() != null) {
+                    post.setPublishedAt(article.getPublishedAt());
+                } else {
+                    post.setIndexedAt(new Date());
+                }
+                posts.add(post);
             }
         }
         return posts;
