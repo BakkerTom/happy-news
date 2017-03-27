@@ -1,6 +1,6 @@
 package nl.fhict.happynews.crawler.api;
 
-import nl.fhict.happynews.crawler.models.instagramapi.InstagramEnvelope;
+import nl.fhict.happynews.crawler.model.instagramapi.InstagramEnvelope;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
