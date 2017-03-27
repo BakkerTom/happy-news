@@ -1,17 +1,22 @@
 package nl.fhict.happynews.android.ViewHolders;
 
+import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import nl.fhict.happynews.android.Models.Post;
 import nl.fhict.happynews.android.R;
 
 /**
  * Created by tom on 27/03/2017.
  */
-public class PostHolder extends RecyclerView.ViewHolder {
+public class PostHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    private Post post;
 
     private TextView sourceTextView;
     private TextView timeTextView;
@@ -24,12 +29,17 @@ public class PostHolder extends RecyclerView.ViewHolder {
         sourceTextView = (TextView) view.findViewById(R.id.sourceTextView);
         timeTextView = (TextView) view.findViewById(R.id.timeTextView);
         headlineTextView = (TextView) view.findViewById(R.id.headlineTextView);
+
+        //Set OnClick Listener
+        view.setOnClickListener(this);
     }
 
     public void bindType(Post post){
-        sourceTextView.setText(post.getSource());
-        timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
-        headlineTextView.setText(post.getTitle());
+        this.post = post;
+
+        sourceTextView.setText(this.post.getSource());
+        timeTextView.setText(relativeTimeSpan(this.post.getPublishedAt()));
+        headlineTextView.setText(this.post.getTitle());
     }
 
     /**
@@ -45,5 +55,19 @@ public class PostHolder extends RecyclerView.ViewHolder {
         }
 
         return DateUtils.getRelativeTimeSpanString(input).toString();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Context context = itemView.getContext();
+
+        if (!post.getUrl().isEmpty()) {
+            Uri uri = Uri.parse(post.getUrl());
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
+            customTabsIntent.launchUrl(context, uri);
+        } else {
+            Toast.makeText(context, "Can't find link",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

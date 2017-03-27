@@ -5,7 +5,6 @@ import android.util.Log;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.android.Adapters.FeedAdapter;
-import nl.fhict.happynews.android.Adapters.PostAdapter;
 import nl.fhict.happynews.android.Models.Post;
 import com.koushikdutta.ion.Ion;
 
@@ -25,41 +24,17 @@ public class PostManager {
 
     private String API_URL = "https://happynews-api.svendubbeld.nl/post";
     private ArrayList<Post> newPosts;
-    private PostAdapter postAdapter;
     private FeedAdapter feedAdapter;
 
-    private PostManager() {
-    }
-
-//    /**
-//     * Method that updates the postAdapter with a new list of posts from the api
-//     *
-//     * @param c context of the apps
-//     */
-//    public void updatePosts(Context c) {
-//        Ion.with(c)
-//                .load(API_URL)
-//                .as(new TypeToken<List<Post>>() {
-//                })
-//                .setCallback(new FutureCallback<List<Post>>() {
-//                    @Override
-//                    public void onCompleted(Exception e, List<Post> posts) {
-//                        if (e == null) {
-//                            postAdapter.updateData((ArrayList<Post>) posts);
-//                        } else {
-//                            Log.e("PostManager", "JSON Exception", e);
-//                        }
-//                    }
-//                });
-//    }
+    private PostManager() {}
 
     /**
-     * Method that updates the postAdapter with a new list of posts from the api
+     * Method that updates the feedAdapter with a new list of posts from the api
      *
-     * @param c context of the apps
+     * @param context context of the apps
      */
-    public void updatePosts(Context c) {
-        Ion.with(c)
+    public void updatePosts(Context context) {
+        Ion.with(context)
                 .load(API_URL)
                 .as(new TypeToken<List<Post>>() {
                 })
@@ -76,13 +51,11 @@ public class PostManager {
     }
 
     /**
-     * Assigns a postAdapter to the PostManager
+     * Assigns a feedAdapter to the PostManager
      *
-     * @param postAdapter
+     * @param feedAdapter
      */
-    public void setPostAdapter(PostAdapter postAdapter) {
-        this.postAdapter = postAdapter;
+    public void setFeedAdapter(FeedAdapter feedAdapter) {
+        this.feedAdapter = feedAdapter;
     }
-
-    public void setFeedAdapter(FeedAdapter feedAdapter) {this.feedAdapter = feedAdapter; }
 }
