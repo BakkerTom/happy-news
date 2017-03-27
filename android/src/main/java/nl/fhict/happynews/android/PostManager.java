@@ -2,13 +2,16 @@ package nl.fhict.happynews.android;
 
 import android.content.Context;
 import android.util.Log;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
-import nl.fhict.happynews.android.Adapters.PostAdapter;
-import nl.fhict.happynews.android.Models.Post;
 import com.koushikdutta.ion.Ion;
+import nl.fhict.happynews.android.adapter.PostAdapter;
+import nl.fhict.happynews.android.model.Post;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +25,7 @@ public class PostManager {
         return ourInstance;
     }
 
-    private String API_URL = "https://happynews-api.svendubbeld.nl/post";
+    private String API_URL = "http://10.0.2.2:8080/post";
     private ArrayList<Post> newPosts;
     private PostAdapter postAdapter;
 
@@ -35,6 +38,18 @@ public class PostManager {
      * @param c context of the apps
      */
     public void updatePosts(Context c) {
+        GsonBuilder builder = new GsonBuilder();
+
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+
+        Gson gson = builder.create();
+
+        Ion.getDefault(c).configure().setGson(gson);
         Ion.with(c)
                 .load(API_URL)
                 .as(new TypeToken<List<Post>>() {

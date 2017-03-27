@@ -21,17 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.swing.text.DateFormatter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,11 +40,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = Application.class)
 public class PostControllerTest {
 
-    @Autowired PostRepository repo;
+    @Autowired
+    PostRepository repo;
 
-    @Autowired WebApplicationContext wac;
-    @Autowired MockHttpSession session;
-    @Autowired MockHttpServletRequest request;
+    @Autowired
+    WebApplicationContext wac;
+    @Autowired
+    MockHttpSession session;
+    @Autowired
+    MockHttpServletRequest request;
     private MockMvc mockMvc;
 
     private List<Post> posts;
@@ -62,54 +62,54 @@ public class PostControllerTest {
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
-        posts = new LinkedList<Post>();
+        posts = new LinkedList<>();
 
         posts.add(this.repo.save(new Post()));
 
-        posts.add(this.repo.save(
-                new Post("The Post",
-                        "Henry Hicker",
-                        "People are terrible.",
-                        "lorem ipsum enz.",
-                        "http://www.fakeurl.com/whatisthis/this.html",
-                        "none",
-                        new Date(2000, 11, 10)
-                )));
+        Post post1 = new Post();
+        post1.setSource("the-post");
+        post1.setSourceName("The Post");
+        post1.setAuthor("Henry Hicker");
+        post1.setTitle("People are terrible.");
+        post1.setContentText("lorem ipsum enz.");
+        post1.setUrl("http://www.fakeurl.com/whatisthis/this.html");
+        post1.setPublishedAt(new Date(2000, 11, 10));
+        posts.add(this.repo.save(post1));
 
-        posts.add(this.repo.save(
-                new Post("The NY Times",
-                        "Harry Cochlear-Implant",
-                        "What is a good person?",
-                        "lorem ipsum enz.",
-                        "http://www.fakeurl2.com/whatisthis/this.html",
-                        "none",
-                        new Date(2016, 1, 27)
-                )));
+        Post post2 = new Post();
+        post2.setSource("ny-times");
+        post2.setSourceName("The NY Times");
+        post2.setAuthor("Harry Cochlear-Implant");
+        post2.setTitle("What is a good person?");
+        post2.setContentText("lorem ipsum enz.");
+        post2.setUrl("http://www.fakeurl2.com/whatisthis/this.html");
+        post2.setPublishedAt(new Date(2016, 1, 27));
+        posts.add(this.repo.save(post2));
 
-        posts.add(this.repo.save(
-                new Post("De Tilburger",
-                        "Jan Karel Klojo",
-                        "Blah blah blah.",
-                        "ipsum lorem.",
-                        "http://www.neppetilburg.nl/dit",
-                        "none",
-                        new Date(2017, 11, 8)
-                )));
+        Post post3 = new Post();
+        post3.setSource("tilburger");
+        post3.setSourceName("De Tilburger");
+        post3.setAuthor("Jan Karel Klojo");
+        post3.setTitle("Blah blah blah.");
+        post3.setContentText("ipsum lorem.");
+        post3.setUrl("http://www.neppetilburg.nl/dit");
+        post3.setPublishedAt(new Date(2017, 11, 8));
+        posts.add(this.repo.save(post3));
 
-        posts.add(this.repo.save(
-                new Post("The Post 2",
-                        "Henry Hicker",
-                        "People are terrible.",
-                        "lorem.",
-                        "http://www.abc.nl",
-                        "none",
-                        new Date(1995, 11, 10)
-                )));
+        Post post4 = new Post();
+        post4.setSource("the-post-2");
+        post4.setSourceName("The Post 2");
+        post4.setAuthor("Henry Hicker");
+        post4.setTitle("People are terrible.");
+        post4.setContentText("lorem.");
+        post4.setUrl("http://www.abc.nl");
+        post4.setPublishedAt(new Date(1995, 11, 10));
+        posts.add(this.repo.save(post4));
 
     }
 
     @After
-    public void clear() throws Exception{
+    public void clear() throws Exception {
         this.repo.deleteAll();
     }
 
@@ -119,22 +119,22 @@ public class PostControllerTest {
         this.mockMvc.perform(get("/post"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(5)))
-                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //superfluous ordered parameter
         this.mockMvc.perform(get("/post?ordered={ordered}", true))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //unordered list
         this.mockMvc.perform(get("/post?ordered={ordered}", false))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[1].source", is("The Post")));
+                .andExpect(jsonPath("$[1].sourceName", is("The Post")));
     }
 
     @Test
     public void getPostByUuid() throws Exception {
         this.mockMvc.perform(get("/post/uuid/{uuid}", posts.get(1).getUuid()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.source", is("The Post")));
+                .andExpect(jsonPath("$.sourceName", is("The Post")));
     }
 
     @Test
@@ -143,18 +143,18 @@ public class PostControllerTest {
         this.mockMvc.perform(get("/post/afterdate/{date}", new Date(2010, 11, 10)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //superfluous ordered parameter
         this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), true))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].source", is("De Tilburger")));
+                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //unordered list
         this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), false))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].source", is("The NY Times")));
+                .andExpect(jsonPath("$[0].sourceName", is("The NY Times")));
     }
 
-    @Bean(destroyMethod="close")
+    @Bean(destroyMethod = "close")
     public static Mongo mongo() throws IOException {
         return new EmbeddedMongoBuilder()
                 .version("2.4.5")

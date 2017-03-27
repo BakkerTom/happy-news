@@ -1,4 +1,4 @@
-package nl.fhict.happynews.android.Activitys;
+package nl.fhict.happynews.android.activity;
 
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import nl.fhict.happynews.android.Adapters.PostAdapter;
-import nl.fhict.happynews.android.Models.Post;
+import nl.fhict.happynews.android.adapter.PostAdapter;
+import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
 
