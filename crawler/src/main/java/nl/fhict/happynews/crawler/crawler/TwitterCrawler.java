@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Sander on 27/03/2017.
  */
-public class TwitterCrawler extends Crawler<NewsSource> {
+public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
     private org.slf4j.Logger logger;
@@ -30,15 +30,16 @@ public class TwitterCrawler extends Crawler<NewsSource> {
     }
 
     @Override
-    List<NewsSource> getRaw() {
+    List<Status> getRaw() {
         //TODO
         return null;
     }
 
     @Override
-    List<Post> rawToPosts(NewsSource entity) {
+    List<Post> rawToPosts(Status entity) {
         return null;
     }
+
 
     public List<Post> getTweets() {
         logger.info("Start getting tweets");
