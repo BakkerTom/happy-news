@@ -1,4 +1,4 @@
-package nl.fhict.happynews.android.Adapters;
+package nl.fhict.happynews.android.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import nl.fhict.happynews.android.Models.Post;
+import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
-import nl.fhict.happynews.android.ViewHolders.PostHolder;
-import nl.fhict.happynews.android.ViewHolders.PostImageHolder;
+import nl.fhict.happynews.android.viewholder.PostHolder;
+import nl.fhict.happynews.android.viewholder.PostImageHolder;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Post post = posts.get(position);
 
-        if (post.getImageUrl() != null) {
+        if (post.getImageUrls() != null) {
             return 1;
         }
 

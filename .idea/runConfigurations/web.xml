@@ -5,9 +5,7 @@
     <option name="ALTERNATIVE_JRE_PATH" />
     <module name="web" />
     <envs />
-    <RunnerSettings RunnerId="JProfiler">
-      <option name="WINDOW" value="false" />
-    </RunnerSettings>
+    <RunnerSettings RunnerId="JProfiler" />
     <method />
   </configuration>
 </component>

@@ -3,9 +3,9 @@ package nl.fhict.happynews.crawler;
 
 import com.mongodb.Mongo;
 import cz.jirutka.spring.embedmongo.EmbeddedMongoBuilder;
-import nl.fhict.happynews.crawler.models.newsapi.Article;
-import nl.fhict.happynews.crawler.models.newsapi.NewsSource;
-import nl.fhict.happynews.crawler.models.newsapi.Source;
+import nl.fhict.happynews.crawler.model.newsapi.Article;
+import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
+import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.PostRepository;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
@@ -21,7 +21,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -53,72 +52,65 @@ public class CrawlerControllerTest {
 
     @Test
     public void savePosts() throws Exception {
-        posts = new ArrayList<Post>();
+        posts = new ArrayList<>();
 
-        posts.add(
-                new Post("The Post",
-                        "Henry Hicker",
-                        "People are terrible.",
-                        "lorem ipsum enz.",
-                        "http://www.fakeurl.com/whatisthis/this.html",
-                        "none",
-                        new Date(1995, 11, 10)
-                ));
+        Post post1 = new Post();
+        post1.setSource("the-post");
+        post1.setSourceName("The Post");
+        post1.setAuthor("Henry Hicker");
+        post1.setTitle("People are terrible");
+        post1.setContentText("lorem ipsum enz.");
+        post1.setUrl("http://www.fakeurl.com/whatisthis/this.html");
+        post1.setPublishedAt(new Date(1995, 11, 10));
+        posts.add(post1);
 
-        posts.add(
-                new Post("The NY Times",
-                        "Harry Cochlear-Implant",
-                        "What is a good person?",
-                        "lorem ipsum enz.",
-                        "http://www.fakeurl2.com/whatisthis/this.html",
-                        "none",
-                        new Date(2017, 1, 27)
-                ));
+        Post post2 = new Post();
+        post2.setSource("ny-times");
+        post2.setSourceName("The NY Times");
+        post2.setAuthor("Harry Cochlear-Implant");
+        post2.setTitle("What is a good person?");
+        post2.setContentText("lorem ipsum enz.");
+        post2.setUrl("http://www.fakeurl2.com/whatisthis/this.html");
+        post2.setPublishedAt(new Date(2017, 1, 27));
+        posts.add(post2);
 
-        posts.add(
-                new Post("De Tilburger",
-                        "Jan Karel Klojo",
-                        "Blah blah blah.",
-                        "ipsum lorem.",
-                        "http://www.neppetilburg.nl/dit",
-                        "none",
-                        new Date(2016, 11, 8)
-                ));
+        Post post3 = new Post();
+        post3.setSource("tilburger");
+        post3.setSourceName("De Tilburger");
+        post3.setAuthor("Jan Karel Klojo");
+        post3.setTitle("Blah blah blah.");
+        post3.setContentText("ipsum lorem.");
+        post3.setUrl("http://www.neppetilburg.nl/dit");
+        post3.setPublishedAt(new Date(2016, 11, 8));
+        posts.add(post3);
 
-        posts.add(
-                new Post("The Post",
-                        "Henry Hicker",
-                        "People are terrible.",
-                        "lorem.",
-                        "http://www.abc.nl",
-                        "none",
-                        new Date(2000, 11, 10)
-                ));
+        Post post4 = new Post();
+        post4.setSource("the-post");
+        post4.setSourceName("The Post");
+        post4.setAuthor("Henry Hicker");
+        post4.setTitle("People are terrible");
+        post4.setContentText("lorem ipsum enz.");
+        post4.setUrl("http://www.abc.nl");
+        post4.setPublishedAt(new Date(2000, 11, 10));
+        posts.add(post4);
+
         controller.savePosts(posts);
 
-        Assert.assertEquals(4,postRepository.findAll().size());
+        Assert.assertEquals(4, postRepository.findAll().size());
 
         posts = new ArrayList<>();
-        posts.add(
-                new Post("The Post",
-                        "Henry Hicker",
-                        "People are terrible.",
-                        "lorem.",
-                        "http://www.abc.nl",
-                        "none",
-                        new Date(2000, 11, 10)
-                ));
+        posts.add(post4);
 
         controller.savePosts(posts);
 
-        Assert.assertEquals(4,postRepository.findAll().size());
+        Assert.assertEquals(4, postRepository.findAll().size());
 
 
     }
 
 
     @Test
-    public void getSources(){
+    public void getSources() {
         List<Source> sources = new ArrayList<>();
         sourceRepository.deleteAll();
         sources.add(new Source("the-next-web", "latest"));
@@ -126,7 +118,7 @@ public class CrawlerControllerTest {
         sources.add(new Source("bbc", "top"));
         sourceRepository.save(sources);
 
-        Assert.assertEquals(3,controller.getSources().size());
+        Assert.assertEquals(3, controller.getSources().size());
     }
 
     @Test

@@ -1,11 +1,15 @@
-package nl.fhict.happynews.android.Activitys;
+package nl.fhict.happynews.android.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD:android/src/main/java/nl/fhict/happynews/android/Activitys/MainActivity.java
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import nl.fhict.happynews.android.Adapters.FeedAdapter;
+import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.Models.Post;
+=======
+import nl.fhict.happynews.android.model.Post;
+>>>>>>> master:android/src/main/java/nl/fhict/happynews/android/activity/MainActivity.java
 import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
 
