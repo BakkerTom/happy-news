@@ -10,6 +10,7 @@ import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -41,6 +42,8 @@ public class CrawlerController {
 
     private Logger logger;
 
+    @Value("${crawler.enabled:true}")
+    private boolean enabled;
 
     public CrawlerController() {
         logger = LoggerFactory.getLogger(CrawlerController.class);
@@ -81,6 +84,11 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${crawler.delay}")
     public List<Post> getNewsPosts() {
+        if (!enabled) {
+            logger.info("Crawler disabled, ignoring crawl request");
+            return new ArrayList<>();
+        }
+
         List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();

@@ -16,6 +16,11 @@
       "description": "The API url for NewsAPI.org."
     },
     {
+      "name": "crawler.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the crawler should run. Defaults to \"true\"."
+    },
+    {
       "name": "extractor.article.apikey",
       "type": "java.lang.String",
       "description": "The API key for extracting articles."
