@@ -5,12 +5,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
 
 /**
  * An extractor for the body of an article.
@@ -24,10 +27,17 @@ public class ArticleExtractor implements ContentExtractor {
     private HttpEntity entity;
     private Whitelist whitelist = new Whitelist();
 
-    private String apiPrefix = "https://mercury.postlight.com/parser?url=";
-    private String apiKey = "fbfOQzeyQ0aXewj3oxJQ1D9zP24QuoBAxejPadhr";
+    @Value("${extractor.article.apiurl}")
+    private String apiPrefix;
+
+    @Value("${extractor.article.apikey}")
+    private String apiKey;
 
     public ArticleExtractor() {
+    }
+
+    @PostConstruct
+    public void init() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-api-key", apiKey);
 
