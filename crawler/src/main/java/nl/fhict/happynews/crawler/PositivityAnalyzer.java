@@ -1,12 +1,14 @@
 package nl.fhict.happynews.crawler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -19,26 +21,29 @@ import java.util.*;
 public class PositivityAnalyzer {
 
     @Autowired
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
+
+    private Logger logger = LoggerFactory.getLogger(PositivityAnalyzer.class);
 
     private HashSet<String> positiveWords;
     private HashSet<String> negativeWords;
 
 
+    @PostConstruct
+    private void init() {
+        positiveWords = loadWords("positivewords.txt");
+        negativeWords = loadWords("negativewords.txt");
+    }
+
+
     public double analyzeText(String inputText) {
         HashSet<String> inputWords = getUniqueWords(inputText);
-        loadPositiveWords();
-        loadNegativeWords();
         int pos = 0;
         int neg = 0;
-        Iterator iterator = inputWords.iterator();
-        while (iterator.hasNext()) {
-            String word = (String) iterator.next();
+        for (String word : inputWords) {
             if (positiveWords.contains(word)) {
-                System.out.println("Positive word found: " + word);
                 pos++;
             } else if (negativeWords.contains(word)) {
-                System.out.println("Negative word found: " + word);
                 neg++;
             }
         }
@@ -49,41 +54,23 @@ public class PositivityAnalyzer {
         String[] words = inputText.split("[,.:;\\s\\n]");
         HashSet<String> uniqueWords = new HashSet<>();
         uniqueWords.remove("");
-        for (String word : words) {
-            uniqueWords.add(word);
-        }
+        Collections.addAll(uniqueWords, words);
         return uniqueWords;
     }
 
-    private void loadPositiveWords() {
-        positiveWords = new HashSet<>();
+    private HashSet<String> loadWords(String file) {
+        HashSet<String> words = new HashSet<>();
         try {
-            Resource resource = applicationContext.getResource("classpath:/positivewords.txt");
+            Resource resource = applicationContext.getResource("classpath:/" + file);
             BufferedReader reader = new BufferedReader(new FileReader(resource.getFile()));
             String word;
             while ((word = reader.readLine()) != null) {
-                positiveWords.add(word);
+                words.add(word);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading from wordfile", e);
         }
+        return words;
     }
 
-    private void loadNegativeWords() {
-        negativeWords = new HashSet<>();
-        try {
-            Resource resource = applicationContext.getResource("classpath:/negativewords.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(resource.getFile()));
-            String word;
-            while ((word = reader.readLine()) != null) {
-                negativeWords.add(word);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
