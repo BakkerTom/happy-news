@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.is;
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = {Application.class})
 public class ArticleExtractorTest {
 
     @Autowired
@@ -46,5 +48,30 @@ public class ArticleExtractorTest {
                 "language = \"php\"" +
                 "I process this file using JavaScript in generateReadme.js. It handles processing the TOML, fetching information from GitHub, and generating the final README.md file using the Handlebars template. I’m scraping GitHub for star counts because GitHub’s API only allows for 60 requests an hour for authenticated users. We want to make it as easy as possible for anyone to contribute. Requiring users to generate a GitHub authentication token to generate the README wasn’t an option." +
                 "By storing the data in TOML at generating the README.md using JavaScript, I’ve essentially created an incredibly light-weight, GitHub backed, static CMS to power Awesome CMS.I heard you like content management systems"));
+    }
+
+    @Test
+    public void testNotFound() {
+        Post post = new Post();
+
+        post.setTitle("Building Awesome CMS");
+        post.setContentText("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can add to it via a pull request. Here are some notes on how and why it came to be.");
+        post.setUrl("invalid.:/");
+
+        String result = extractor.extract(post);
+
+        assertThat(result, is("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can add to it via a pull request. Here are some notes on how and why it came to be."));
+    }
+
+    @Test
+    public void testNoUrl() {
+        Post post = new Post();
+
+        post.setTitle("Building Awesome CMS");
+        post.setContentText("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can add to it via a pull request. Here are some notes on how and why it came to be.");
+
+        String result = extractor.extract(post);
+
+        assertThat(result, is("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can add to it via a pull request. Here are some notes on how and why it came to be."));
     }
 }

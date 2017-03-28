@@ -54,7 +54,9 @@ public class ArticleExtractor implements ContentExtractor {
             do {
                 response = restTemplate.exchange(nextUrl, HttpMethod.GET, entity, MercuryResponse.class).getBody();
 
-                builder.append(Jsoup.clean(response.getContent(), whitelist));
+                if (response.getContent() != null) {
+                    builder.append(Jsoup.clean(response.getContent(), whitelist));
+                }
 
                 nextUrl = apiPrefix + response.getNextPageUrl();
             } while (response.getNextPageUrl() != null);
