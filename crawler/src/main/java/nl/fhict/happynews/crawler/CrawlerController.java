@@ -89,6 +89,11 @@ public class CrawlerController {
             return new ArrayList<>();
         }
 
+        return doGetNewsPosts();
+    }
+
+
+    public List<Post>doGetNewsPosts(){
         List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
@@ -102,7 +107,6 @@ public class CrawlerController {
         savePosts(posts);
         return posts;
     }
-
 
     /**
      * Get sources from database

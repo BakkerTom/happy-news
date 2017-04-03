@@ -46,8 +46,9 @@ public class PositivityAnalyzer {
             } else if (negativeWords.contains(word)) {
                 neg++;
             }
-        }
-        return 10 * ((1.5 * pos - neg) / (1.5 * (pos + neg)));
+    }
+
+        return 0.7203*pos - neg;
     }
 
     private HashSet<String> getUniqueWords(String inputText) {
