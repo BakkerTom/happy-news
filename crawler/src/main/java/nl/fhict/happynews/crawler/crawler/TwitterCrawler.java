@@ -18,7 +18,7 @@ public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
     private String hashTags[] = {"#happy", "#positivethinking", "#positivemind", "#positivity", "#Happiness", "#success"};
-    private String hashTag;
+    private String hashTag = "#happy";
     private int amountOfTweets = 200;
 
     public TwitterCrawler() {
@@ -88,7 +88,7 @@ public class TwitterCrawler extends Crawler<Status> {
      * @param statuses raw statuses from twitter (method getRaw)
      * @return List of Post objects
      */
-    private List<Post> rawToPosts(List<Status> statuses) {
+    public List<Post> rawToPosts(List<Status> statuses) {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return statuses.stream()
                 .filter(status -> !status.isPossiblySensitive())
