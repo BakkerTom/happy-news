@@ -1,5 +1,6 @@
 package nl.fhict.happynews.crawler;
 
+import nl.fhict.happynews.crawler.analyzer.PositivityAnalyzer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package nl.fhict.happynews.crawler;
+package nl.fhict.happynews.crawler.analyzer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
