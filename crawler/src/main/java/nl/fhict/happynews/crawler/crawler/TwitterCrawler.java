@@ -17,9 +17,8 @@ import java.util.stream.Collectors;
 public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
-    private String hashTag = "#goodnews";
+    private String hashTags = "#happy";
     private int amountOfTweets = 100;
-
 
     public TwitterCrawler() {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
@@ -30,6 +29,8 @@ public class TwitterCrawler extends Crawler<Status> {
     public void crawl() {
         List<Status> rawData = getRaw();
         List<Post> posts = rawToPosts(rawData);
+        logger.info("Filtered " + (amountOfTweets - posts.size()) + " tweets from the " + amountOfTweets + "");
+        logger.info("Saving " + posts.size() + " tweets to the database");
         savePosts(posts);
     }
 
@@ -41,13 +42,13 @@ public class TwitterCrawler extends Crawler<Status> {
     @Override
     List<Status> getRaw() {
         logger.info("Start getting tweets");
-        Query query = new Query(hashTag);
+        Query query = new Query(hashTags);
         query.count(amountOfTweets);
         List<Status> rawData = new ArrayList<>();
         try {
             QueryResult result = twitter.search(query);
             rawData.addAll(result.getTweets());
-            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #happy");
+            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #" + hashTags);
         } catch (TwitterException e) {
             logger.error("TwitterException: " + e.getErrorMessage());
         }
@@ -63,14 +64,19 @@ public class TwitterCrawler extends Crawler<Status> {
      * Method that converts the status objects to posts
      * filters the tweets that are possibly sensitive
      * filters tweets that contain non ascii characters
+     * filters tweets that are older than 1 hour
+     * filters tweets that are not retweeted
      *
      * @param statuses raw statuses from twitter (method getRaw)
      * @return List of Post objects
      */
     private List<Post> rawToPosts(List<Status> statuses) {
+        Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return statuses.stream()
                 .filter(status -> !status.isPossiblySensitive())
                 .filter(status -> status.getText().matches("\\A\\p{ASCII}*\\z"))
+                .filter(status -> status.getCreatedAt().after(d))
+                .filter(status -> status.getRetweetCount() >= 1)
                 .map(this::convertStatusToPost)
                 .collect(Collectors.toList());
     }
