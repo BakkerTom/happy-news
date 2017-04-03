@@ -46,6 +46,7 @@ public class ArticleExtractor implements ContentExtractor {
 
     @Override
     public String extract(Post post) {
+        logger.info("Extracting " + post.getUrl());
         StringBuilder builder = new StringBuilder();
 
         String nextUrl = apiPrefix + post.getUrl();

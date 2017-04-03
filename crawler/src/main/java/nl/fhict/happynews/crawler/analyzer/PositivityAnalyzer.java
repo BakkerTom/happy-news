@@ -11,7 +11,8 @@ import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * Rates texts by their positivity score
@@ -36,7 +37,7 @@ public class PositivityAnalyzer {
     }
 
 
-    public double analyzeText(String inputText) {
+    public boolean analyzeText(String inputText) {
         HashSet<String> inputWords = getUniqueWords(inputText);
         int pos = 0;
         int neg = 0;
@@ -47,7 +48,12 @@ public class PositivityAnalyzer {
                 neg++;
             }
         }
-        return 10 * ((1.5 * pos - neg) / (1.5 * (pos + neg)));
+
+        boolean isPositive = 0.7203 * pos - neg > 3;
+
+        logger.info("Positive? " + (isPositive ? "Yes" : "No"));
+
+        return isPositive;
     }
 
     private HashSet<String> getUniqueWords(String inputText) {
