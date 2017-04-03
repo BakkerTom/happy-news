@@ -12,9 +12,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Rates texts by their positivity score
+ * Rates texts by a positivity score
  * Created by daan_ on 27-3-2017.
  */
 @Component
@@ -29,6 +30,9 @@ public class PositivityAnalyzer {
     private HashSet<String> negativeWords;
 
 
+    /**
+     * Loads the wordlists on application startup.
+     */
     @PostConstruct
     private void init() {
         positiveWords = loadWords("positivewords.txt");
@@ -36,29 +40,48 @@ public class PositivityAnalyzer {
     }
 
 
-    public double analyzeText(String inputText) {
-        HashSet<String> inputWords = getUniqueWords(inputText);
-        int pos = 0;
-        int neg = 0;
-        for (String word : inputWords) {
-            if (positiveWords.contains(word)) {
-                pos++;
-            } else if (negativeWords.contains(word)) {
-                neg++;
+    /**
+     * rates the positivity of a text based on the words it contains
+     * @param inputText the text to be analyzed
+     * @return true if positive
+     */
+    public boolean analyzeText(String inputText) {
+        HashMap<String, Integer> inputWords = getUniqueWords(inputText);
+        AtomicInteger pos = new AtomicInteger();
+        AtomicInteger neg = new AtomicInteger();
+        inputWords.forEach((word, count) -> {
+            if(positiveWords.contains(word)) {
+                pos.addAndGet(count);
             }
+            else if(negativeWords.contains(word)){
+                neg.addAndGet(count);
+        }});
+
+        int positive = pos.get();
+        int negative = neg.get();
+        return 0.7203*positive - negative > 3;
     }
 
-        return 0.7203*pos - neg;
-    }
-
-    private HashSet<String> getUniqueWords(String inputText) {
+    /**
+     * Gets the unique words per text and their frequency.
+     * @param inputText
+     * @return
+     */
+    private HashMap<String, Integer> getUniqueWords(String inputText) {
         String[] words = inputText.split("[,.:;\\s\\n]");
-        HashSet<String> uniqueWords = new HashSet<>();
+        HashMap<String,Integer> uniqueWords = new HashMap<>();
+        for(String word : words){
+            uniqueWords.merge(word,1,(integer, integer2) -> integer + integer2);
+        }
         uniqueWords.remove("");
-        Collections.addAll(uniqueWords, words);
         return uniqueWords;
     }
 
+    /**
+     * Load word from a file
+     * @param file filename for file located in resource folder
+     * @return set of words
+     */
     private HashSet<String> loadWords(String file) {
         HashSet<String> words = new HashSet<>();
         try {
