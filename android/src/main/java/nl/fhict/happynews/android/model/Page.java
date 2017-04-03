@@ -7,14 +7,9 @@ import java.util.ArrayList;
  */
 public class Page {
 
-    ArrayList<Post> content;
-    boolean first;
-    boolean last;
-    int number;
-    int numberOfElements;
-    int size;
-    int totalElements;
-    int totalPages;
+    private ArrayList<Post> content;
+    private boolean last;
+    private int number;
 
     public Page() {
 
@@ -22,10 +17,6 @@ public class Page {
 
     public ArrayList<Post> getContent() {
         return content;
-    }
-
-    public boolean isFirst() {
-        return first;
     }
 
     public boolean isLast() {

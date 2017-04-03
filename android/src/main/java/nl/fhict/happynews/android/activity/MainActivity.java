@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private FeedAdapter feedAdapter;
 
-    private boolean loading = true;
+    private boolean loading;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private static final int PAGE_SIZE = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         postManager.setFeedAdapter(feedAdapter);
-        postManager.loadPage(0, 20, this);
+        postManager.loadPage(0, PAGE_SIZE, this);
+        loading = true;
 
         addScrollListener();
     }
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                             loading = false;
                             Page lastPage = feedAdapter.getLastPage();
                             if (!lastPage.isLast()) {
-                                postManager.loadPage(lastPage.getNumber() + 1, 20, getApplicationContext());
+                                postManager.loadPage(lastPage.getNumber() + 1, PAGE_SIZE, getApplicationContext());
                             }
                         }
                     }

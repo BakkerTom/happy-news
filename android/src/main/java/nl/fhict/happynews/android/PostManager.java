@@ -1,21 +1,17 @@
 package nl.fhict.happynews.android;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.activity.MainActivity;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
-import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.model.Page;
-import nl.fhict.happynews.android.model.Post;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -23,15 +19,12 @@ import java.util.List;
 public class PostManager {
 
     private static PostManager ourInstance = new PostManager();
-
     public static PostManager getInstance() {
         return ourInstance;
     }
-
-    private String API_URL = "https://happynews-api.svendubbeld.nl";
+    private static final String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
-
-    private MainActivity activity;
+    private MainActivity mainActivity;
 
     private PostManager() {}
 
@@ -67,8 +60,8 @@ public class PostManager {
 
                             feedAdapter.addPage(result);
 
-                            if (activity != null){
-                                activity.didFinishLoading(); //Notifiy activity that loading is done
+                            if (mainActivity != null){
+                                mainActivity.didFinishLoading(); //Notifiy mainActivity that loading is done
                             }
                         } else {
                             Log.e("PostManager", "Json Exception: ", e);
@@ -91,6 +84,6 @@ public class PostManager {
      * @param activity
      */
     public void subscribeActivity(MainActivity activity){
-        this.activity = activity;
+        this.mainActivity = activity;
     }
 }
