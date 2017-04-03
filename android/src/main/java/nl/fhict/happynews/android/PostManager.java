@@ -23,7 +23,6 @@ public class PostManager {
     }
     private static final String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
-    private LoadListener listener;
 
     private PostManager() {}
 
@@ -78,11 +77,4 @@ public class PostManager {
         this.feedAdapter = feedAdapter;
     }
 
-    /**
-     * Subscribes a LoadListener to the PostManager to notify when finished loading
-     * @param listener
-     */
-    public void subscribeListener(LoadListener listener){
-        this.listener = listener;
-    }
 }
