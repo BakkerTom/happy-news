@@ -1,16 +1,19 @@
 package nl.fhict.happynews.crawler;
 
 import nl.fhict.happynews.crawler.analyzer.PositivityAnalyzer;
-import nl.fhict.happynews.crawler.extractor.ArticleExtractor;
-import nl.fhict.happynews.crawler.repository.PostRepository;
-import nl.fhict.happynews.shared.Post;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import java.io.IOException;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by daan_ on 27-3-2017.
@@ -19,27 +22,17 @@ import java.util.List;
 @SpringBootTest
 public class PositivityAnalyzerTest {
 
-
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Autowired
     private PositivityAnalyzer positivityAnalyzer;
 
-    @Autowired
-    private ArticleExtractor articleExtractor;
-
-    @Autowired
-    private CrawlerController crawlerController;
-
-
     @Test
-    public void testAnalyzeText() {
-        List<Post> posts = crawlerController.doGetNewsPosts();
-        for(Post p : posts){
-            String text = articleExtractor.extract(p);
-            double score = positivityAnalyzer.analyzeText(text);
-            System.out.println(","+p.getUrl());
-        }
+    public void testAnalyzeText() throws IOException {
+        Resource resource = applicationContext.getResource("classpath:/positiveText.txt");
+        boolean positive = positivityAnalyzer.analyzeText(FileUtils.readFileToString(resource.getFile()));
 
-
+        assertThat(positive, is(true));
     }
 }

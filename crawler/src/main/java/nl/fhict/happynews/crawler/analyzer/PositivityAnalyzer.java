@@ -11,7 +11,9 @@ import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -53,13 +55,16 @@ public class PositivityAnalyzer {
             if(positiveWords.contains(word)) {
                 pos.addAndGet(count);
             }
-            else if(negativeWords.contains(word)){
-                neg.addAndGet(count);
-        }});
+    else if(negativeWords.contains(word)){
+                neg.addAndGet(count);}});
 
         int positive = pos.get();
         int negative = neg.get();
-        return 0.7203*positive - negative > 3;
+        boolean isPositive = 0.7203*positive - negative > 3;
+
+        logger.info("Positive? " + (isPositive ? "Yes" : "No"));
+
+        return isPositive;
     }
 
     /**
