@@ -37,7 +37,7 @@ public class ArticleExtractor implements ContentExtractor {
     }
 
     @PostConstruct
-    public void init() {
+    private void init() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-api-key", apiKey);
 

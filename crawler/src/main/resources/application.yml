@@ -1,11 +1,12 @@
-news:
-  delay: 3600000
-  apikey: "c96e519c4c484966b2929b4177b91749"
-  apiurl: "https://newsapi.org/v1/articles"
-instagram:
-  delay: 1
-  apikey: "test"
-  apiurl: "test"
+crawler:
+  news:
+    delay: 3600000
+    apikey: "c96e519c4c484966b2929b4177b91749"
+    apiurl: "https://newsapi.org/v1/articles"
+  instagram:
+    delay: 1
+    apikey: "test"
+    apiurl: "test"
 extractor:
   article:
     apikey: "fbfOQzeyQ0aXewj3oxJQ1D9zP24QuoBAxejPadhr"

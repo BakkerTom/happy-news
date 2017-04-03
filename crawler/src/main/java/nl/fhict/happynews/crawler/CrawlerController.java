@@ -43,7 +43,7 @@ public class CrawlerController {
 
     private Logger logger;
 
-    @Value("${crawler.enabled:true}")
+    @Value("${crawler.news.enabled:true}")
     private boolean enabled;
 
     public CrawlerController() {
@@ -83,7 +83,7 @@ public class CrawlerController {
     /**
      * Get the data from the newsApi.org website on a fixed rate specified in application.yml.
      */
-    @Scheduled(fixedDelayString = "${news.delay}")
+    @Scheduled(fixedDelayString = "${crawler.news.delay}")
     public List<Post> getNewsPosts() {
         if (!enabled) {
             logger.info("Crawler disabled, ignoring crawl request");
