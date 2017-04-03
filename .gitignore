@@ -47,6 +47,8 @@ Temporary Items
 .idea/*
 *.iml
 !.idea/runConfigurations/
+!.idea/inspectionProfiles/
+!.idea/scopes/
 
 ## File-based project format:
 *.iws
