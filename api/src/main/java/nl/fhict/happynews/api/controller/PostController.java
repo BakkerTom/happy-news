@@ -25,26 +25,11 @@ public class PostController {
     private PostRepository postRepository;
 
     /**
-     * Handles a GET request by returning all posts.
-     * @param ordered Whether the list should be ordered by latest or not.
-     * @return The Posts in JSON.
-     */
-    @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getAllPost(@RequestParam(required = false, defaultValue = "true", value="ordered") boolean ordered) {
-        if(ordered){
-            return this.postRepository.findAllByOrderByPublishedAtDesc();
-        }else{
-            return this.postRepository.findAll();
-        }
-    }
-
-
-    /**
-     * Handles a GET request by returning posts in a paginated format.
+     * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
      * @param pageable the page and page size
      * @return A Page with Post information
      */
-    @RequestMapping(value = "/postpage", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
     public Page<Post> getAllByPage(Pageable pageable){
         return this.postRepository.findAllByOrderByPublishedAtDesc(pageable);
     }

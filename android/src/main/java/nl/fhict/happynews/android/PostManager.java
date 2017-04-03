@@ -6,7 +6,6 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import nl.fhict.happynews.android.activity.MainActivity;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.model.Page;
 
@@ -49,7 +48,7 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load(API_URL + "/postpage?page=" + page + "&size=" + size)
+                .load(API_URL + "/post?page=" + page + "&size=" + size)
                 .as(new TypeToken<Page>() {
                 })
                 .setCallback(new FutureCallback<Page>() {
