@@ -97,7 +97,7 @@ public class CrawlerController {
             posts.addAll(convertToPost(newsSource));
         }
         logger.info("Received total of " + posts.size() + " articles");
-        //savePosts(posts);
+        savePosts(posts);
         return posts;
     }
 

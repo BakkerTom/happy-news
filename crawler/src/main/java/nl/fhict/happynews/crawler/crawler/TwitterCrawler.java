@@ -3,8 +3,8 @@ package nl.fhict.happynews.crawler.crawler;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import twitter4j.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +26,11 @@ public class TwitterCrawler extends Crawler<Status> {
         twitter = TwitterFactory.getSingleton();
     }
 
+    /**
+     * adds new positive tweets to the database
+     * checks the different hashtags for suitable happy tweets
+     *
+     */
     @Override
     public void crawl() {
         List<Post> positivePosts = new ArrayList<>();
@@ -49,23 +54,28 @@ public class TwitterCrawler extends Crawler<Status> {
      */
     @Override
     List<Status> getRaw() {
-        logger.info("Start getting tweets from twitter");
+        logger.info("Start getting tweets from twitter with hastag " + hashTag);
         Query query = new Query(hashTag);
         query.count(200);
         List<Status> rawData = new ArrayList<>();
         try {
             QueryResult result = twitter.search(query);
             rawData.addAll(result.getTweets());
-            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #" + hashTag);
+            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag " + hashTag);
         } catch (TwitterException e) {
             logger.error("TwitterException: " + e.getErrorMessage());
         }
         return rawData;
     }
 
+    /**
+     * Not implemented method, see method rawToPosts(List<Status> statuses)
+     * @param entity The raw info object.
+     * @return
+     */
     @Override
     List<Post> rawToPosts(Status entity) {
-        return null;
+        throw new NotImplementedException();
     }
 
     /**
@@ -73,7 +83,7 @@ public class TwitterCrawler extends Crawler<Status> {
      * filters the tweets that are possibly sensitive
      * filters tweets that contain non ascii characters
      * filters tweets that are older than 1 hour
-     * filters tweets that are not retweeted
+     * filters tweets that are retweeted less than 10 times
      *
      * @param statuses raw statuses from twitter (method getRaw)
      * @return List of Post objects
@@ -84,7 +94,7 @@ public class TwitterCrawler extends Crawler<Status> {
                 .filter(status -> !status.isPossiblySensitive())
                 .filter(status -> status.getText().matches("\\A\\p{ASCII}*\\z"))
                 .filter(status -> status.getCreatedAt().after(d))
-                .filter(status -> status.getRetweetCount() >= 1)
+                .filter(status -> status.getRetweetCount() >= 10)
                 .map(this::convertStatusToPost)
                 .collect(Collectors.toList());
     }
