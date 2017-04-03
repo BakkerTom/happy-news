@@ -24,7 +24,7 @@ public class PostManager {
     }
     private static final String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
-    private MainActivity mainActivity;
+    private LoadListener listener;
 
     private PostManager() {}
 
@@ -34,7 +34,7 @@ public class PostManager {
      * @param size
      * @param context
      */
-    public void loadPage(int page, int size, Context context){
+    public void loadPage(int page, int size, Context context, final LoadListener listener){
         Ion.with(context);
         GsonBuilder builder = new GsonBuilder();
 
@@ -60,8 +60,8 @@ public class PostManager {
 
                             feedAdapter.addPage(result);
 
-                            if (mainActivity != null){
-                                mainActivity.didFinishLoading(); //Notifiy mainActivity that loading is done
+                            if (listener != null){
+                                listener.onFinishedLoading(); //Notify the listening activity when the loading is finished
                             }
                         } else {
                             Log.e("PostManager", "Json Exception: ", e);
@@ -80,10 +80,10 @@ public class PostManager {
     }
 
     /**
-     * Subscribes an Activity to the PostManager to notify when finished loading
-     * @param activity
+     * Subscribes a LoadListener to the PostManager to notify when finished loading
+     * @param listener
      */
-    public void subscribeActivity(MainActivity activity){
-        this.mainActivity = activity;
+    public void subscribeListener(LoadListener listener){
+        this.listener = listener;
     }
 }
