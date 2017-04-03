@@ -44,9 +44,9 @@ public class PostController {
      * @param pageable the page and page size
      * @return A Page with Post information
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/postpage", method = RequestMethod.GET, produces = "application/json")
     public Page<Post> getAllByPage(Pageable pageable){
-        return this.postRepository.findAll(pageable);
+        return this.postRepository.findAllByOrderByPublishedAtDesc(pageable);
     }
 
     /**
