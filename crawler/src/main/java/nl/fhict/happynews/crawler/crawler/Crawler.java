@@ -23,7 +23,7 @@ import java.util.List;
 public abstract class Crawler<T> {
 
     @Autowired
-    protected PostRepository postRepository;
+    private PostRepository postRepository;
 
     protected Logger logger;
 

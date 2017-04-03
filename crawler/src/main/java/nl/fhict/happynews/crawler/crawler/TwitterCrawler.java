@@ -18,12 +18,13 @@ public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
     private String hashTags[] = {"#happy", "#positivethinking", "#positivemind", "#positivity", "#Happiness", "#success"};
-    private String hashTag = "#happy";
-    private int amountOfTweets = 200;
+    private String hashTag;
+    private final static int AMOUNTOFTWEETS = 200;
 
     public TwitterCrawler() {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
         twitter = TwitterFactory.getSingleton();
+        hashTag = "#happy";
     }
 
     /**
@@ -34,14 +35,12 @@ public class TwitterCrawler extends Crawler<Status> {
     @Override
     public void crawl() {
         List<Post> positivePosts = new ArrayList<>();
-        int i = 0;
-        while (positivePosts.size() <= 25 && i < hashTags.length) {
+        for(int i = 0; positivePosts.size() <= 25 && i < hashTags.length; i++){
             hashTag = hashTags[i];
             List<Status> rawData = getRaw();
             List<Post> posts = rawToPosts(rawData);
-            logger.info("Filtered " + (amountOfTweets - posts.size()) + " tweets from the " + amountOfTweets + " with " + hashTag + "");
+            logger.info("Filtered " + (AMOUNTOFTWEETS - posts.size()) + " tweets from the " + AMOUNTOFTWEETS + " with " + hashTag + "");
             positivePosts.addAll(posts);
-            i++;
         }
         logger.info("Saving " + positivePosts.size() + " tweets to the database");
         savePosts(positivePosts);
@@ -61,7 +60,7 @@ public class TwitterCrawler extends Crawler<Status> {
         try {
             QueryResult result = twitter.search(query);
             rawData.addAll(result.getTweets());
-            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag " + hashTag);
+            logger.info("Received total of " + AMOUNTOFTWEETS + " tweets from twitter with hashtag " + hashTag);
         } catch (TwitterException e) {
             logger.error("TwitterException: " + e.getErrorMessage());
         }
