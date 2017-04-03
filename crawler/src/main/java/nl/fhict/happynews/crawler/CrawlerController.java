@@ -138,9 +138,9 @@ public class CrawlerController {
 
                 if (article.getPublishedAt() != null) {
                     post.setPublishedAt(article.getPublishedAt());
-                } else {
-                    post.setIndexedAt(new Date());
                 }
+
+                post.setIndexedAt(new Date());
 
                 post.setType(Post.Type.ARTICLE);
 
