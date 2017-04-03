@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Tobi on 27-Mar-17.
  */
+@Service
 public abstract class Crawler<T> {
 
     @Autowired

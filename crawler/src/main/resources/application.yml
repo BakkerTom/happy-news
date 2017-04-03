@@ -5,7 +5,7 @@ news:
 instagram:
   delay: 1
   apikey: "test"
-  apiurl: "test"
+  apiurl: "https://api.instagram.com/v1/"
 server:
   port: 8081
 management:
