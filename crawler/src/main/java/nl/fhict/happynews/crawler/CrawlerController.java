@@ -1,6 +1,7 @@
 package nl.fhict.happynews.crawler;
 
 
+import nl.fhict.happynews.crawler.crawler.TwitterCrawler;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.model.newsapi.Source;
@@ -42,6 +43,9 @@ public class CrawlerController {
 
     private Logger logger;
 
+    @Autowired
+    private TwitterCrawler tc;
+
 
     public CrawlerController() {
         logger = LoggerFactory.getLogger(CrawlerController.class);
@@ -82,6 +86,7 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${news.delay}")
     public List<Post> getNewsPosts() {
+        tc.crawl();
         List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
@@ -92,7 +97,7 @@ public class CrawlerController {
             posts.addAll(convertToPost(newsSource));
         }
         logger.info("Received total of " + posts.size() + " articles");
-        savePosts(posts);
+        //savePosts(posts);
         return posts;
     }
 

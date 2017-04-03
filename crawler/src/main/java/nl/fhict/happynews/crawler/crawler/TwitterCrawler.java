@@ -1,12 +1,10 @@
 package nl.fhict.happynews.crawler.crawler;
 
-import javafx.geometry.Pos;
-import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import twitter4j.*;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,40 +13,41 @@ import java.util.stream.Collectors;
 /**
  * Created by Sander on 27/03/2017.
  */
+@Service
 public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
-    private String API_KEY;
-    private org.slf4j.Logger logger;
+    private String hashTag = "#goodnews";
+    private int amountOfTweets = 100;
+
 
     public TwitterCrawler() {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
         twitter = TwitterFactory.getSingleton();
-        crawl();
     }
 
     @Override
-    void crawl() {
+    public void crawl() {
         List<Status> rawData = getRaw();
         List<Post> posts = rawToPosts(rawData);
-        //savePosts(posts);
+        savePosts(posts);
     }
 
     /**
-     * Gets raw twitter data with
+     * Gets tweets from twitter with hastag hashTag
      *
-     * @return
+     * @return List<Status> list of tweets
      */
     @Override
     List<Status> getRaw() {
         logger.info("Start getting tweets");
-        Query query = new Query("#happy");
-        query.count(100); //max amount of tweets
+        Query query = new Query(hashTag);
+        query.count(amountOfTweets);
         List<Status> rawData = new ArrayList<>();
         try {
             QueryResult result = twitter.search(query);
             rawData.addAll(result.getTweets());
-            System.out.println("received 10 articles from twitter with hastag #happy");
+            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #happy");
         } catch (TwitterException e) {
             logger.error("TwitterException: " + e.getErrorMessage());
         }
@@ -62,16 +61,27 @@ public class TwitterCrawler extends Crawler<Status> {
 
     /**
      * Method that converts the status objects to posts
+     * filters the tweets that are possibly sensitive
+     * filters tweets that contain non ascii characters
      *
      * @param statuses raw statuses from twitter (method getRaw)
      * @return List of Post objects
      */
-    List<Post> rawToPosts(List<Status> statuses) {
-        return statuses.stream().map(this::convertStatusToPost).collect(Collectors.toList());
+    private List<Post> rawToPosts(List<Status> statuses) {
+        return statuses.stream()
+                .filter(status -> !status.isPossiblySensitive())
+                .filter(status -> status.getText().matches("\\A\\p{ASCII}*\\z"))
+                .map(this::convertStatusToPost)
+                .collect(Collectors.toList());
     }
 
-
-    public Post convertStatusToPost(Status status) {
+    /**
+     * Convert a tweet (status object) to a post object
+     *
+     * @param status raw tweet object
+     * @return Post object
+     */
+    private Post convertStatusToPost(Status status) {
         Post newPost = new Post();
         newPost.setAuthor(status.getUser().getScreenName());
         newPost.setType(Post.Type.TWEET);
@@ -106,13 +116,8 @@ public class TwitterCrawler extends Crawler<Status> {
                 + "/status/" + status.getId();
         newPost.setUrl(url);
 
-        newPost.setSource(status.getSource());
-        newPost.setSourceName(status.getSource());
-
-        if(status.isPossiblySensitive()){
-
-        }
-
+        newPost.setSource("Twitter");
+        newPost.setSourceName("Twitter");
         return newPost;
     }
 }
