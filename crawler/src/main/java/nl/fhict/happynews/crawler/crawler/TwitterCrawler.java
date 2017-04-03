@@ -17,8 +17,9 @@ import java.util.stream.Collectors;
 public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
-    private String hashTags = "#happy";
-    private int amountOfTweets = 100;
+    private String hashTags[] = {"#happy", "#positivethinking", "#positivemind", "#positivity", "#Happiness", "#success"};
+    private String hashTag;
+    private int amountOfTweets = 200;
 
     public TwitterCrawler() {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
@@ -27,11 +28,18 @@ public class TwitterCrawler extends Crawler<Status> {
 
     @Override
     public void crawl() {
-        List<Status> rawData = getRaw();
-        List<Post> posts = rawToPosts(rawData);
-        logger.info("Filtered " + (amountOfTweets - posts.size()) + " tweets from the " + amountOfTweets + "");
-        logger.info("Saving " + posts.size() + " tweets to the database");
-        savePosts(posts);
+        List<Post> positivePosts = new ArrayList<>();
+        int i = 0;
+        while (positivePosts.size() <= 25 && i < hashTags.length) {
+            hashTag = hashTags[i];
+            List<Status> rawData = getRaw();
+            List<Post> posts = rawToPosts(rawData);
+            logger.info("Filtered " + (amountOfTweets - posts.size()) + " tweets from the " + amountOfTweets + " with " + hashTag + "");
+            positivePosts.addAll(posts);
+            i++;
+        }
+        logger.info("Saving " + positivePosts.size() + " tweets to the database");
+        savePosts(positivePosts);
     }
 
     /**
@@ -41,14 +49,14 @@ public class TwitterCrawler extends Crawler<Status> {
      */
     @Override
     List<Status> getRaw() {
-        logger.info("Start getting tweets");
-        Query query = new Query(hashTags);
-        query.count(amountOfTweets);
+        logger.info("Start getting tweets from twitter");
+        Query query = new Query(hashTag);
+        query.count(200);
         List<Status> rawData = new ArrayList<>();
         try {
             QueryResult result = twitter.search(query);
             rawData.addAll(result.getTweets());
-            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #" + hashTags);
+            logger.info("Received total of " + amountOfTweets + " tweets from twitter with hashtag #" + hashTag);
         } catch (TwitterException e) {
             logger.error("TwitterException: " + e.getErrorMessage());
         }
