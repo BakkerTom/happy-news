@@ -35,7 +35,6 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
      * @return relative Timestamp (eg. '4 hours ago')
      */
     public String relativeTimeSpan(Date input) {
-
         long unixTime;
 
         if (input != null) {

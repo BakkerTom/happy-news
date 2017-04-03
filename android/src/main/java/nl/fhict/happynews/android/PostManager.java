@@ -36,47 +36,13 @@ public class PostManager {
 
     private PostManager() {}
 
-    public void subscribeActivity(MainActivity activity){
-        this.activity = activity;
-    }
-
     /**
-     * Method that updates the feedAdapter with a new list of posts from the api
-     *
-     * @param context context of the apps
+     * Sends content of a page to the FeedAdapter
+     * @param page
+     * @param size
+     * @param context
      */
-    public void updatePosts(Context context) {
-        Ion.with(context);
-        GsonBuilder builder = new GsonBuilder();
-
-        // Register an adapter to manage the date types as long values
-        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                return new Date(json.getAsJsonPrimitive().getAsLong());
-            }
-        });
-
-        Gson gson = builder.create();
-
-        Ion.getDefault(context).configure().setGson(gson);
-        Ion.with(context)
-                .load(API_URL + "/post")
-                .as(new TypeToken<List<Post>>() {
-                })
-                .setCallback(new FutureCallback<List<Post>>() {
-                    @Override
-                    public void onCompleted(Exception e, List<Post> posts) {
-                        if (e == null) {
-                            feedAdapter.updateData((ArrayList<Post>) posts);
-                        } else {
-                            Log.e("PostManager", "JSON Exception", e);
-                        }
-                    }
-                });
-    }
-
     public void loadPage(int page, int size, Context context){
-
         Ion.with(context);
         GsonBuilder builder = new GsonBuilder();
 
@@ -91,7 +57,7 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load("http://10.0.2.2:8080/postpage?page=" + page + "&size=" + size)
+                .load(API_URL + "?page=" + page + "&size=" + size)
                 .as(new TypeToken<Page>() {
                 })
                 .setCallback(new FutureCallback<Page>() {
@@ -99,6 +65,7 @@ public class PostManager {
                     public void onCompleted(Exception e, Page result) {
                         if (e == null){
                             Log.d("PostManager", "Loaded page: " + result.getNumber());
+
                             feedAdapter.addPage(result);
 
                             if (activity != null){
@@ -111,7 +78,6 @@ public class PostManager {
                 });
     }
 
-
     /**
      * Assigns a feedAdapter to the PostManager
      *
@@ -119,5 +85,13 @@ public class PostManager {
      */
     public void setFeedAdapter(FeedAdapter feedAdapter) {
         this.feedAdapter = feedAdapter;
+    }
+
+    /**
+     * Subscribes an Activity to the PostManager to notify when finished loading
+     * @param activity
+     */
+    public void subscribeActivity(MainActivity activity){
+        this.activity = activity;
     }
 }

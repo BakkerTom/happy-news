@@ -52,11 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount){
                             loading = false;
-
-                            Log.d("RecyclerView", "Reached End");
-
                             Page lastPage = feedAdapter.getLastPage();
-
                             if (!lastPage.isLast()) {
                                 postManager.loadPage(lastPage.getNumber() + 1, 20, getApplicationContext());
                             }
@@ -67,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * When this activity is subscribed to a PostManager,
+     * this notification will be called when content
+     * is finished loading.
+     */
     public void didFinishLoading() {
         loading = true;
     }

@@ -84,21 +84,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return posts.size();
     }
 
-    /**
-     * Change the current list of posts with a new list of posts
-     * keeps the old list if the new list is null
-     * notifies the adapter to show the changes in the app
-     *
-     * @param posts
-     */
-    public void updateData(ArrayList<Post> posts) {
-        if (posts != null) {
-            this.posts = posts;
-            this.notifyDataSetChanged();
-            Log.d("FeedAdapter", "Updated Data");
-        }
-    }
 
+    /**
+     * Adds the content of a page to the current list of posts
+     * @param page the loaded page element
+     */
     public void addPage(Page page) {
         if (page != null) {
             this.lastPage = page;
