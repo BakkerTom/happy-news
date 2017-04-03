@@ -28,8 +28,7 @@ public class PostManager {
         return ourInstance;
     }
 
-    private String API_URL = "https://happynews-api.svendubbeld.nl/";
-    private ArrayList<Post> newPosts;
+    private String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
 
     private MainActivity activity;
@@ -57,7 +56,7 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load(API_URL + "?page=" + page + "&size=" + size)
+                .load(API_URL + "/postpage?page=" + page + "&size=" + size)
                 .as(new TypeToken<Page>() {
                 })
                 .setCallback(new FutureCallback<Page>() {
