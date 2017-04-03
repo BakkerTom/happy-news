@@ -106,4 +106,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.notifyDataSetChanged();
         }
     }
+
+    public Page getLastPage() {
+        return lastPage;
+    }
 }

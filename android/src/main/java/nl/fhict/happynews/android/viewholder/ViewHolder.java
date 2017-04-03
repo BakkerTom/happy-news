@@ -36,10 +36,12 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
      */
     public String relativeTimeSpan(Date input) {
 
-        long unixTime = input.getTime();
+        long unixTime;
 
-        if (unixTime == 0) {
-            return DateUtils.getRelativeTimeSpanString(System.currentTimeMillis()).toString();
+        if (input != null) {
+            unixTime = input.getTime();
+        } else {
+            unixTime = System.currentTimeMillis();
         }
 
         return DateUtils.getRelativeTimeSpanString(unixTime).toString();

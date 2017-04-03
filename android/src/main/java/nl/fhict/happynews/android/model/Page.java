@@ -23,4 +23,16 @@ public class Page {
     public ArrayList<Post> getContent() {
         return content;
     }
+
+    public boolean isFirst() {
+        return first;
+    }
+
+    public boolean isLast() {
+        return last;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 }

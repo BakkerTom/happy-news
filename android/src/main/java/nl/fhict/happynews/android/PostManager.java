@@ -1,10 +1,12 @@
 package nl.fhict.happynews.android;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
+import nl.fhict.happynews.android.activity.MainActivity;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.model.Page;
@@ -26,11 +28,17 @@ public class PostManager {
         return ourInstance;
     }
 
-    private String API_URL = "https://happynews-api.svendubbeld.nl/post";
+    private String API_URL = "https://happynews-api.svendubbeld.nl/";
     private ArrayList<Post> newPosts;
     private FeedAdapter feedAdapter;
 
+    private MainActivity activity;
+
     private PostManager() {}
+
+    public void subscribeActivity(MainActivity activity){
+        this.activity = activity;
+    }
 
     /**
      * Method that updates the feedAdapter with a new list of posts from the api
@@ -52,7 +60,7 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load(API_URL)
+                .load(API_URL + "/post")
                 .as(new TypeToken<List<Post>>() {
                 })
                 .setCallback(new FutureCallback<List<Post>>() {
@@ -83,21 +91,26 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load("http://10.0.2.2:8080/page?page=" + page + "&size=" + size)
+                .load("http://10.0.2.2:8080/postpage?page=" + page + "&size=" + size)
                 .as(new TypeToken<Page>() {
                 })
                 .setCallback(new FutureCallback<Page>() {
                     @Override
                     public void onCompleted(Exception e, Page result) {
                         if (e == null){
-                            //DO SOME SHIT
+                            Log.d("PostManager", "Loaded page: " + result.getNumber());
                             feedAdapter.addPage(result);
+
+                            if (activity != null){
+                                activity.didFinishLoading(); //Notifiy activity that loading is done
+                            }
                         } else {
                             Log.e("PostManager", "Json Exception: ", e);
                         }
                     }
                 });
     }
+
 
     /**
      * Assigns a feedAdapter to the PostManager
