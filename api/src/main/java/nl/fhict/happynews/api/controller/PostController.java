@@ -1,18 +1,18 @@
 package nl.fhict.happynews.api.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Tobi on 06-Mar-17.
@@ -36,6 +36,11 @@ public class PostController {
         }else{
             return this.postRepository.findAll();
         }
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET, produces = "application/json")
+    public Page<Post> getAllByPage(Pageable pageable){
+        return this.postRepository.findAll(pageable);
     }
 
     /**

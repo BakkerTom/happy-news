@@ -1,21 +1,22 @@
 package nl.fhict.happynews.api.hibernate;
 
 import nl.fhict.happynews.shared.Post;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Tobi on 06-Mar-17.
  */
-public interface PostRepository extends CrudRepository<Post, String> {
+public interface PostRepository extends MongoRepository<Post, String> {
 
     /**
      * Retrieves all Posts.
      * @return A collection of posts.
      */
-    Collection<Post> findAll();
+    List<Post> findAll();
 
     /**
      * Retrieves all Posts, ordered by publish date.
