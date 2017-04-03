@@ -11,9 +11,7 @@ import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -28,8 +26,8 @@ public class PositivityAnalyzer {
 
     private Logger logger = LoggerFactory.getLogger(PositivityAnalyzer.class);
 
-    private HashSet<String> positiveWords;
-    private HashSet<String> negativeWords;
+    private Set<String> positiveWords;
+    private Set<String> negativeWords;
 
 
     /**
@@ -49,7 +47,7 @@ public class PositivityAnalyzer {
      * @return true if positive
      */
     public boolean analyzeText(String inputText) {
-        HashMap<String, Integer> inputWords = getUniqueWords(inputText);
+        Map<String, Integer> inputWords = getUniqueWords(inputText);
         AtomicInteger pos = new AtomicInteger();
         AtomicInteger neg = new AtomicInteger();
         inputWords.forEach((word, count) -> {
@@ -75,9 +73,9 @@ public class PositivityAnalyzer {
      * @param inputText
      * @return
      */
-    private HashMap<String, Integer> getUniqueWords(String inputText) {
+    private Map<String, Integer> getUniqueWords(String inputText) {
         String[] words = inputText.split("[,.:;\\s\\n]");
-        HashMap<String, Integer> uniqueWords = new HashMap<>();
+        Map<String, Integer> uniqueWords = new HashMap<>();
         for (String word : words) {
             uniqueWords.merge(word, 1, (integer, integer2) -> integer + integer2);
         }
@@ -91,8 +89,8 @@ public class PositivityAnalyzer {
      * @param file filename for file located in resource folder
      * @return set of words
      */
-    private HashSet<String> loadWords(String file) {
-        HashSet<String> words = new HashSet<>();
+    private Set<String> loadWords(String file) {
+        Set<String> words = new HashSet<>();
         try {
             Resource resource = applicationContext.getResource("classpath:/" + file);
             BufferedReader reader = new BufferedReader(new FileReader(resource.getFile()));
