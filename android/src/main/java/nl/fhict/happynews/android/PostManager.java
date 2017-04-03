@@ -5,8 +5,8 @@ import android.util.Log;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
+import nl.fhict.happynews.android.adapter.FeedAdapter;
 import com.koushikdutta.ion.Ion;
-import nl.fhict.happynews.android.adapter.PostAdapter;
 import nl.fhict.happynews.android.model.Post;
 
 import java.lang.reflect.Type;
@@ -25,19 +25,19 @@ public class PostManager {
         return ourInstance;
     }
 
-    private String API_URL = "http://10.0.2.2:8080/post";
+    private String API_URL = "https://happynews-api.svendubbeld.nl/post";
     private ArrayList<Post> newPosts;
-    private PostAdapter postAdapter;
+    private FeedAdapter feedAdapter;
 
-    private PostManager() {
-    }
+    private PostManager() {}
 
     /**
-     * Method that updates the postAdapter with a new list of posts from the api
+     * Method that updates the feedAdapter with a new list of posts from the api
      *
-     * @param c context of the apps
+     * @param context context of the apps
      */
-    public void updatePosts(Context c) {
+    public void updatePosts(Context context) {
+        Ion.with(context);
         GsonBuilder builder = new GsonBuilder();
 
         // Register an adapter to manage the date types as long values
@@ -49,8 +49,8 @@ public class PostManager {
 
         Gson gson = builder.create();
 
-        Ion.getDefault(c).configure().setGson(gson);
-        Ion.with(c)
+        Ion.getDefault(context).configure().setGson(gson);
+        Ion.with(context)
                 .load(API_URL)
                 .as(new TypeToken<List<Post>>() {
                 })
@@ -58,7 +58,7 @@ public class PostManager {
                     @Override
                     public void onCompleted(Exception e, List<Post> posts) {
                         if (e == null) {
-                            postAdapter.updateData((ArrayList<Post>) posts);
+                            feedAdapter.updateData((ArrayList<Post>) posts);
                         } else {
                             Log.e("PostManager", "JSON Exception", e);
                         }
@@ -67,11 +67,11 @@ public class PostManager {
     }
 
     /**
-     * Assigns a postAdapter to the PostManager
+     * Assigns a feedAdapter to the PostManager
      *
-     * @param postAdapter
+     * @param feedAdapter
      */
-    public void setPostAdapter(PostAdapter postAdapter) {
-        this.postAdapter = postAdapter;
+    public void setFeedAdapter(FeedAdapter feedAdapter) {
+        this.feedAdapter = feedAdapter;
     }
 }

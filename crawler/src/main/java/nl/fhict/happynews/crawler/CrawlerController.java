@@ -4,6 +4,7 @@ package nl.fhict.happynews.crawler;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.model.newsapi.Source;
+import nl.fhict.happynews.crawler.api.NewsAPI;
 import nl.fhict.happynews.crawler.repository.PostRepository;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
@@ -32,7 +33,7 @@ import java.util.List;
 public class CrawlerController {
 
     @Autowired
-    private NewsRetriever newsRetriever;
+    private NewsAPI newsAPI;
 
     @Autowired
     private PostRepository postRepository;
@@ -82,7 +83,7 @@ public class CrawlerController {
     /**
      * Get the data from the newsApi.org website on a fixed rate specified in application.yml.
      */
-    @Scheduled(fixedDelayString = "${crawler.delay}")
+    @Scheduled(fixedDelayString = "${news.delay}")
     public List<Post> getNewsPosts() {
         if (!enabled) {
             logger.info("Crawler disabled, ignoring crawl request");
@@ -95,7 +96,7 @@ public class CrawlerController {
 
         for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsRetriever.getNewsPerSource(s.getName(), s.getType());
+            NewsSource newsSource = newsAPI.getRaw(s.getName(), s.getType());
             posts.addAll(convertToPost(newsSource));
         }
         logger.info("Received total of " + posts.size() + " articles");
@@ -173,6 +174,5 @@ public class CrawlerController {
             }
         }
     }
-
 
 }
