@@ -1,15 +1,14 @@
 package nl.fhict.happynews.android.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import nl.fhict.happynews.android.PostManager;
+import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
-import nl.fhict.happynews.android.PostManager;
-import nl.fhict.happynews.android.R;
 
 import java.util.ArrayList;
 
@@ -41,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         postManager.setFeedAdapter(feedAdapter);
         postManager.loadPage(0, 20, this);
 
+        addScrollListener();
+    }
+
+    private void addScrollListener(){
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      * When this activity is subscribed to a PostManager,
