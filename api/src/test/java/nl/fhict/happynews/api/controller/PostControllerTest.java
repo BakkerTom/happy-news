@@ -118,16 +118,8 @@ public class PostControllerTest {
         //regular get all posts
         this.mockMvc.perform(get("/post"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(5)))
-                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
-        //superfluous ordered parameter
-        this.mockMvc.perform(get("/post?ordered={ordered}", true))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
-        //unordered list
-        this.mockMvc.perform(get("/post?ordered={ordered}", false))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[1].sourceName", is("The Post")));
+                .andExpect(jsonPath("$.content", hasSize(5)));
+
     }
 
     @Test
