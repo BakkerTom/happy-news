@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import twitter4j.*;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 public class TwitterCrawler extends Crawler<Status> {
 
     private Twitter twitter;
-    private String hashTags[] = {"#happy", "#positivethinking", "#positivemind", "#positivity", "#Happiness", "#success"};
+    private String hashTags[];
     private String hashTag;
     private final static int AMOUNTOFTWEETS = 200;
 
@@ -25,6 +27,7 @@ public class TwitterCrawler extends Crawler<Status> {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
         twitter = TwitterFactory.getSingleton();
         hashTag = "#happy";
+        loadHashTags();
     }
 
     /**
@@ -142,5 +145,18 @@ public class TwitterCrawler extends Crawler<Status> {
         newPost.setSource("Twitter");
         newPost.setSourceName("Twitter");
         return newPost;
+    }
+
+    private void loadHashTags(){
+        String csvFile = "hashtags.csv";
+        String line = "";
+        String cvsSplitBy = ",";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                hashTags = line.split(cvsSplitBy);
+            }
+        } catch (IOException e) {
+            logger.error("IOException loading hastags: " + e.getMessage());
+        }
     }
 }
