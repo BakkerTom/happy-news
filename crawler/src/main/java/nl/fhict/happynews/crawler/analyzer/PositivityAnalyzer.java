@@ -44,6 +44,7 @@ public class PositivityAnalyzer {
 
     /**
      * rates the positivity of a text based on the words it contains
+     *
      * @param inputText the text to be analyzed
      * @return true if positive
      */
@@ -52,15 +53,16 @@ public class PositivityAnalyzer {
         AtomicInteger pos = new AtomicInteger();
         AtomicInteger neg = new AtomicInteger();
         inputWords.forEach((word, count) -> {
-            if(positiveWords.contains(word)) {
+            if (positiveWords.contains(word)) {
                 pos.addAndGet(count);
+            } else if (negativeWords.contains(word)) {
+                neg.addAndGet(count);
             }
-    else if(negativeWords.contains(word)){
-                neg.addAndGet(count);}});
+        });
 
         int positive = pos.get();
         int negative = neg.get();
-        boolean isPositive = 0.7203*positive - negative > 3;
+        boolean isPositive = 0.7203 * positive - negative > 3;
 
         logger.info("Positive? " + (isPositive ? "Yes" : "No"));
 
@@ -69,14 +71,15 @@ public class PositivityAnalyzer {
 
     /**
      * Gets the unique words per text and their frequency.
+     *
      * @param inputText
      * @return
      */
     private HashMap<String, Integer> getUniqueWords(String inputText) {
         String[] words = inputText.split("[,.:;\\s\\n]");
-        HashMap<String,Integer> uniqueWords = new HashMap<>();
-        for(String word : words){
-            uniqueWords.merge(word,1,(integer, integer2) -> integer + integer2);
+        HashMap<String, Integer> uniqueWords = new HashMap<>();
+        for (String word : words) {
+            uniqueWords.merge(word, 1, (integer, integer2) -> integer + integer2);
         }
         uniqueWords.remove("");
         return uniqueWords;
@@ -84,6 +87,7 @@ public class PositivityAnalyzer {
 
     /**
      * Load word from a file
+     *
      * @param file filename for file located in resource folder
      * @return set of words
      */
