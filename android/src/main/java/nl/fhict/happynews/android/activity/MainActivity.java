@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener{
      * this notification will be called when content
      * is finished loading.
      */
+    @Override
     public void onFinishedLoading() {
         loading = false;
     }
