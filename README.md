@@ -17,9 +17,9 @@ Happy News is a source of positive news. A school project for Fontys Hogeschool 
 
 ## API
 
-#### » `https://happynews-api.svendubbeld.nl/post?ordered={ordered}`
+#### » `https://happynews-api.svendubbeld.nl/post?page={pagenumber}&size={size}`
 
-Retrieves all posts. ordered is not required, and defaults to `true`.
+Retrieves all posts in paginated format. Default page is 0 and default size is 20.
 
 #### » `https://happynews-api.svendubbeld.nl/post/uuid/{uuid}`
 
