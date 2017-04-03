@@ -33,6 +33,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         postManager.setFeedAdapter(feedAdapter);
-        postManager.updatePosts(this);
+        postManager.loadPage(0, 20, this);
     }
 }

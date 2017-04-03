@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import com.koushikdutta.ion.Ion;
+import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 
 import java.lang.reflect.Type;
@@ -61,6 +62,38 @@ public class PostManager {
                             feedAdapter.updateData((ArrayList<Post>) posts);
                         } else {
                             Log.e("PostManager", "JSON Exception", e);
+                        }
+                    }
+                });
+    }
+
+    public void loadPage(int page, int size, Context context){
+
+        Ion.with(context);
+        GsonBuilder builder = new GsonBuilder();
+
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+
+        Gson gson = builder.create();
+
+        Ion.getDefault(context).configure().setGson(gson);
+        Ion.with(context)
+                .load("http://10.0.2.2:8080/page?page=" + page + "&size=" + size)
+                .as(new TypeToken<Page>() {
+                })
+                .setCallback(new FutureCallback<Page>() {
+                    @Override
+                    public void onCompleted(Exception e, Page result) {
+                        if (e == null){
+                            //DO SOME SHIT
+                            feedAdapter.addPage(result);
+                        } else {
+                            Log.e("PostManager", "Json Exception: ", e);
                         }
                     }
                 });

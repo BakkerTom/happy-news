@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.viewholder.PostHolder;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
+    private Page lastPage;
     private ArrayList<Post> posts;
 
     public FeedAdapter(Context mContext, ArrayList<Post> posts) {
@@ -94,6 +96,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.posts = posts;
             this.notifyDataSetChanged();
             Log.d("FeedAdapter", "Updated Data");
+        }
+    }
+
+    public void addPage(Page page) {
+        if (page != null) {
+            this.lastPage = page;
+            this.posts.addAll(page.getContent());
+            this.notifyDataSetChanged();
         }
     }
 }
