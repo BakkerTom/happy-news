@@ -1,9 +1,9 @@
 package nl.fhict.happynews.crawler.crawler;
 
+import nl.fhict.happynews.crawler.model.twitterapi.TweetBundle;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import twitter4j.*;
 
 import java.io.*;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Created by Sander on 27/03/2017.
  */
 @Service
-public class TwitterCrawler extends Crawler<Status> {
+public class TwitterCrawler extends Crawler<TweetBundle> {
 
     private Twitter twitter;
     private String hashTags[];
@@ -33,18 +33,16 @@ public class TwitterCrawler extends Crawler<Status> {
     /**
      * adds new positive tweets to the database
      * checks the different hashtags for suitable happy tweets
-     *
      */
     @Override
     public void crawl() {
         List<Post> positivePosts = new ArrayList<>();
-        for(int i = 0; positivePosts.size() <= 25 && i < hashTags.length; i++){
-            hashTag = hashTags[i];
-            List<Status> rawData = getRaw();
-            List<Post> posts = rawToPosts(rawData);
-            logger.info("Filtered " + (AMOUNTOFTWEETS - posts.size()) + " tweets from the " + AMOUNTOFTWEETS + " with " + hashTag + "");
-            positivePosts.addAll(posts);
+        List<TweetBundle> tweetBundles = getRaw();
+        for (TweetBundle bundle : tweetBundles) {
+            positivePosts.addAll(rawToPosts(bundle));
         }
+        logger.info("Filtered out " + (AMOUNTOFTWEETS * hashTags.length - positivePosts.size())
+                + " out of " + AMOUNTOFTWEETS * hashTags.length + " tweets");
         logger.info("Saving " + positivePosts.size() + " tweets to the database");
         savePosts(positivePosts);
     }
@@ -55,29 +53,25 @@ public class TwitterCrawler extends Crawler<Status> {
      * @return List<Status> list of tweets
      */
     @Override
-    List<Status> getRaw() {
+    List<TweetBundle> getRaw() {
         logger.info("Start getting tweets from twitter with hastag " + hashTag);
-        Query query = new Query(hashTag);
-        query.count(200);
-        List<Status> rawData = new ArrayList<>();
-        try {
-            QueryResult result = twitter.search(query);
-            rawData.addAll(result.getTweets());
-            logger.info("Received total of " + AMOUNTOFTWEETS + " tweets from twitter with hashtag " + hashTag);
-        } catch (TwitterException e) {
-            logger.error("TwitterException: " + e.getErrorMessage());
+        List<TweetBundle> tweetBundles = new ArrayList();
+        for (int i = 0; i < hashTags.length; i++) {
+            hashTag = hashTags[i];
+            Query query = new Query(hashTag);
+            query.count(200);
+            try {
+                QueryResult result = twitter.search(query);
+                TweetBundle rawTweets = new TweetBundle(hashTag);
+                List<Status> rawData = result.getTweets();
+                rawTweets.addTweets(rawData);
+                tweetBundles.add(rawTweets);
+                logger.info("Received total of " + AMOUNTOFTWEETS + " tweets from twitter with hashtag " + hashTag);
+            } catch (TwitterException e) {
+                logger.error("TwitterException: " + e.getErrorMessage());
+            }
         }
-        return rawData;
-    }
-
-    /**
-     * Not implemented method, see method rawToPosts(List<Status> statuses)
-     * @param entity The raw info object.
-     * @return
-     */
-    @Override
-    List<Post> rawToPosts(Status entity) {
-        throw new NotImplementedException();
+        return tweetBundles;
     }
 
     /**
@@ -87,12 +81,12 @@ public class TwitterCrawler extends Crawler<Status> {
      * filters tweets that are older than 1 hour
      * filters tweets that are retweeted less than 10 times
      *
-     * @param statuses raw statuses from twitter (method getRaw)
+     * @param tweets raw statuses from twitter (method getRaw)
      * @return List of Post objects
      */
-    public List<Post> rawToPosts(List<Status> statuses) {
+    public List<Post> rawToPosts(TweetBundle tweets) {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
-        return statuses.stream()
+        return tweets.getTweets().stream()
                 .filter(status -> !status.isPossiblySensitive())
                 .filter(status -> status.getText().matches("\\A\\p{ASCII}*\\z"))
                 .filter(status -> status.getCreatedAt().after(d))
@@ -147,7 +141,7 @@ public class TwitterCrawler extends Crawler<Status> {
         return newPost;
     }
 
-    private void loadHashTags(){
+    private void loadHashTags() {
         String csvFile = "hashtags.csv";
         String line = "";
         String cvsSplitBy = ",";

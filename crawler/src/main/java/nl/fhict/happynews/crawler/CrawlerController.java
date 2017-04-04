@@ -86,7 +86,6 @@ public class CrawlerController {
      */
     @Scheduled(fixedDelayString = "${news.delay}")
     public List<Post> getNewsPosts() {
-        twitterCrawler.crawl();
         List<Source> sources = getSources();
         logger.info("Start getting posts from newsapi.org");
         List<Post> posts = new ArrayList<>();
