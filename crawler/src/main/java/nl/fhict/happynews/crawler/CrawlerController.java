@@ -1,7 +1,7 @@
 package nl.fhict.happynews.crawler;
 
-
 import nl.fhict.happynews.crawler.crawler.TwitterCrawler;
+import nl.fhict.happynews.crawler.crawler.InstagramCrawler;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.model.newsapi.Source;
@@ -41,6 +41,9 @@ public class CrawlerController {
     @Autowired
     private SourceRepository sourceRepository;
 
+    @Autowired
+    private InstagramCrawler instagramCrawler;
+
     private Logger logger;
 
     @Autowired
@@ -77,7 +80,6 @@ public class CrawlerController {
                 logger.warn(s.getName() + " already in database, not inserted");
             }
         }
-
     }
 
 
@@ -97,6 +99,7 @@ public class CrawlerController {
         }
         logger.info("Received total of " + posts.size() + " articles");
         savePosts(posts);
+        instagramCrawler.crawl();
         return posts;
     }
 
