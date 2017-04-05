@@ -1,6 +1,6 @@
 package nl.fhict.happynews.crawler.crawler;
 
-import nl.fhict.happynews.crawler.api.InstagramAPI;
+import nl.fhict.happynews.crawler.api.InstagramApi;
 import nl.fhict.happynews.crawler.model.instagramapi.InstagramEnvelope;
 import nl.fhict.happynews.shared.Post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 public class InstagramCrawler extends Crawler<InstagramEnvelope> {
 
     @Autowired
-    private InstagramAPI InstagramAPI;
+    private InstagramApi instagramApi;
 
     @Value("${crawler.instagram.enabled:true}")
     private boolean enabled;

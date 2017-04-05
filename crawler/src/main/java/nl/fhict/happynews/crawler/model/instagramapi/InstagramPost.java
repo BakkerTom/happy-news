@@ -4,6 +4,7 @@ package nl.fhict.happynews.crawler.model.instagramapi;
  * Created by Tobi on 27-Mar-17.
  */
 public class InstagramPost {
+
     private String id;
     private String[] tags;
     private String location;
@@ -11,15 +12,14 @@ public class InstagramPost {
     private int likes;
     private String[] images;
     private String[] caption;
-    private String created_time;
-    private String[] users_in_photo;
+    private String createdTime;
+    private String[] usersInPhoto;
     private String type;
     private String[] user;
     private String comments;
     private String filter;
 
-    public InstagramPost(){
-
+    public InstagramPost() {
     }
 
     public String getId() {
@@ -50,12 +50,12 @@ public class InstagramPost {
         return caption;
     }
 
-    public String getCreated_time() {
-        return created_time;
+    public String getCreatedTime() {
+        return createdTime;
     }
 
-    public String[] getUsers_in_photo() {
-        return users_in_photo;
+    public String[] getUsersInPhoto() {
+        return usersInPhoto;
     }
 
     public String getType() {
@@ -75,8 +75,20 @@ public class InstagramPost {
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [id = "+id+", tags = "+tags+", location = "+location+", link = "+link+", likes = "+likes+", images = "+images+", caption = "+caption+", created_time = "+created_time+", users_in_photo = "+users_in_photo+", type = "+type+", user = "+user+", comments = "+comments+", filter = "+filter+"]";
+    public String toString() {
+        return "ClassPojo [id = " + id
+            + ", tags = " + tags
+            + ", location = " + location
+            + ", link = " + link
+            + ", likes = " + likes
+            + ", images = " + images
+            + ", caption = " + caption
+            + ", createdTime = " + createdTime
+            + ", usersInPhoto = " + usersInPhoto
+            + ", type = " + type
+            + ", user = " + user
+            + ", comments = " + comments
+            + ", filter = " + filter
+            + "]";
     }
 }
