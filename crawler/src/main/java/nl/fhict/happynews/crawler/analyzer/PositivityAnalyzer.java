@@ -60,6 +60,8 @@ public class PositivityAnalyzer {
 
         int positive = pos.get();
         int negative = neg.get();
+
+        //This formula is based on a short statistical analysis. https://github.com/BakkerTom/happy-news/wiki/Research
         boolean isPositive = 0.7203 * positive - negative > 3;
 
         logger.info("Positive? " + (isPositive ? "Yes" : "No"));
@@ -70,8 +72,8 @@ public class PositivityAnalyzer {
     /**
      * Gets the unique words per text and their frequency.
      *
-     * @param inputText
-     * @return
+     * @param inputText text to be filtered on words
+     * @return  map of the unique words and their respective counts
      */
     private Map<String, Integer> getUniqueWords(String inputText) {
         String[] words = inputText.split("[,.:;\\s\\n]");
