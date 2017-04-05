@@ -94,6 +94,3 @@ gradle-app.setting
 
 # Production data
 /.docker/
-
-## twitter4j library properties
-twitter4j.properties

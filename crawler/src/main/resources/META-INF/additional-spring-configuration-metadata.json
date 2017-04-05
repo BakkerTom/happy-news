@@ -6,6 +6,12 @@
       "description": "Delay between each crawl."
     },
     {
+
+      "name": "instagram.apikey",
+      "type": "java.lang.String",
+      "description": "Description for instagram.apikey."
+    },
+    {
       "name": "crawler.news.apikey",
       "type": "java.lang.String",
       "description": "The API key for NewsAPI.org."

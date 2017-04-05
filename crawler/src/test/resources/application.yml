@@ -1,5 +1,11 @@
 crawler:
   delay: 3600000
+  apikey: "c96e519c4c484966b2929b4177b91749"
+  apiurl: "localhost:8080/"
+instagram:
+  delay: 1
+  apikey: "test"
+  apiurl: "https://api.instagram.com/v1/"
   news:
     apikey: "c96e519c4c484966b2929b4177b91749"
     apiurl: "https://newsapi.org/v1/articles"
