@@ -4,6 +4,11 @@
       "name": "crawler.delay",
       "type": "java.lang.String",
       "description": "Delay between each crawl."
+    },
+    {
+      "name": "instagram.apikey",
+      "type": "java.lang.String",
+      "description": "Description for instagram.apikey."
     }
   ]
 }

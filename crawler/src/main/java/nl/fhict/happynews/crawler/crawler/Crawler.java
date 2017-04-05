@@ -1,8 +1,6 @@
 package nl.fhict.happynews.crawler.crawler;
 
-import nl.fhict.happynews.crawler.CrawlerController;
 import nl.fhict.happynews.crawler.repository.PostRepository;
-import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,8 @@ import java.util.List;
 
 /**
  * Created by Tobi on 27-Mar-17.
+ * Classes extending crawler class also need the @Service annotation
+ *
  */
 @Service
 public abstract class Crawler<T> {
