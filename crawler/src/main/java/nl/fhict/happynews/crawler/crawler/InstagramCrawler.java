@@ -6,6 +6,7 @@ import nl.fhict.happynews.crawler.model.instagramapi.InstagramPost;
 import nl.fhict.happynews.shared.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 
@@ -18,9 +19,16 @@ public class InstagramCrawler extends Crawler<InstagramEnvelope> {
     @Autowired
     private InstagramAPI InstagramAPI;
 
-    public InstagramCrawler(){
-        super();
+    @Value("${crawler.instagram.enabled:true}")
+    private boolean enabled;
+
+    @Override
+    protected boolean isEnabled() {
+        return enabled;
     }
+  
+     public InstagramCrawler(){
+        super();
 
     @Override
     public void crawl() {

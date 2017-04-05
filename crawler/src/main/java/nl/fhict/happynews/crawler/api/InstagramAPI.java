@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InstagramAPI extends API<InstagramEnvelope> {
-    @Value("${instagram.apikey}")
+    @Value("${crawler.instagram.apikey}")
     private String API_KEY;
 
-    @Value("${instagram.apiurl}")
+    @Value("${crawler.instagram.apiurl}")
     private String API_URL;
 
 

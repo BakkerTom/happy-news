@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.viewholder.PostHolder;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
+    private Page lastPage;
     private ArrayList<Post> posts;
 
     public FeedAdapter(Context mContext, ArrayList<Post> posts) {
@@ -82,18 +84,20 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return posts.size();
     }
 
+
     /**
-     * Change the current list of posts with a new list of posts
-     * keeps the old list if the new list is null
-     * notifies the adapter to show the changes in the app
-     *
-     * @param posts
+     * Adds the content of a page to the current list of posts
+     * @param page the loaded page element
      */
-    public void updateData(ArrayList<Post> posts) {
-        if (posts != null) {
-            this.posts = posts;
+    public void addPage(Page page) {
+        if (page != null) {
+            this.lastPage = page;
+            this.posts.addAll(page.getContent());
             this.notifyDataSetChanged();
-            Log.d("FeedAdapter", "Updated Data");
         }
+    }
+
+    public Page getLastPage() {
+        return lastPage;
     }
 }
