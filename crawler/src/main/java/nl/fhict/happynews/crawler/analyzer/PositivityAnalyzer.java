@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -98,7 +98,7 @@ public class PositivityAnalyzer {
         Set<String> words = new HashSet<>();
         try {
             Resource resource = applicationContext.getResource("classpath:/" + file);
-            BufferedReader reader = new BufferedReader(new FileReader(resource.getFile()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             String word;
             while ((word = reader.readLine()) != null) {
                 words.add(word);
