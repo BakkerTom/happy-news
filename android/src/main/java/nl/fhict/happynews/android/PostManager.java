@@ -5,14 +5,12 @@ import android.util.Log;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
-import nl.fhict.happynews.android.adapter.FeedAdapter;
 import com.koushikdutta.ion.Ion;
-import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.model.Page;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -20,23 +18,21 @@ import java.util.List;
 public class PostManager {
 
     private static PostManager ourInstance = new PostManager();
-
     public static PostManager getInstance() {
         return ourInstance;
     }
-
-    private String API_URL = "https://happynews-api.svendubbeld.nl/post";
-    private ArrayList<Post> newPosts;
+    private static final String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
 
     private PostManager() {}
 
     /**
-     * Method that updates the feedAdapter with a new list of posts from the api
-     *
-     * @param context context of the apps
+     * Sends content of a page to the FeedAdapter
+     * @param page
+     * @param size
+     * @param context
      */
-    public void updatePosts(Context context) {
+    public void loadPage(int page, int size, Context context, final LoadListener listener){
         Ion.with(context);
         GsonBuilder builder = new GsonBuilder();
 
@@ -51,16 +47,22 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load(API_URL)
-                .as(new TypeToken<List<Post>>() {
+                .load(API_URL + "/post?page=" + page + "&size=" + size)
+                .as(new TypeToken<Page>() {
                 })
-                .setCallback(new FutureCallback<List<Post>>() {
+                .setCallback(new FutureCallback<Page>() {
                     @Override
-                    public void onCompleted(Exception e, List<Post> posts) {
-                        if (e == null) {
-                            feedAdapter.updateData((ArrayList<Post>) posts);
+                    public void onCompleted(Exception e, Page result) {
+                        if (e == null){
+                            Log.d("PostManager", "Loaded page: " + result.getNumber());
+
+                            feedAdapter.addPage(result);
+
+                            if (listener != null){
+                                listener.onFinishedLoading(); //Notify the listening activity when the loading is finished
+                            }
                         } else {
-                            Log.e("PostManager", "JSON Exception", e);
+                            Log.e("PostManager", "Json Exception: ", e);
                         }
                     }
                 });
@@ -74,4 +76,5 @@ public class PostManager {
     public void setFeedAdapter(FeedAdapter feedAdapter) {
         this.feedAdapter = feedAdapter;
     }
+
 }

@@ -1,18 +1,18 @@
 package nl.fhict.happynews.api.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Tobi on 06-Mar-17.
@@ -25,17 +25,13 @@ public class PostController {
     private PostRepository postRepository;
 
     /**
-     * Handles a GET request by returning all posts.
-     * @param ordered Whether the list should be ordered by latest or not.
-     * @return The Posts in JSON.
+     * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
+     * @param pageable the page and page size
+     * @return A Page with Post information
      */
     @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getAllPost(@RequestParam(required = false, defaultValue = "true", value="ordered") boolean ordered) {
-        if(ordered){
-            return this.postRepository.findAllByOrderByPublishedAtDesc();
-        }else{
-            return this.postRepository.findAll();
-        }
+    public Page<Post> getAllByPage(Pageable pageable){
+        return this.postRepository.findAllByOrderByPublishedAtDesc(pageable);
     }
 
     /**
