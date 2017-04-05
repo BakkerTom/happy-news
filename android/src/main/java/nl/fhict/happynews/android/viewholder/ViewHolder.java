@@ -24,12 +24,12 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
         view.setOnClickListener(this);
     }
 
-    public void bindType(Post post){
+    public void bindType(Post post) {
         this.post = post;
     }
 
     /**
-     * Creates a neatly formatted string displaying the Relative Time Span
+     * Creates a neatly formatted string displaying the Relative Time Span.
      *
      * @param input the start time as a Date object
      * @return relative Timestamp (eg. '4 hours ago')
@@ -56,7 +56,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
             customTabsIntent.launchUrl(context, uri);
         } else {
             Toast.makeText(context, "Link not found",
-                    Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show();
         }
     }
 }

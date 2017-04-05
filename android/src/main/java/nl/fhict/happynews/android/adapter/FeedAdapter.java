@@ -2,13 +2,12 @@ package nl.fhict.happynews.android.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
-import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.viewholder.PostHolder;
 import nl.fhict.happynews.android.viewholder.PostImageHolder;
 
@@ -49,13 +48,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case 0:
                 view = LayoutInflater
-                        .from(parent.getContext())
-                        .inflate(R.layout.list_item_post, parent, false);
+                    .from(parent.getContext())
+                    .inflate(R.layout.list_item_post, parent, false);
                 return new PostHolder(view);
             case 1:
                 view = LayoutInflater
-                        .from(parent.getContext())
-                        .inflate(R.layout.list_item_post_image, parent, false);
+                    .from(parent.getContext())
+                    .inflate(R.layout.list_item_post_image, parent, false);
                 return new PostImageHolder(view);
         }
 
@@ -86,7 +85,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     /**
-     * Adds the content of a page to the current list of posts
+     * Adds the content of a page to the current list of posts.
+     *
      * @param page the loaded page element
      */
     public void addPage(Page page) {

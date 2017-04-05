@@ -14,7 +14,7 @@ import nl.fhict.happynews.android.model.Post;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements LoadListener{
+public class MainActivity extends AppCompatActivity implements LoadListener {
 
     private PostManager postManager;
     private RecyclerView recyclerView;
@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity implements LoadListener{
     private FeedAdapter feedAdapter;
 
     private boolean loading;
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private int pastVisiblesItems;
+    private int visibleItemCount;
+    private int totalItemCount;
     private static final int PAGE_SIZE = 20;
 
     @Override
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener{
         addScrollListener();
     }
 
-    private void addScrollListener(){
+    private void addScrollListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener{
                     pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
                     if (!loading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount){
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = true;
                             Page lastPage = feedAdapter.getLastPage();
                             if (!lastPage.isLast()) {
