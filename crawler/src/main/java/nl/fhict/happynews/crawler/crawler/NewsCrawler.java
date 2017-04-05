@@ -1,21 +1,29 @@
 package nl.fhict.happynews.crawler.crawler;
 
+import nl.fhict.happynews.crawler.analyzer.PositivityAnalyzer;
 import nl.fhict.happynews.crawler.api.NewsAPI;
+import nl.fhict.happynews.crawler.extractor.ArticleExtractor;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tobi on 27-Mar-17.
  */
+@Service
 public class NewsCrawler extends Crawler<NewsSource> {
 
     @Autowired
@@ -24,14 +32,55 @@ public class NewsCrawler extends Crawler<NewsSource> {
     @Autowired
     private SourceRepository sourceRepository;
 
+    @Autowired
+    private ArticleExtractor articleExtractor;
+
+    @Autowired
+    private PositivityAnalyzer positivityAnalyzer;
+
+    @Value("${crawler.news.enabled:true}")
+    private boolean enabled;
+
+    @Override
+    protected boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Insert sources into database after server startup.
+     */
+    @PostConstruct
+    public void insertSources() {
+        List<Source> sources = new ArrayList<>();
+        sources.add(new Source("the-next-web", "latest"));
+        sources.add(new Source("associated-press", "latest"));
+        sources.add(new Source("bbc-news", "top"));
+        sources.add(new Source("bloomberg", "top"));
+        sources.add(new Source("business-insider", "latest"));
+        sources.add(new Source("buzzfeed", "latest"));
+        sources.add(new Source("cnbc", "top"));
+        sources.add(new Source("cnn", "top"));
+        sources.add(new Source("entertainment-weekly", "top"));
+        sources.add(new Source("espn", "top"));
+        sources.add(new Source("financial-times", "latest"));
+        for (Source s : sources) {
+            try {
+                sourceRepository.save(s);
+                logger.info(s.getName() + " added as source.");
+            } catch (DuplicateKeyException ex) {
+                logger.warn(s.getName() + " already in database, not inserted");
+            }
+        }
+
+    }
+
     @Override
     public void crawl() {
-        List<NewsSource> raw = getRaw();
+        List<Post> posts = getRaw().stream()
+                .flatMap(newsSource -> rawToPosts(newsSource).stream())
+                .filter(post -> positivityAnalyzer.analyzeText(articleExtractor.extract(post)))
+                .collect(Collectors.toList());
 
-        List<Post> posts = new ArrayList<>();
-        for(NewsSource n : raw){
-            posts.addAll(rawToPosts(n));
-        }
         savePosts(posts);
     }
 
@@ -69,9 +118,12 @@ public class NewsCrawler extends Crawler<NewsSource> {
 
                 if (article.getPublishedAt() != null) {
                     post.setPublishedAt(article.getPublishedAt());
-                } else {
-                    post.setIndexedAt(new Date());
                 }
+
+                post.setIndexedAt(new Date());
+
+                post.setType(Post.Type.ARTICLE);
+
                 posts.add(post);
             }
         }
