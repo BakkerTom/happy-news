@@ -53,8 +53,10 @@ public class TwitterCrawlerTest {
     public void rawToPosts() throws Exception {
         setHashTags();
         List<TweetBundle> rawData = twitterCrawler.getRaw();
-        List<Post> posts = twitterCrawler.rawToPosts(rawData.get(0));
-        assertTrue(rawData.size() > 0 && posts.size() > 0);
+        List<Post> posts1 = twitterCrawler.rawToPosts(rawData.get(0));
+        List<Post> posts2 = twitterCrawler.rawToPosts(rawData.get(1));
+        List<Post> posts3 = twitterCrawler.rawToPosts(rawData.get(1));
+        assertTrue(rawData.size() > 0 && (posts1.size() > 0 || posts2.size() > 0) || posts3.size() > 0);
     }
 
     @Bean(destroyMethod = "close")
