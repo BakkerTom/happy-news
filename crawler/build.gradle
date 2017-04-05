@@ -24,13 +24,13 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile project(path: ':shared')
-
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
     compile('org.springframework.boot:spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-configuration-processor')
     compile('org.twitter4j:twitter4j-core:4.0.6')
+    compile('org.jsoup:jsoup:1.10.1')
 
     runtime('org.springframework.boot:spring-boot-devtools')
 

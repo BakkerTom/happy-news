@@ -1,12 +1,9 @@
 package nl.fhict.happynews.crawler.api;
 
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Connects to the api and retrieves a json file of news.
@@ -15,10 +12,10 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class NewsAPI extends API<NewsSource> {
 
-    @Value("${news.apikey}")
+    @Value("${crawler.news.apikey}")
     private String API_KEY;
 
-    @Value("${news.apiurl}")
+    @Value("${crawler.news.apiurl}")
     private String API_URL;
 
 

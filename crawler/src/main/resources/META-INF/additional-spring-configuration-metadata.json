@@ -4,6 +4,46 @@
       "name": "crawler.delay",
       "type": "java.lang.String",
       "description": "Delay between each crawl."
+    },
+    {
+      "name": "crawler.news.apikey",
+      "type": "java.lang.String",
+      "description": "The API key for NewsAPI.org."
+    },
+    {
+      "name": "crawler.news.apiurl",
+      "type": "java.lang.String",
+      "description": "The API url for NewsAPI.org."
+    },
+    {
+      "name": "crawler.news.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the crawler should run. Defaults to \"true\"."
+    },
+    {
+      "name": "crawler.instagram.apikey",
+      "type": "java.lang.String",
+      "description": "The API key for Instagram."
+    },
+    {
+      "name": "crawler.instagram.apiurl",
+      "type": "java.lang.String",
+      "description": "The API url for Instagram."
+    },
+    {
+      "name": "crawler.instagram.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether the crawler should run. Defaults to \"true\"."
+    },
+    {
+      "name": "extractor.article.apikey",
+      "type": "java.lang.String",
+      "description": "The API key for extracting articles."
+    },
+    {
+      "name": "extractor.article.apiurl",
+      "type": "java.lang.String",
+      "description": "The API url for extracting articles."
     }
   ]
 }
