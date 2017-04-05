@@ -11,7 +11,8 @@ buildscript {
 }
 
 allprojects {
-    apply plugin:'idea'
+    apply plugin: 'idea'
+    apply plugin: 'checkstyle'
 
     group 'nl.fhict.happynews'
     version '1.0-SNAPSHOT'
@@ -21,6 +22,17 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+
+    checkstyle {
+        toolVersion = "7.6.1"
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.enabled false
+            html.enabled true
+        }
     }
 }
 
