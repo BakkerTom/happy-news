@@ -27,8 +27,9 @@ public class InstagramCrawler extends Crawler<InstagramEnvelope> {
         return enabled;
     }
   
-     public InstagramCrawler(){
-        super();
+     public InstagramCrawler() {
+         super();
+     }
 
     @Override
     public void crawl() {

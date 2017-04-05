@@ -3,6 +3,7 @@ package nl.fhict.happynews.crawler.crawler;
 import nl.fhict.happynews.crawler.model.twitterapi.TweetBundle;
 import nl.fhict.happynews.shared.Post;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
 
@@ -23,11 +24,19 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     private String hashTag;
     private final static int AMOUNTOFTWEETS = 200;
 
+    @Value("${crawler.twitter.enabled:true}")
+    private boolean enabled;
+
     public TwitterCrawler() {
         logger = LoggerFactory.getLogger(TwitterCrawler.class);
         twitter = TwitterFactory.getSingleton();
         hashTag = "#happy";
         loadHashTags();
+    }
+
+    @Override
+    protected boolean isEnabled() {
+        return enabled;
     }
 
     /**
