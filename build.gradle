@@ -33,6 +33,8 @@ allprojects {
             xml.enabled false
             html.enabled true
         }
+
+        rootProject.tasks.checkstyle.dependsOn it
     }
 }
 
@@ -43,3 +45,10 @@ ideaWorkspace.enabled = false
 task clean {
     delete "${buildDir}/"
 }
+
+task installGitHooks(type: Copy) {
+    from new File(rootProject.rootDir, 'hooks/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+}
+
+task checkstyle

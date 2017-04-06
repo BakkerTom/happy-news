@@ -18,6 +18,11 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
 
     private Post post;
 
+    /**
+     * Creates a new {@link RecyclerView.ViewHolder} for {@link Post}s.
+     *
+     * @param view The view to use.
+     */
     public ViewHolder(View view) {
         super(view);
 

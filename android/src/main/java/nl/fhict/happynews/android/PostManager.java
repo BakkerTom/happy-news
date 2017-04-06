@@ -37,12 +37,12 @@ public class PostManager {
     /**
      * Sends content of a page to the FeedAdapter.
      *
-     * @param page
-     * @param size
-     * @param context
+     * @param page     The page number to load.
+     * @param size     The amount of items on the page.
+     * @param context  The context used to build the request.
+     * @param listener The listener to notify when loading is completed.
      */
     public void loadPage(int page, int size, Context context, final LoadListener listener) {
-        Ion.with(context);
         GsonBuilder builder = new GsonBuilder();
 
         // Register an adapter to manage the date types as long values
@@ -82,7 +82,7 @@ public class PostManager {
     /**
      * Assigns a feedAdapter to the PostManager.
      *
-     * @param feedAdapter
+     * @param feedAdapter The feed adapter.
      */
     public void setFeedAdapter(FeedAdapter feedAdapter) {
         this.feedAdapter = feedAdapter;

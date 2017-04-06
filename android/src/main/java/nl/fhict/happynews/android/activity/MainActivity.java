@@ -61,7 +61,11 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                             loading = true;
                             Page lastPage = feedAdapter.getLastPage();
                             if (!lastPage.isLast()) {
-                                postManager.loadPage(lastPage.getNumber() + 1, PAGE_SIZE, getApplicationContext(), MainActivity.this);
+                                postManager.loadPage(
+                                    lastPage.getNumber() + 1,
+                                    PAGE_SIZE,
+                                    getApplicationContext(),
+                                    MainActivity.this);
                             }
                         }
                     }

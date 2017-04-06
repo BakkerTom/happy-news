@@ -1,5 +1,6 @@
 package nl.fhict.happynews.android.viewholder;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,11 @@ public class PostImageHolder extends ViewHolder {
     private TextView headlineTextView;
     private ImageView imageView;
 
+    /**
+     * Create a new {@link RecyclerView.ViewHolder} for {@link Post}s of the type article with an image.
+     *
+     * @param view The view to use.
+     */
     public PostImageHolder(View view) {
         super(view);
 
@@ -27,6 +33,12 @@ public class PostImageHolder extends ViewHolder {
         imageView = (ImageView) view.findViewById(R.id.imageView);
     }
 
+    /**
+     * Bind a {@link Post} to this view.
+     *
+     * @param post The post to bind.
+     */
+    @Override
     public void bindType(Post post) {
         super.bindType(post);
 

@@ -13,10 +13,10 @@ import org.springframework.web.client.HttpClientErrorException;
 public class NewsApi extends Api<NewsSource> {
 
     @Value("${crawler.news.apikey}")
-    private String API_KEY;
+    private String apiKey;
 
     @Value("${crawler.news.apiurl}")
-    private String API_URL;
+    private String apiUrl;
 
 
     public NewsApi() {
@@ -32,10 +32,10 @@ public class NewsApi extends Api<NewsSource> {
     public NewsSource getRaw(String... args) {
         NewsSource newsSource = null;
 
-        String url = API_URL
+        String url = apiUrl
             + "?source=" + args[0]
             + "&sortBy=" + args[1]
-            + "&apiKey=" + API_KEY;
+            + "&apiKey=" + apiKey;
 
         try {
             newsSource = restTemplate.getForObject(url, NewsSource.class);

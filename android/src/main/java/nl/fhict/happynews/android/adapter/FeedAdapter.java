@@ -18,12 +18,12 @@ import java.util.ArrayList;
  */
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final Context mContext;
+    private final Context context;
     private Page lastPage;
     private ArrayList<Post> posts;
 
-    public FeedAdapter(Context mContext, ArrayList<Post> posts) {
-        this.mContext = mContext;
+    public FeedAdapter(Context context, ArrayList<Post> posts) {
+        this.context = context;
         this.posts = posts;
     }
 
@@ -46,6 +46,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
 
         switch (viewType) {
+            default:
             case 0:
                 view = LayoutInflater
                     .from(parent.getContext())
@@ -57,8 +58,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .inflate(R.layout.list_item_post_image, parent, false);
                 return new PostImageHolder(view);
         }
-
-        return null;
     }
 
     @Override
@@ -66,6 +65,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Post post = posts.get(position);
 
         switch (holder.getItemViewType()) {
+            default:
             case 0:
                 PostHolder postHolder = (PostHolder) holder;
                 postHolder.bindType(post);

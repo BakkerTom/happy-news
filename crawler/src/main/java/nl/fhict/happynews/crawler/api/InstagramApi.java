@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class InstagramApi extends Api<InstagramEnvelope> {
     @Value("${crawler.instagram.apikey}")
-    private String API_KEY;
+    private String apiKey;
 
     @Value("${crawler.instagram.apiurl}")
-    private String API_URL;
+    private String apiUrl;
 
 
     public InstagramApi() {

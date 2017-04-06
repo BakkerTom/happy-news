@@ -58,6 +58,9 @@ public class PostControllerTest {
         mongo();
     }
 
+    /**
+     * Populate the repository with posts.
+     */
     @Before
     public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
@@ -117,41 +120,44 @@ public class PostControllerTest {
     public void getAllPost() throws Exception {
         //regular get all posts
         this.mockMvc.perform(get("/post"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(5)));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(5)));
 
     }
 
     @Test
     public void getPostByUuid() throws Exception {
         this.mockMvc.perform(get("/post/uuid/{uuid}", posts.get(1).getUuid()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.sourceName", is("The Post")));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sourceName", is("The Post")));
     }
 
     @Test
     public void getPostAfterDate() throws Exception {
         //regular get after date
         this.mockMvc.perform(get("/post/afterdate/{date}", new Date(2010, 11, 10)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", hasSize(2)))
+            .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //superfluous ordered parameter
         this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), true))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //unordered list
         this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(2010, 11, 10), false))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].sourceName", is("The NY Times")));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].sourceName", is("The NY Times")));
     }
 
+    /**
+     * @return A new in memory MongoDB.
+     */
     @Bean(destroyMethod = "close")
     public static Mongo mongo() throws IOException {
         return new EmbeddedMongoBuilder()
-                .version("2.4.5")
-                .bindIp("127.0.0.1")
-                .port(12345)
-                .build();
+            .version("2.4.5")
+            .bindIp("127.0.0.1")
+            .port(12345)
+            .build();
     }
 }
