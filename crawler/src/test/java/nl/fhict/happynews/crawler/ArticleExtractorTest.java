@@ -35,7 +35,7 @@ public class ArticleExtractorTest {
             is("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can add to it via a pull "
                 + "request. Here are some notes on how and why it came to be." + "GitHub has a set of powerful "
                 + "commands for narrowing search results. In seeking out modern content management tools, I used "
-                + "queries like this:cms OR “content management” OR admin pushed:&gt;2016–01–01 stars:&gt;50 Sorting "
+                + "queries like this:cms OR “content management” OR admin pushed:&gt;2016–01–01 stars:&gt;50Sorting "
                 + "by stars, I worked my way backwards. I was able to quickly spot relevant CMS projects. I also "
                 + "started to notice some trends.Modern and popular content management systems are written in PHP, "
                 + "JavaScript, Python, and Ruby. There are also a few content management systems written in&nbsp;.NET"
