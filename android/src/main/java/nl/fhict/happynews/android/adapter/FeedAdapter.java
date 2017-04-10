@@ -11,6 +11,7 @@ import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.viewholder.PostHolder;
 import nl.fhict.happynews.android.viewholder.PostImageHolder;
+import nl.fhict.happynews.android.viewholder.PostQuoteHolder;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (post.getImageUrls().size() > 0) {
             return 1;
+        }else if (post.getType() == Post.Type.QUOTE){
+            return 2;
         }
 
         return 0;
@@ -57,6 +60,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         .from(parent.getContext())
                         .inflate(R.layout.list_item_post_image, parent, false);
                 return new PostImageHolder(view);
+            case 2:
+                view = LayoutInflater
+                        .from(parent.getContext())
+                        .inflate(R.layout.list_item_post_quote, parent, false);
+                return new PostQuoteHolder(view);
         }
 
         return null;
