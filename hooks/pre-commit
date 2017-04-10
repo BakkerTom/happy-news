@@ -1,11 +1,21 @@
 #!/bin/sh
 
-git -c commit.gpgsign=false stash -q --keep-index
-./gradlew checkstyle
+MERGE_HASH=$(git rev-parse -q --verify MERGE_HEAD)
 
-RESULTS=$?
+if [ -z ${MERGE_HASH} ]; then
 
-git -c commit.gpgsign=false stash pop -q
+    git -c commit.gpgsign=false stash -q --keep-index
+    ./gradlew checkstyle
+
+    RESULTS=$?
+
+    git -c commit.gpgsign=false stash pop -q
+else
+
+    ./gradlew checkstyle
+
+    RESULTS=$?
+fi
 
 printf "\nChecklist:\n"
 
