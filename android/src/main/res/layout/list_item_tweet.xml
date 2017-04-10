@@ -41,7 +41,14 @@
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="4h Ago"
+                          android:layout_marginRight="10dp"
                           android:id="@+id/timeTextView"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="henk"
+                    android:textColor="@color/colorTweet"
+                    android:id="@+id/twitterUserName"/>
             </LinearLayout>
 
             <TextView

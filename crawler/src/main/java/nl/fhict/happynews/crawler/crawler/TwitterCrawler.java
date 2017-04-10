@@ -15,6 +15,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -59,7 +60,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
      */
     @Override
     public void crawl() {
-        if(hashTags == null){
+        if (hashTags == null) {
             loadHashTags();
         }
         List<Post> positivePosts = new ArrayList<>();
