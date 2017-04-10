@@ -2,14 +2,14 @@ package nl.fhict.happynews.crawler.api;
 
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * Connects to the api and retrieves a json file of news.
  * Created by daan_ on 6-3-2017.
  */
-@Component
+@Service
 public class NewsApi extends Api<NewsSource> {
 
     @Value("${crawler.news.apikey}")

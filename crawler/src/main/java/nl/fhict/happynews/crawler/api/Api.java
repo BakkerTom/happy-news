@@ -14,7 +14,7 @@ public abstract class Api<T> {
 
     public Api() {
         restTemplate = new RestTemplate();
-        logger = LoggerFactory.getLogger(NewsApi.class);
+        logger = LoggerFactory.getLogger(getClass());
     }
 
     abstract T getRaw(String... args);

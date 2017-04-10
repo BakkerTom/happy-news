@@ -61,7 +61,6 @@ public class NewsCrawler extends Crawler<NewsSource> {
         sources.add(new Source("cnbc", "top"));
         sources.add(new Source("cnn", "top"));
         sources.add(new Source("entertainment-weekly", "top"));
-        sources.add(new Source("espn", "top"));
         sources.add(new Source("financial-times", "latest"));
         for (Source s : sources) {
             try {
