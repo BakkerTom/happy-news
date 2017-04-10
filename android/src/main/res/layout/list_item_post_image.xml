@@ -16,11 +16,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+            
+            <FrameLayout android:layout_width="match_parent" android:layout_height="200dp">
+                <ImageView android:layout_width="match_parent"
+                           android:layout_height="200dp"
+                           android:id="@+id/imageView"
+                           android:scaleType="centerCrop" android:background="@color/colorBackground"/>
 
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="200dp"
-                       android:id="@+id/imageView"
-                       android:scaleType="centerCrop" android:background="@color/colorBackground"/>
+                <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                    <ProgressBar
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@android:color/darker_gray"/>
+                </FrameLayout>
+            </FrameLayout>
+
+            
 
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
