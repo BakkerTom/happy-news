@@ -2,7 +2,10 @@ package nl.fhict.happynews.crawler.crawler;
 
 import nl.fhict.happynews.crawler.model.twitterapi.TweetBundle;
 import nl.fhict.happynews.shared.Post;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -14,8 +17,8 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +37,9 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
+    @Autowired
+    private ApplicationContext applicationContext;
+
 
     /**
      * Create a new crawler for tweets.
@@ -41,7 +47,6 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     public TwitterCrawler() {
         twitter = TwitterFactory.getSingleton();
         hashTag = "#happy";
-        loadHashTags();
     }
 
     @Override
@@ -55,6 +60,9 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
      */
     @Override
     public void crawl() {
+        if (hashTags == null) {
+            loadHashTags();
+        }
         List<Post> positivePosts = new ArrayList<>();
         List<TweetBundle> tweetBundles = getRaw();
         for (TweetBundle bundle : tweetBundles) {
@@ -164,9 +172,10 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
 
     private void loadHashTags() {
         String csvFile = "hashtags.csv";
+        Resource resource = applicationContext.getResource("classpath:/" + csvFile);
         String line = "";
         String cvsSplitBy = ",";
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             while ((line = br.readLine()) != null) {
                 hashTags = line.split(cvsSplitBy);
             }
