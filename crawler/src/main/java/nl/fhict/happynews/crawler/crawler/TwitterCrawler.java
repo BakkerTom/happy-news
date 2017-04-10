@@ -22,7 +22,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     private Twitter twitter;
     private String hashTags[];
     private String hashTag;
-    private final static int AMOUNTOFTWEETS = 200;
+    private final static int AMOUNT_OF_TWEETS = 200;
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
@@ -50,8 +50,8 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         for (TweetBundle bundle : tweetBundles) {
             positivePosts.addAll(rawToPosts(bundle));
         }
-        logger.info("Filtered out " + (AMOUNTOFTWEETS * hashTags.length - positivePosts.size())
-                + " out of " + AMOUNTOFTWEETS * hashTags.length + " tweets");
+        logger.info("Filtered out " + (AMOUNT_OF_TWEETS * hashTags.length - positivePosts.size())
+                + " out of " + AMOUNT_OF_TWEETS * hashTags.length + " tweets");
         logger.info("Saving " + positivePosts.size() + " tweets to the database");
         savePosts(positivePosts);
     }
@@ -75,7 +75,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
                 List<Status> rawData = result.getTweets();
                 rawTweets.addTweets(rawData);
                 tweetBundles.add(rawTweets);
-                logger.info("Received total of " + AMOUNTOFTWEETS + " tweets from twitter with hashtag " + hashTag);
+                logger.info("Received total of " + AMOUNT_OF_TWEETS + " tweets from twitter with hashtag " + hashTag);
             } catch (TwitterException e) {
                 logger.error("TwitterException: " + e.getErrorMessage());
             }
