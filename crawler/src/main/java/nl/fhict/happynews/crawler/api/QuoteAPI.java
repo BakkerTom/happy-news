@@ -2,13 +2,14 @@ package nl.fhict.happynews.crawler.api;
 
 import nl.fhict.happynews.crawler.model.quoteapi.QuoteEnvelope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 /**
  * Created by Tobi on 10-Apr-17.
  */
-@Component
-public class QuoteAPI extends API<QuoteEnvelope> {
+@Service
+public class QuoteAPI extends Api<QuoteEnvelope> {
 
     public QuoteAPI() {
         super();
