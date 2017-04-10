@@ -41,3 +41,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.3.1'
 }
+
+task checkstyleMain(type: Checkstyle) {
+    configFile file("config/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("config/checkstyle/suppressions.xml").absolutePath
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+}
+
+check.dependsOn(checkstyleMain)

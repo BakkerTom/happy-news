@@ -2,7 +2,6 @@ package nl.fhict.happynews.crawler.api;
 
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -11,21 +10,21 @@ import org.springframework.web.client.HttpClientErrorException;
  * Created by daan_ on 6-3-2017.
  */
 @Service
-public class NewsAPI extends API<NewsSource> {
+public class NewsApi extends Api<NewsSource> {
 
     @Value("${crawler.news.apikey}")
-    private String API_KEY;
+    private String apiKey;
 
     @Value("${crawler.news.apiurl}")
-    private String API_URL;
+    private String apiUrl;
 
 
-    public NewsAPI() {
+    public NewsApi() {
         super();
     }
 
     /**
-     * Get newsposts from the api and return a string
+     * Get newsposts from the api.
      *
      * @param args [0] = source, [1] = type
      * @return NewsSource object containing list of articles and source information
@@ -33,10 +32,10 @@ public class NewsAPI extends API<NewsSource> {
     public NewsSource getRaw(String... args) {
         NewsSource newsSource = null;
 
-        String url = API_URL +
-                "?source=" + args[0] +
-                "&sortBy=" + args[1] +
-                "&apiKey=" + API_KEY;
+        String url = apiUrl
+            + "?source=" + args[0]
+            + "&sortBy=" + args[1]
+            + "&apiKey=" + apiKey;
 
         try {
             newsSource = restTemplate.getForObject(url, NewsSource.class);

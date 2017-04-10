@@ -8,15 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.stereotype.Service;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Tobi on 27-Mar-17.
  * Classes extending crawler class also need the @Service annotation
- *
  */
 @Service
 public abstract class Crawler<T> {
@@ -75,7 +74,7 @@ public abstract class Crawler<T> {
 
         for (Post p : posts) {
             ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withMatcher("url", ExampleMatcher.GenericPropertyMatchers.exact());
+                .withMatcher("url", ExampleMatcher.GenericPropertyMatchers.exact());
             if (!postRepository.exists(Example.of(p, matcher))) {
                 logger.info("Inserting " + p.getUrl());
                 savePost(p);

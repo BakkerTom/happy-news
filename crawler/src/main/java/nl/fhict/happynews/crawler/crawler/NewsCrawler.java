@@ -1,7 +1,7 @@
 package nl.fhict.happynews.crawler.crawler;
 
 import nl.fhict.happynews.crawler.analyzer.PositivityAnalyzer;
-import nl.fhict.happynews.crawler.api.NewsAPI;
+import nl.fhict.happynews.crawler.api.NewsApi;
 import nl.fhict.happynews.crawler.extractor.ArticleExtractor;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class NewsCrawler extends Crawler<NewsSource> {
 
     @Autowired
-    private NewsAPI newsAPI;
+    private NewsApi newsApi;
 
     @Autowired
     private SourceRepository sourceRepository;
@@ -91,7 +91,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
 
         for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsAPI.getRaw(s.getName(), s.getType());
+            NewsSource newsSource = newsApi.getRaw(s.getName(), s.getType());
             newsSources.add(newsSource);
         }
         logger.info("Received total of " + newsSources.size() + " articles");
