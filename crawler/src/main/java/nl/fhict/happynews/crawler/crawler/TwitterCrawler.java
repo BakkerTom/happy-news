@@ -96,10 +96,10 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     public List<Post> rawToPosts(TweetBundle tweets) {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return tweets.getTweets().stream()
-                .filter(status -> !status.isPossiblySensitive())
-                .filter(status -> status.getText().matches("\\A\\p{ASCII}*\\z"))
-                .filter(status -> status.getCreatedAt().after(d))
-                .filter(status -> status.getRetweetCount() >= 10)
+                .filter(status -> !status.isPossiblySensitive()
+                        && status.getText().matches("\\A\\p{ASCII}*\\z")
+                        && status.getCreatedAt().after(d)
+                        && status.getRetweetCount() >= 10)
                 .map(this::convertStatusToPost)
                 .collect(Collectors.toList());
     }
@@ -119,11 +119,13 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         newPost.setPublishedAt(status.getCreatedAt());
 
         //retrieve link URLS. No list of links in Post yet
+        /*
         URLEntity urls[] = status.getURLEntities();
         List<String> links = new ArrayList<>();
         for (URLEntity url1 : urls) {
             links.add(url1.getURL());
         }
+        */
 
         //retrieve image urls
         List<String> imageLinks = new ArrayList<>();
