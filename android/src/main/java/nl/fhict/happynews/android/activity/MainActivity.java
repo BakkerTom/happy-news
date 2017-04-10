@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        postManager = PostManager.getInstance();
+        postManager = PostManager.getInstance(getApplicationContext());
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         feedAdapter = new FeedAdapter(this, new ArrayList<Post>());
