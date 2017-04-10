@@ -14,7 +14,7 @@ public class QuoteEnvelope {
         this.contents = contents;
     }
 
-    public class Contents{
+    public class Contents {
         private Quote[] quotes;
         private String copyright;
 

@@ -9,16 +9,17 @@ import org.springframework.web.client.HttpClientErrorException;
  * Created by Tobi on 10-Apr-17.
  */
 @Service
-public class QuoteAPI extends Api<QuoteEnvelope> {
+public class QuoteApi extends Api<QuoteEnvelope> {
 
-    public QuoteAPI() {
+    public QuoteApi() {
         super();
     }
 
     /**
+     * Get the raw quote JSON.
      *
      * @param args [0] is a category
-     * @return
+     * @return QuoteEnvelope
      */
     @Override
     public QuoteEnvelope getRaw(String... args) {

@@ -19,6 +19,11 @@ import java.util.ArrayList;
  */
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int NEWS = 0;
+    public static final int NEWSIMAGE = 1;
+    public static final int QUOTE = 2;
+
+
     private final Context context;
     private Page lastPage;
     private ArrayList<Post> posts;
@@ -36,12 +41,12 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Post post = posts.get(position);
 
         if (post.getImageUrls().size() > 0) {
-            return 1;
-        }else if (post.getType() == Post.Type.QUOTE){
-            return 2;
+            return NEWSIMAGE;
+        } else if (post.getType() == Post.Type.QUOTE) {
+            return QUOTE;
         }
 
-        return 0;
+        return NEWS;
     }
 
     @Override
@@ -50,17 +55,17 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (viewType) {
             default:
-            case 0:
+            case NEWS:
                 view = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.list_item_post, parent, false);
                 return new PostHolder(view);
-            case 1:
+            case NEWSIMAGE:
                 view = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.list_item_post_image, parent, false);
                 return new PostImageHolder(view);
-            case 2:
+            case QUOTE:
                 view = LayoutInflater
                         .from(parent.getContext())
                         .inflate(R.layout.list_item_post_quote, parent, false);

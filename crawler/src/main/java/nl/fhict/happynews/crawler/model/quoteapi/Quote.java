@@ -3,7 +3,7 @@ package nl.fhict.happynews.crawler.model.quoteapi;
 /**
  * Created by Tobi on 10-Apr-17.
  */
-public class Quote{
+public class Quote {
     private String quote;
     private int length;
     private String author;

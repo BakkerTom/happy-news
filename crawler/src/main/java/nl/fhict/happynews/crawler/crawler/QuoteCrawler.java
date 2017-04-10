@@ -1,6 +1,6 @@
 package nl.fhict.happynews.crawler.crawler;
 
-import nl.fhict.happynews.crawler.api.QuoteAPI;
+import nl.fhict.happynews.crawler.api.QuoteApi;
 import nl.fhict.happynews.crawler.model.quoteapi.Quote;
 import nl.fhict.happynews.crawler.model.quoteapi.QuoteEnvelope;
 import nl.fhict.happynews.shared.Post;
@@ -25,12 +25,12 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
 
 
     @Autowired
-    private QuoteAPI quoteAPI;
+    private QuoteApi quoteApi;
 
     @Value("${crawler.quotes.enabled:true}")
     private boolean enabled;
 
-    public QuoteCrawler(){
+    public QuoteCrawler() {
         super();
         catIndex = 0;
     }
@@ -53,8 +53,8 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
     @Override
     List<QuoteEnvelope> getRaw() {
         List<QuoteEnvelope> result = new ArrayList<>();
-        result.add(quoteAPI.getRaw(categories[catIndex]));
-        if(catIndex++ > categories.length){
+        result.add(quoteApi.getRaw(categories[catIndex]));
+        if (catIndex++ > categories.length) {
             catIndex = 0;
         }
         return result;
@@ -63,11 +63,11 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
     @Override
     List<Post> rawToPosts(QuoteEnvelope entity) {
         List<Post> result = new ArrayList<>();
-        if(entity == null || entity.getContents() == null){
+        if (entity == null || entity.getContents() == null) {
             logger.info("No quotes/contents found.");
             return result;
         }
-        for(Quote quote : entity.getContents().getQuotes()) {
+        for (Quote quote : entity.getContents().getQuotes()) {
             Post toAdd = new Post();
             toAdd.setTitle(quote.getTitle());
             toAdd.setUrl(quote.getPermalink());
