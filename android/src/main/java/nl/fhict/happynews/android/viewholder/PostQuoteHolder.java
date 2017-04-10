@@ -38,7 +38,7 @@ public class PostQuoteHolder extends ViewHolder {
         super.bindType(post);
 
         sourceTextView.setText(post.getSource());
-        headlineTextView.setText(post.getTitle());
+        headlineTextView.setText(post.getContentText());
         authorTextView.setText(post.getAuthor());
     }
 }

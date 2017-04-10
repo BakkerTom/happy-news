@@ -79,13 +79,17 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (holder.getItemViewType()) {
             default:
-            case 0:
+            case NEWS:
                 PostHolder postHolder = (PostHolder) holder;
                 postHolder.bindType(post);
                 break;
-            case 1:
+            case NEWSIMAGE:
                 PostImageHolder postImageHolder = (PostImageHolder) holder;
                 postImageHolder.bindType(post);
+                break;
+            case QUOTE:
+                PostQuoteHolder postQuoteHolder = (PostQuoteHolder) holder;
+                postQuoteHolder.bindType(post);
                 break;
         }
     }
