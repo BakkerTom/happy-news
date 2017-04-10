@@ -3,6 +3,8 @@ crawler:
   news:
     apikey: "c96e519c4c484966b2929b4177b91749"
     apiurl: "https://newsapi.org/v1/articles"
+  quotes:
+    delay: 10800000
 extractor:
   article:
     apikey: "fbfOQzeyQ0aXewj3oxJQ1D9zP24QuoBAxejPadhr"

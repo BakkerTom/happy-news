@@ -38,7 +38,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
     @Autowired
     private PositivityAnalyzer positivityAnalyzer;
 
-    @Value("${crawler.news.enabled:true}")
+    @Value("${crawler.news.enabled:false}")
     private boolean enabled;
 
     @Override
