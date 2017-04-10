@@ -68,6 +68,48 @@ public class PostManager {
                 });
     }
 
+
+    /**
+     * Sends content of the first page to the FeedAdapter
+     * @param context
+     * @param listener
+     */
+    public void refresh(Context context, final LoadListener listener) {
+        Ion.with(context);
+        GsonBuilder builder = new GsonBuilder();
+
+        // Register an adapter to manage the date types as long values
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return new Date(json.getAsJsonPrimitive().getAsLong());
+            }
+        });
+
+        Gson gson = builder.create();
+
+        Ion.getDefault(context).configure().setGson(gson);
+        Ion.with(context)
+                .load(API_URL + "/post")
+                .as(new TypeToken<Page>() {
+                })
+                .setCallback(new FutureCallback<Page>() {
+                    @Override
+                    public void onCompleted(Exception e, Page result) {
+                        if (e == null){
+                            Log.d("PostManager", "Loaded page: " + result.getNumber());
+
+                            feedAdapter.setPage(result);
+
+                            if (listener != null){
+                                listener.onFinishedLoading();
+                            }
+                        } else {
+                            Log.e("PostManager", "Json Exception: ", e);
+                        }
+                    }
+                });
+    }
+
     /**
      * Assigns a feedAdapter to the PostManager
      *
@@ -76,5 +118,6 @@ public class PostManager {
     public void setFeedAdapter(FeedAdapter feedAdapter) {
         this.feedAdapter = feedAdapter;
     }
+
 
 }
