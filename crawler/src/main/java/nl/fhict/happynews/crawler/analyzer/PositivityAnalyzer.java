@@ -52,9 +52,9 @@ public class PositivityAnalyzer {
         AtomicInteger pos = new AtomicInteger();
         AtomicInteger neg = new AtomicInteger();
         inputWords.forEach((word, count) -> {
-            if (positiveWords.contains(word)) {
+            if (positiveWords.contains(word.toLowerCase())) {
                 pos.addAndGet(count);
-            } else if (negativeWords.contains(word)) {
+            } else if (negativeWords.contains(word.toLowerCase())) {
                 neg.addAndGet(count);
             }
         });
