@@ -76,6 +76,7 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
             toAdd.setTags(Arrays.asList(quote.getTags()));
             toAdd.setAuthor(quote.getAuthor());
             toAdd.setIndexedAt(new Date());
+            toAdd.setPublishedAt(new Date());
             result.add(toAdd);
         }
         return result;
