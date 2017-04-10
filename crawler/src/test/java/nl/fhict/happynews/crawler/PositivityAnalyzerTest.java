@@ -37,6 +37,9 @@ public class PositivityAnalyzerTest {
         assertThat(positive, is(true));
     }
 
+    /**
+     * Test if texts with and without lowercase work
+     */
     @Test
     public void testLowercase(){
         String text = "abounds abundance accomplished accomplishment accomplishments accurate";
