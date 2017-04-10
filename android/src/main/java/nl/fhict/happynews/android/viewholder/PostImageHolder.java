@@ -1,30 +1,28 @@
 package nl.fhict.happynews.android.viewholder;
 
-import android.content.Context;
-import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.koushikdutta.ion.Ion;
-import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.R;
-
-import java.util.Date;
+import nl.fhict.happynews.android.model.Post;
 
 /**
  * Created by tom on 27/03/2017.
  */
-public class PostImageHolder extends ViewHolder{
+public class PostImageHolder extends ViewHolder {
 
     private TextView sourceTextView;
     private TextView timeTextView;
     private TextView headlineTextView;
     private ImageView imageView;
 
+    /**
+     * Create a new {@link RecyclerView.ViewHolder} for {@link Post}s of the type article with an image.
+     *
+     * @param view The view to use.
+     */
     public PostImageHolder(View view) {
         super(view);
 
@@ -35,6 +33,12 @@ public class PostImageHolder extends ViewHolder{
         imageView = (ImageView) view.findViewById(R.id.imageView);
     }
 
+    /**
+     * Bind a {@link Post} to this view.
+     *
+     * @param post The post to bind.
+     */
+    @Override
     public void bindType(Post post) {
         super.bindType(post);
 
@@ -43,7 +47,7 @@ public class PostImageHolder extends ViewHolder{
         headlineTextView.setText(post.getTitle());
 
         Ion.with(imageView)
-                .load(post.getImageUrls().get(0));
+            .load(post.getImageUrls().get(0));
     }
 
 }

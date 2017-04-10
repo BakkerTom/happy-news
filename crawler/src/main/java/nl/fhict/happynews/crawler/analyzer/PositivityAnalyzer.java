@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -42,7 +44,7 @@ public class PositivityAnalyzer {
 
 
     /**
-     * rates the positivity of a text based on the words it contains
+     * Rates the positivity of a text based on the words it contains.
      *
      * @param inputText the text to be analyzed
      * @return true if positive
@@ -74,7 +76,7 @@ public class PositivityAnalyzer {
      * Gets the unique words per text and their frequency.
      *
      * @param inputText text to be filtered on words
-     * @return  map of the unique words and their respective counts
+     * @return map of the unique words and their respective counts
      */
     private Map<String, Integer> getUniqueWords(String inputText) {
         String[] words = inputText.split("[,.:;\\s\\n]");
@@ -87,7 +89,7 @@ public class PositivityAnalyzer {
     }
 
     /**
-     * Load word from a file
+     * Load word from a file.
      *
      * @param file filename for file located in resource folder
      * @return set of words

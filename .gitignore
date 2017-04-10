@@ -49,6 +49,7 @@ Temporary Items
 !.idea/runConfigurations/
 !.idea/inspectionProfiles/
 !.idea/scopes/
+!.idea/codeStyleSettings.xml
 
 ## File-based project format:
 *.iws

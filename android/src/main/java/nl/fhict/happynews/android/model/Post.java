@@ -2,7 +2,9 @@ package nl.fhict.happynews.android.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Post {
 

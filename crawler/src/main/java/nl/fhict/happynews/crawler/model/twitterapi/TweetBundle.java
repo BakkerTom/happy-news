@@ -1,9 +1,9 @@
 package nl.fhict.happynews.crawler.model.twitterapi;
 
+import twitter4j.Status;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import twitter4j.*;
 
 /**
  * Created by Sander on 04/04/2017.
@@ -25,7 +25,7 @@ public class TweetBundle {
         return hashTag;
     }
 
-    public void addTweets(List<Status> newTweets){
+    public void addTweets(List<Status> newTweets) {
         tweets.addAll(newTweets);
     }
 }

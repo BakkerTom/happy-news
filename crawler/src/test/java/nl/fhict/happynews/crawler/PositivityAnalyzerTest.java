@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,10 +37,10 @@ public class PositivityAnalyzerTest {
     }
 
     /**
-     * Test if texts with and without lowercase work
+     * Test if texts with and without lowercase work.
      */
     @Test
-    public void testLowercase(){
+    public void testLowercase() {
         String text = "abounds abundance accomplished accomplishment accomplishments accurate";
         boolean positive = positivityAnalyzer.analyzeText(text);
         assertThat(positive, is(true));

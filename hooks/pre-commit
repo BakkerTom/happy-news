@@ -1,0 +1,31 @@
+#!/bin/sh
+
+MERGE_HASH=$(git rev-parse -q --verify MERGE_HEAD)
+
+if [ -z ${MERGE_HASH} ]; then
+
+    git -c commit.gpgsign=false stash -q --keep-index
+    ./gradlew checkstyle
+
+    RESULTS=$?
+
+    git -c commit.gpgsign=false stash pop -q
+else
+
+    ./gradlew checkstyle
+
+    RESULTS=$?
+fi
+
+printf "\nChecklist:\n"
+
+if [ ${RESULTS} -ne 0 ]; then
+    printf "%b" "Style: [31mError![0m\n"
+    echo Your commit does not adhere to the style guide. Please fix this before committing.
+
+    exit 1
+fi
+
+printf "%b" "Style: [32mOK![0m\n"
+
+exit 0

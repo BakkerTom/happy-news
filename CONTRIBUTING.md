@@ -14,6 +14,8 @@ Follow these instructions to set up your development environment. You can find a
     sdk.dir=/path/to/android/sdk
     ```
 
+4. Run the `installGitHooks` Gradle task to automatically check the code style before each commit. 
+
 That's everything you need to start developing. The Gradle wrapper (`gradlew` and `gradlew.bat`) can be used to execute gradle tasks.
 
 If you want some information on getting your IDE ready, please do read on.
