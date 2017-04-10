@@ -9,7 +9,11 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The class that contains information about a newspost
@@ -184,11 +188,15 @@ public class Post {
             return namesMap.get(name.toLowerCase());
         }
 
+        /**
+         * @return The name of this post type, as used in the JSON output.
+         */
         @JsonValue
         public String getName() {
             for (Map.Entry<String, Type> entry : namesMap.entrySet()) {
-                if (entry.getValue() == this)
+                if (entry.getValue() == this) {
                     return entry.getKey();
+                }
             }
 
             return null;

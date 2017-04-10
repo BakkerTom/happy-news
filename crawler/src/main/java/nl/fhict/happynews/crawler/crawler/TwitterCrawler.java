@@ -2,12 +2,20 @@ package nl.fhict.happynews.crawler.crawler;
 
 import nl.fhict.happynews.crawler.model.twitterapi.TweetBundle;
 import nl.fhict.happynews.shared.Post;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import twitter4j.*;
+import twitter4j.HashtagEntity;
+import twitter4j.MediaEntity;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,15 +28,17 @@ import java.util.stream.Collectors;
 public class TwitterCrawler extends Crawler<TweetBundle> {
 
     private Twitter twitter;
-    private String hashTags[];
+    private String[] hashTags;
     private String hashTag;
-    private final static int AMOUNT_OF_TWEETS = 200;
+    private static final int AMOUNT_OF_TWEETS = 200;
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
 
+    /**
+     * Create a new crawler for tweets.
+     */
     public TwitterCrawler() {
-        logger = LoggerFactory.getLogger(TwitterCrawler.class);
         twitter = TwitterFactory.getSingleton();
         hashTag = "#happy";
         loadHashTags();
@@ -40,8 +50,8 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     }
 
     /**
-     * adds new positive tweets to the database
-     * checks the different hashtags for suitable happy tweets
+     * Adds new positive tweets to the database.
+     * Checks the different hashtags for suitable happy tweets.
      */
     @Override
     public void crawl() {
@@ -51,15 +61,15 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
             positivePosts.addAll(rawToPosts(bundle));
         }
         logger.info("Filtered out " + (AMOUNT_OF_TWEETS * hashTags.length - positivePosts.size())
-                + " out of " + AMOUNT_OF_TWEETS * hashTags.length + " tweets");
+            + " out of " + AMOUNT_OF_TWEETS * hashTags.length + " tweets");
         logger.info("Saving " + positivePosts.size() + " tweets to the database");
         savePosts(positivePosts);
     }
 
     /**
-     * Gets tweets from twitter with hastag hashTag
+     * Gets tweets from Twitter with hashtag {@link #hashTag}.
      *
-     * @return List<Status> list of tweets
+     * @return List of tweets
      */
     @Override
     List<TweetBundle> getRaw() {
@@ -84,7 +94,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     }
 
     /**
-     * Method that converts the status objects to posts
+     * Converts the status objects to posts.
      * filters the tweets that are possibly sensitive
      * filters tweets that contain non ascii characters
      * filters tweets that are older than 1 hour
@@ -96,16 +106,16 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     public List<Post> rawToPosts(TweetBundle tweets) {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return tweets.getTweets().stream()
-                .filter(status -> !status.isPossiblySensitive()
-                        && status.getText().matches("\\A\\p{ASCII}*\\z")
-                        && status.getCreatedAt().after(d)
-                        && status.getRetweetCount() >= 10)
-                .map(this::convertStatusToPost)
-                .collect(Collectors.toList());
+            .filter(status -> !status.isPossiblySensitive()
+                && status.getText().matches("\\A\\p{ASCII}*\\z")
+                && status.getCreatedAt().after(d)
+                && status.getRetweetCount() >= 10)
+            .map(this::convertStatusToPost)
+            .collect(Collectors.toList());
     }
 
     /**
-     * Convert a tweet (status object) to a post object
+     * Convert a tweet (status object) to a post object.
      *
      * @param status raw tweet object
      * @return Post object
@@ -144,7 +154,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         newPost.setTags(hashtagList);
 
         String url = "https://twitter.com/" + status.getUser().getScreenName()
-                + "/status/" + status.getId();
+            + "/status/" + status.getId();
         newPost.setUrl(url);
 
         newPost.setSource("Twitter");
