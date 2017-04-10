@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -33,6 +34,16 @@ public class PositivityAnalyzerTest {
         Resource resource = applicationContext.getResource("classpath:/positiveText.txt");
         boolean positive = positivityAnalyzer.analyzeText(FileUtils.readFileToString(resource.getFile()));
 
+        assertThat(positive, is(true));
+    }
+
+    @Test
+    public void testLowercase(){
+        String text = "abounds abundance accomplished accomplishment accomplishments accurate";
+        boolean positive = positivityAnalyzer.analyzeText(text);
+        assertThat(positive, is(true));
+        text = "AboUnds abUndance ACcomplished accomplISHment accomplishments aCCurAte";
+        positive = positivityAnalyzer.analyzeText(text);
         assertThat(positive, is(true));
     }
 }
