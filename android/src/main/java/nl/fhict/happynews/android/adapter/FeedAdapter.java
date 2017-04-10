@@ -99,11 +99,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     /**
-     * Sets the content of a page as the current list of posts
+     * Sets the content of a page as the current list of posts.
      * @param page the loaded page element
      */
     public void setPage(Page page) {
-        if (page != null){
+        if (page != null) {
             this.lastPage = page;
             this.posts.clear();
             this.posts.addAll(page.getContent());
@@ -113,7 +113,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     /**
-     * Returns the last page loaded
+     * Returns the last page loaded.
      * @return Page
      */
     public Page getLastPage() {

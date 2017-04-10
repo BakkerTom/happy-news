@@ -81,9 +81,9 @@ public class PostManager {
 
 
     /**
-     * Sends content of the first page to the FeedAdapter
-     * @param context
-     * @param listener
+     * Sends content of the first page to the FeedAdapter.
+     * @param context The Application context.
+     * @param listener Implementing the LoadListener Interface.
      */
     public void refresh(Context context, final LoadListener listener) {
         Ion.with(context);
@@ -91,7 +91,8 @@ public class PostManager {
 
         // Register an adapter to manage the date types as long values
         builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }
         });
@@ -106,12 +107,12 @@ public class PostManager {
                 .setCallback(new FutureCallback<Page>() {
                     @Override
                     public void onCompleted(Exception e, Page result) {
-                        if (e == null){
+                        if (e == null) {
                             Log.d("PostManager", "Loaded page: " + result.getNumber());
 
                             feedAdapter.setPage(result);
 
-                            if (listener != null){
+                            if (listener != null) {
                                 listener.onFinishedLoading();
                             }
                         } else {
