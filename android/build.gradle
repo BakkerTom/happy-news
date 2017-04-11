@@ -24,6 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        production {
+        }
+        local {
+            applicationIdSuffix ".local"
+            versionNameSuffix "-local"
+        }
+    }
 }
 
 dependencies {

@@ -22,27 +22,32 @@ import java.util.Date;
  */
 public class PostManager {
 
-    private static PostManager ourInstance = new PostManager();
+    private static PostManager ourInstance;
 
-    public static PostManager getInstance() {
+    /**
+     * Get (or create if it doesn't exist) the post manager.
+     *
+     * @param context Preferably a {@link Context} that will continue to exist (like the
+     *                <code>ApplicationContext</code>).
+     * @return The post manager instance.
+     */
+    public static synchronized PostManager getInstance(Context context) {
+        if (ourInstance == null) {
+            ourInstance = new PostManager(context);
+        }
+
         return ourInstance;
     }
 
-    private static final String API_URL = "https://happynews-api.svendubbeld.nl";
+    private String apiUrl;
     private FeedAdapter feedAdapter;
+    private Context context;
 
-    private PostManager() {
-    }
+    private PostManager(Context context) {
+        this.context = context;
 
-    /**
-     * Sends content of a page to the FeedAdapter.
-     *
-     * @param page     The page number to load.
-     * @param size     The amount of items on the page.
-     * @param context  The context used to build the request.
-     * @param listener The listener to notify when loading is completed.
-     */
-    public void loadPage(int page, int size, Context context, final LoadListener listener) {
+        apiUrl = context.getString(R.string.api_url);
+
         GsonBuilder builder = new GsonBuilder();
 
         // Register an adapter to manage the date types as long values
@@ -56,9 +61,22 @@ public class PostManager {
 
         Gson gson = builder.create();
 
-        Ion.getDefault(context).configure().setGson(gson);
+        Ion.getDefault(context)
+            .configure()
+            .setGson(gson);
+    }
+
+    /**
+     * Sends content of a page to the FeedAdapter.
+     *
+     * @param page     The page number to load.
+     * @param size     The amount of items on the page.
+     * @param context  The context used to build the request.
+     * @param listener The listener to notify when loading is completed.
+     */
+    public void loadPage(int page, int size, Context context, final LoadListener listener) {
         Ion.with(context)
-            .load(API_URL + "/post?page=" + page + "&size=" + size)
+            .load(apiUrl + "/post?page=" + page + "&size=" + size)
             .as(new TypeToken<Page>() {
             })
             .setCallback(new FutureCallback<Page>() {
