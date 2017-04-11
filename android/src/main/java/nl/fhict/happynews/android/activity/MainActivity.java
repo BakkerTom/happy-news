@@ -1,6 +1,7 @@
 package nl.fhict.happynews.android.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +18,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements LoadListener {
 
     private PostManager postManager;
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private FeedAdapter feedAdapter;
+
 
     private boolean loading;
     private int pastVisiblesItems;
@@ -32,19 +35,30 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        postManager = PostManager.getInstance();
+        postManager = PostManager.getInstance(getApplicationContext());
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+
         feedAdapter = new FeedAdapter(this, new ArrayList<Post>());
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(feedAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
         postManager.setFeedAdapter(feedAdapter);
-        postManager.loadPage(0, PAGE_SIZE, this, this);
+
+        swipeRefresh.setRefreshing(true);
+        postManager.refresh(this, this);
         loading = true;
 
         addScrollListener();
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postManager.refresh(MainActivity.this, MainActivity.this);
+            }
+        });
     }
 
     private void addScrollListener() {
@@ -61,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                             loading = true;
                             Page lastPage = feedAdapter.getLastPage();
                             if (!lastPage.isLast()) {
-                                postManager.loadPage(
+                                postManager.load(
                                     lastPage.getNumber() + 1,
                                     PAGE_SIZE,
                                     MainActivity.this,
@@ -82,5 +96,6 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     @Override
     public void onFinishedLoading() {
         loading = false;
+        swipeRefresh.setRefreshing(false);
     }
 }
