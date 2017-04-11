@@ -10,6 +10,7 @@ import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.viewholder.PostHolder;
 import nl.fhict.happynews.android.viewholder.PostImageHolder;
+import nl.fhict.happynews.android.viewholder.PostQuoteHolder;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,11 @@ import java.util.ArrayList;
  * Created by tom on 27/03/2017.
  */
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    public static final int NEWS = 0;
+    public static final int NEWSIMAGE = 1;
+    public static final int QUOTE = 2;
+
 
     private final Context context;
     private Page lastPage;
@@ -35,10 +41,12 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Post post = posts.get(position);
 
         if (post.getImageUrls().size() > 0) {
-            return 1;
+            return NEWSIMAGE;
+        } else if (post.getType() == Post.Type.QUOTE) {
+            return QUOTE;
         }
 
-        return 0;
+        return NEWS;
     }
 
     @Override
@@ -47,16 +55,21 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (viewType) {
             default:
-            case 0:
+            case NEWS:
                 view = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.list_item_post, parent, false);
                 return new PostHolder(view);
-            case 1:
+            case NEWSIMAGE:
                 view = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.list_item_post_image, parent, false);
                 return new PostImageHolder(view);
+            case QUOTE:
+                view = LayoutInflater
+                        .from(parent.getContext())
+                        .inflate(R.layout.list_item_post_quote, parent, false);
+                return new PostQuoteHolder(view);
         }
     }
 
@@ -66,13 +79,17 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (holder.getItemViewType()) {
             default:
-            case 0:
+            case NEWS:
                 PostHolder postHolder = (PostHolder) holder;
                 postHolder.bindType(post);
                 break;
-            case 1:
+            case NEWSIMAGE:
                 PostImageHolder postImageHolder = (PostImageHolder) holder;
                 postImageHolder.bindType(post);
+                break;
+            case QUOTE:
+                PostQuoteHolder postQuoteHolder = (PostQuoteHolder) holder;
+                postQuoteHolder.bindType(post);
                 break;
         }
     }
