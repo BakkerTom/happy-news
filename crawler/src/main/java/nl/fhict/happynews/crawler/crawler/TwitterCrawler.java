@@ -34,7 +34,8 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     private Twitter twitter;
     private String[] hashTags;
     private String hashTag;
-    private static final int AMOUNT_OF_TWEETS = 200;
+    private static final int LOAD_TWEETS_PER_HASTAG = 100;  //max value: 100
+    private static final int MAX_TWEETS = 5;
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
@@ -79,10 +80,17 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         for (TweetBundle bundle : tweetBundles) {
             positivePosts.addAll(rawToPosts(bundle));
         }
-        logger.info("Filtered out " + (AMOUNT_OF_TWEETS * hashTags.length - positivePosts.size())
-            + " out of " + AMOUNT_OF_TWEETS * hashTags.length + " tweets");
-        logger.info("Saving " + positivePosts.size() + " tweets to the database");
-        savePosts(positivePosts);
+        logger.info("Filtered out " + (LOAD_TWEETS_PER_HASTAG * hashTags.length - positivePosts.size())
+            + " out of " + LOAD_TWEETS_PER_HASTAG * hashTags.length + " tweets");
+
+        if (positivePosts.size() >= MAX_TWEETS) {
+            List<Post> postsToSave = positivePosts.subList(0, MAX_TWEETS - 1);
+            logger.info("Saving " + MAX_TWEETS + " tweets to the database");
+            savePosts(postsToSave);
+        } else {
+            logger.info("Saving " + positivePosts.size() + " tweets to the database");
+            savePosts(positivePosts);
+        }
     }
 
     /**
@@ -92,19 +100,20 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
      */
     @Override
     List<TweetBundle> getRaw() {
-        logger.info("Start getting tweets from twitter with hastag " + hashTag);
+        logger.info("Started getting tweets from twitter");
         List<TweetBundle> tweetBundles = new ArrayList();
         for (int i = 0; i < hashTags.length; i++) {
             hashTag = hashTags[i];
             Query query = new Query(hashTag);
-            query.count(200);
+            query.count(100);
             try {
                 QueryResult result = twitter.search(query);
                 TweetBundle rawTweets = new TweetBundle(hashTag);
                 List<Status> rawData = result.getTweets();
                 rawTweets.addTweets(rawData);
                 tweetBundles.add(rawTweets);
-                logger.info("Received total of " + AMOUNT_OF_TWEETS + " tweets from twitter with hashtag " + hashTag);
+                logger.info("Received total of " + rawTweets.getTweets()
+                    .size() + " tweets from twitter with " + hashTag);
             } catch (TwitterException e) {
                 logger.error("TwitterException: " + e.getErrorMessage());
             }
@@ -126,9 +135,11 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return tweets.getTweets().stream()
             .filter(status -> !status.isPossiblySensitive()
-                && status.getText().matches("\\A\\p{ASCII}*\\z")
+                //&& status.getText().matches("\\A\\p{ASCII}*\\z")
                 && status.getCreatedAt().after(d)
-                && status.getRetweetCount() >= 10)
+                && !status.isRetweeted()
+                && !status.getText().contains("RT")
+                && status.getRetweetCount() >= 5)
             .map(this::convertStatusToPost)
             .collect(Collectors.toList());
     }
@@ -141,7 +152,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
      */
     private Post convertStatusToPost(Status status) {
         Post newPost = new Post();
-        newPost.setAuthor(status.getUser().getScreenName());
+        newPost.setAuthor("@" + status.getUser().getScreenName());
         newPost.setType(Post.Type.TWEET);
         newPost.setContentText(status.getText());
         newPost.setIndexedAt(new Date());
