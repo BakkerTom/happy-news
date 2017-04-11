@@ -156,7 +156,7 @@ public class Post {
         ARTICLE,
         @SerializedName("tweet")
         TWEET,
-        @SerializedName("insta")
-        INSTA
+        @SerializedName("quote")
+        QUOTE
     }
 }
