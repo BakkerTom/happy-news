@@ -41,6 +41,7 @@ public class TwitterCrawlerTest {
 
     @Test
     public void getRaw() throws Exception {
+        twitterCrawler.configureTwitterAuthentication();
         setHashTags();
         List<TweetBundle> rawData = twitterCrawler.getRaw();
         assertTrue(rawData.size() > 0);
@@ -50,6 +51,7 @@ public class TwitterCrawlerTest {
 
     @Test
     public void rawToPosts() throws Exception {
+        twitterCrawler.configureTwitterAuthentication();
         setHashTags();
         List<TweetBundle> rawData = twitterCrawler.getRaw();
         List<Post> posts1 = twitterCrawler.rawToPosts(rawData.get(0));

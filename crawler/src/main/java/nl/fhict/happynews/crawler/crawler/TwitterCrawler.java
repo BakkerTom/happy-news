@@ -15,6 +15,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +38,14 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
+    @Value("${crawler.twitter.consumerkey}")
+    private String consumerKey;
+    @Value("${crawler.twitter.consumersecret}")
+    private String consumerSecret;
+    @Value("${crawler.twitter.accestoken}")
+    private String accesToken;
+    @Value("${crawler.twitter.accestokensecret}")
+    private String accesTokenSecret;
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -45,7 +54,6 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
      * Create a new crawler for tweets.
      */
     public TwitterCrawler() {
-        twitter = TwitterFactory.getSingleton();
         hashTag = "#happy";
     }
 
@@ -62,6 +70,9 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     public void crawl() {
         if (hashTags == null) {
             loadHashTags();
+        }
+        if (twitter == null) {
+            configureTwitterAuthentication();
         }
         List<Post> positivePosts = new ArrayList<>();
         List<TweetBundle> tweetBundles = getRaw();
@@ -182,5 +193,19 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         } catch (IOException e) {
             logger.error("IOException loading hastags: " + e.getMessage());
         }
+    }
+
+    /**
+     * Builds the configuration for TwitterFactory.
+     */
+    protected void configureTwitterAuthentication() {
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+            .setOAuthConsumerKey(consumerKey)
+            .setOAuthConsumerSecret(consumerSecret)
+            .setOAuthAccessToken(accesToken)
+            .setOAuthAccessTokenSecret(accesTokenSecret);
+        TwitterFactory twitterFactory = new TwitterFactory(cb.build());
+        twitter = twitterFactory.getInstance();
     }
 }
