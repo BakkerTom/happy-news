@@ -113,12 +113,7 @@ public class PostManager {
         Ion.with(context)
             .load(apiUrl + "/post?page=" + page + "&size=" + size)
             .as(new TypeToken<Page>() {
-            }).setCallback(new FutureCallback<Page>() {
-                @Override
-                public void onCompleted(Exception e, Page result) {
-                    callback.onCompleted(e, result);
-                }
-            });
+            }).setCallback(callback);
     }
 
 
