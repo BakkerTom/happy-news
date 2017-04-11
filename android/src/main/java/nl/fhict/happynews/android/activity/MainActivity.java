@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
         postManager.setFeedAdapter(feedAdapter);
 
-        loading = true;
         swipeRefresh.setRefreshing(true);
         postManager.refresh(this, this);
+        loading = true;
 
         addScrollListener();
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                             loading = true;
                             Page lastPage = feedAdapter.getLastPage();
                             if (!lastPage.isLast()) {
-                                postManager.loadPage(
+                                postManager.load(
                                     lastPage.getNumber() + 1,
                                     PAGE_SIZE,
                                     MainActivity.this,

@@ -49,15 +49,7 @@ public class PostManager {
         apiUrl = context.getString(R.string.api_url);
 
         GsonBuilder builder = new GsonBuilder();
-
-        // Register an adapter to manage the date types as long values
-        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-            public Date deserialize(JsonElement json,
-                                    Type typeOfT,
-                                    JsonDeserializationContext context) throws JsonParseException {
-                return new Date(json.getAsJsonPrimitive().getAsLong());
-            }
-        });
+        registerTypeAdapter(builder);
 
         Gson gson = builder.create();
 
@@ -74,27 +66,17 @@ public class PostManager {
      * @param context  The context used to build the request.
      * @param listener The listener to notify when loading is completed.
      */
-    public void loadPage(int page, int size, Context context, final LoadListener listener) {
-        Ion.with(context)
-            .load(apiUrl + "/post?page=" + page + "&size=" + size)
-            .as(new TypeToken<Page>() {
-            })
-            .setCallback(new FutureCallback<Page>() {
-                @Override
-                public void onCompleted(Exception e, Page result) {
-                    if (e == null) {
-                        Log.d("PostManager", "Loaded page: " + result.getNumber());
+    public void load(int page, int size, Context context, final LoadListener listener) {
+        loadPage(page, size, context, new FutureCallback<Page>() {
+            @Override
+            public void onCompleted(Exception e, Page result) {
+                feedAdapter.addPage(result);
 
-                        feedAdapter.addPage(result);
-
-                        if (listener != null) {
-                            listener.onFinishedLoading(); //Notify the listening activity when the loading is finished
-                        }
-                    } else {
-                        Log.e("PostManager", "Json Exception: ", e);
-                    }
+                if (listener != null) {
+                    listener.onFinishedLoading();
                 }
-            });
+            }
+        });
     }
 
 
@@ -104,40 +86,53 @@ public class PostManager {
      * @param listener Implementing the LoadListener Interface.
      */
     public void refresh(Context context, final LoadListener listener) {
-        Ion.with(context);
-        GsonBuilder builder = new GsonBuilder();
+        final int firstPage = 0;
+        final int defaultPageSize = 20;
 
-        // Register an adapter to manage the date types as long values
+        loadPage(firstPage, defaultPageSize, context, new FutureCallback<Page>() {
+            @Override
+            public void onCompleted(Exception e, Page result) {
+                feedAdapter.setPage(result);
+
+                if (listener != null) {
+                    listener.onFinishedLoading();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Loads a page from the server and returns its results in a FutureCallback.
+     * @param page The requested page.
+     * @param size The requested pagesize.
+     * @param context The application context.
+     * @param callback FutureCallback
+     */
+    private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
+        Ion.with(context)
+            .load(apiUrl + "/post?page=" + page + "&size=" + size)
+            .as(new TypeToken<Page>() {
+            }).setCallback(new FutureCallback<Page>() {
+                @Override
+                public void onCompleted(Exception e, Page result) {
+                    callback.onCompleted(e, result);
+                }
+            });
+    }
+
+
+    /**
+     * Register an adapter to manage the date types as long values.
+     * @param builder The GsonBuilder to register the TypeAdapter to.
+     */
+    private void registerTypeAdapter(GsonBuilder builder) {
         builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }
         });
-
-        Gson gson = builder.create();
-
-        Ion.getDefault(context).configure().setGson(gson);
-        Ion.with(context)
-                .load(apiUrl + "/post")
-                .as(new TypeToken<Page>() {
-                })
-                .setCallback(new FutureCallback<Page>() {
-                    @Override
-                    public void onCompleted(Exception e, Page result) {
-                        if (e == null) {
-                            Log.d("PostManager", "Loaded page: " + result.getNumber());
-
-                            feedAdapter.setPage(result);
-
-                            if (listener != null) {
-                                listener.onFinishedLoading();
-                            }
-                        } else {
-                            Log.e("PostManager", "Json Exception: ", e);
-                        }
-                    }
-                });
     }
 
     /**
