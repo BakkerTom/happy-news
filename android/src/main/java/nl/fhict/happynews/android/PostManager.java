@@ -28,7 +28,7 @@ public class PostManager {
         return ourInstance;
     }
 
-    private static final String API_URL = "http://10.0.2.2:8080";
+    private static final String API_URL = "https://happynews-api.svendubbeld.nl";
     private FeedAdapter feedAdapter;
 
     private PostManager() {
