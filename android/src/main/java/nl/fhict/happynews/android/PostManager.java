@@ -119,7 +119,7 @@ public class PostManager {
 
         Ion.getDefault(context).configure().setGson(gson);
         Ion.with(context)
-                .load(API_URL + "/post")
+                .load(apiUrl + "/post")
                 .as(new TypeToken<Page>() {
                 })
                 .setCallback(new FutureCallback<Page>() {

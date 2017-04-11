@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         recyclerView.setLayoutManager(layoutManager);
 
         postManager.setFeedAdapter(feedAdapter);
-        postManager.loadPage(0, PAGE_SIZE, this, this);
+
         loading = true;
+        swipeRefresh.setRefreshing(true);
+        postManager.refresh(this, this);
 
         addScrollListener();
 
