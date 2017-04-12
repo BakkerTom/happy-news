@@ -85,7 +85,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
             + " out of " + LOAD_TWEETS_PER_HASTAG * hashTags.length + " tweets");
 
         if (positivePosts.size() >= MAX_TWEETS) {
-            List<Post> postsToSave = positivePosts.subList(0, MAX_TWEETS - 1);
+            List<Post> postsToSave = positivePosts.subList(0, MAX_TWEETS);
             logger.info("Saving " + MAX_TWEETS + " tweets to the database");
             savePosts(postsToSave);
         } else {
