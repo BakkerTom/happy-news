@@ -11,6 +11,8 @@ services:
     environment:
       - MONGO_URL=db
       - MONGO_PORT=27017
+    volumes:
+      - "./.docker/logs/api:/var/log/api"
   crawler:
     build: crawler/
     restart: always
@@ -22,6 +24,8 @@ services:
     environment:
       - MONGO_URL=db
       - MONGO_PORT=27017
+    volumes:
+      - "./.docker/logs/crawler:/var/log/crawler"
   web:
     build: web/
     restart: always
@@ -32,6 +36,8 @@ services:
       - api
     environment:
       - API_URL=http://api:8080/
+    volumes:
+      - "./.docker/logs/web:/var/log/web"
   db:
     image: mongo:3.4
     restart: always

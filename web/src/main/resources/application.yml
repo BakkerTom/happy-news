@@ -7,3 +7,5 @@ management:
   port: 9082
   security:
       enabled: false
+logging:
+  path: /var/log/web/
