@@ -167,13 +167,16 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         }
         */
 
+
         //retrieve image urls
         List<String> imageLinks = new ArrayList<>();
         MediaEntity[] media = status.getMediaEntities();
-        for (MediaEntity m : media) {
-            imageLinks.add(m.getMediaURL());
+        if (media != null) {
+            for (MediaEntity m : media) {
+                imageLinks.add(m.getMediaURL());
+            }
+            newPost.setImageUrls(imageLinks);
         }
-        newPost.setImageUrls(imageLinks);
 
         //Retrieve HashTags
         HashtagEntity[] hashtags = status.getHashtagEntities();

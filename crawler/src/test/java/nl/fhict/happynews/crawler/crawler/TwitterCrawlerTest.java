@@ -11,12 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+import twitter4j.HashtagEntity;
+import twitter4j.Status;
+import twitter4j.User;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Sander on 03/04/2017.
@@ -51,20 +58,28 @@ public class TwitterCrawlerTest {
 
     @Test
     public void rawToPosts() throws Exception {
-        twitterCrawler.configureTwitterAuthentication();
-        setHashTags();
-        List<TweetBundle> rawData = twitterCrawler.getRaw();
-        List<Post> posts1 = twitterCrawler.rawToPosts(rawData.get(0));
-        List<Post> posts2 = twitterCrawler.rawToPosts(rawData.get(1));
-        List<Post> posts3 = twitterCrawler.rawToPosts(rawData.get(2));
-        List<Post> posts4 = twitterCrawler.rawToPosts(rawData.get(3));
-        List<Post> posts5 = twitterCrawler.rawToPosts(rawData.get(4));
+        Status mockStatus = mock(Status.class);
+        when(mockStatus.getText()).thenReturn("mocktext");
+        User user = mock(User.class);
+        when(user.getScreenName()).thenReturn("testuser");
+        when(mockStatus.getUser()).thenReturn(user);
+        when(mockStatus.getCreatedAt()).thenReturn(new Date());
+        when(mockStatus.getId()).thenReturn((long) 5412);
+        when(mockStatus.getRetweetCount()).thenReturn(100);
 
-        assertTrue(rawData.size() > 0
-            && (posts1.size() > 0 || posts2.size() > 0)
-            || posts3.size() > 0
-            || posts4.size() > 0
-            || posts5.size() > 0);
+        HashtagEntity hashtag = mock(HashtagEntity.class);
+        when(hashtag.getText()).thenReturn("hastak");
+        HashtagEntity[] entities = new HashtagEntity[]{hashtag};
+        when(mockStatus.getHashtagEntities()).thenReturn(entities);
+
+        ArrayList<Status> rawTweets = new ArrayList<>();
+        rawTweets.add(mockStatus);
+
+        TweetBundle tweetBundle = new TweetBundle("hastak");
+        tweetBundle.addTweets(rawTweets);
+        List<Post> posts = twitterCrawler.rawToPosts(tweetBundle);
+
+        assertTrue(posts.size() > 0);
     }
 
     /**
