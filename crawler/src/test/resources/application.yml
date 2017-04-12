@@ -3,6 +3,14 @@ crawler:
   news:
     apikey: "c96e519c4c484966b2929b4177b91749"
     apiurl: "https://newsapi.org/v1/articles"
+  instagram:
+    apikey: "test"
+    apiurl: "test"
+  twitter:
+      consumerkey: "qTm7lDjrDP07gQONZoYI2ezbO"
+      consumersecret: "BLd1QmJGIlaqG7Zqc6YAxmD9hTng1hRBDTca0DyDm2qmOwyJkE"
+      accestoken: "846315704735465472-YEAAg8AXPK3VhI5u5Q9iFAqwq4C5lGJ"
+      accestokensecret: "wqsD8kZDVa34Ak5bGLKKtsz0ZbYb9CwehgmzRS0TXBrL9"
   quotes:
     delay: 10800000
 extractor:
