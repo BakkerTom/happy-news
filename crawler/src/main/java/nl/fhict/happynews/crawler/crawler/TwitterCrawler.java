@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -135,11 +136,10 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         Date d = new Date(System.currentTimeMillis() - 3600 * 1000);
         return tweets.getTweets().stream()
             .filter(status -> !status.isPossiblySensitive()
-                //&& status.getText().matches("\\A\\p{ASCII}*\\z")
+                && status.getText().matches("\\A\\p{ASCII}*\\z")
                 && status.getCreatedAt().after(d)
-                && !status.isRetweeted()
                 && !status.getText().contains("RT")
-                && status.getRetweetCount() >= 5)
+                && status.getRetweetCount() > 0)
             .map(this::convertStatusToPost)
             .collect(Collectors.toList());
     }
