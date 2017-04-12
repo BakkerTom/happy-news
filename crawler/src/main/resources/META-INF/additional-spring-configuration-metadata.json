@@ -44,6 +44,26 @@
       "name": "extractor.article.apiurl",
       "type": "java.lang.String",
       "description": "The API url for extracting articles."
+    },
+    {
+      "name": "crawler.twitter.consumerkey",
+      "type": "java.lang.String",
+      "description": "The consumer key for twitter"
+    },
+    {
+      "name": "crawler.twitter.consumersecret",
+      "type": "java.lang.String",
+      "description": "The consumer secret key for twitter."
+    },
+    {
+      "name": "crawler.twitter.accestoken",
+      "type": "java.lang.String",
+      "description": "The acces token for twitter"
+    },
+    {
+      "name": "crawler.twitter.accestokensecret",
+      "type": "java.lang.String",
+      "description": "The secret acces token for twitter"
     }
   ]
 }

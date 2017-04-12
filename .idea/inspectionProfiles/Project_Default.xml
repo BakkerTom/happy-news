@@ -2,10 +2,10 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="AndroidDomInspection" enabled="true" level="ERROR" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="ERROR" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidElementNotAllowed" enabled="true" level="WARNING" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidKLintAddJavascriptInterface" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Java" level="WARNING" enabled="false" />
@@ -407,13 +407,13 @@
       <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidLintCustomError" enabled="true" level="ERROR" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="ERROR" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidLintCustomViewStyleable" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidLintCustomWarning" enabled="true" level="WARNING" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidLintCutPasteId" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Java" level="WARNING" enabled="false" />
@@ -1067,16 +1067,16 @@
       <scope name="Java" level="ERROR" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidMissingOnClickHandler" enabled="true" level="WARNING" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidNonConstantResIdsInSwitch" enabled="true" level="ERROR" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="ERROR" enabled="false" />
     </inspection_tool>
     <inspection_tool class="AndroidUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="WARNING" enabled="false" />
     </inspection_tool>
     <inspection_tool class="ResourceType" enabled="true" level="ERROR" enabled_by_default="true">
-      <scope name="Java" level="UNUSED ENTRY" enabled="false" />
+      <scope name="Java" level="ERROR" enabled="false" />
     </inspection_tool>
     <inspection_tool class="XmlWrongFileType" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Java" level="UNUSED ENTRY" enabled="false" />
