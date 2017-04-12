@@ -173,14 +173,14 @@ public class Post {
     public enum Type {
         ARTICLE,
         TWEET,
-        INSTA;
+        QUOTE;
 
         private static Map<String, Type> namesMap = new HashMap<>();
 
         static {
             namesMap.put("article", ARTICLE);
             namesMap.put("tweet", TWEET);
-            namesMap.put("insta", INSTA);
+            namesMap.put("quote", QUOTE);
         }
 
         @JsonCreator
