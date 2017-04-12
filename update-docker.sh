@@ -9,7 +9,7 @@ git reset --hard
 git pull
 
 # Rebuild applications
-./gradlew clean build -PskipAndroid
+./gradlew clean build -PskipAndroid -x test
 
 # Rebuild docker containers
 docker-compose build
