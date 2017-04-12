@@ -106,7 +106,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         for (int i = 0; i < hashTags.length; i++) {
             hashTag = hashTags[i];
             Query query = new Query(hashTag);
-            query.count(100);
+            query.count(LOAD_TWEETS_PER_HASTAG);
             try {
                 QueryResult result = twitter.search(query);
                 TweetBundle rawTweets = new TweetBundle(hashTag);
