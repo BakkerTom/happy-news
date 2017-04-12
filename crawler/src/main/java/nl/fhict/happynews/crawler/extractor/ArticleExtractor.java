@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -53,7 +54,16 @@ public class ArticleExtractor implements ContentExtractor {
         try {
             MercuryResponse response;
             do {
-                response = restTemplate.exchange(nextUrl, HttpMethod.GET, entity, MercuryResponse.class).getBody();
+                ResponseEntity<MercuryResponse> exchange = restTemplate.exchange(nextUrl,
+                    HttpMethod.GET,
+                    entity,
+                    MercuryResponse.class);
+
+                if (!exchange.hasBody()) {
+                    break;
+                }
+
+                response = exchange.getBody();
 
                 if (response.getContent() != null) {
                     builder.append(Jsoup.clean(response.getContent(), whitelist));
