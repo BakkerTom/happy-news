@@ -2,8 +2,12 @@ server:
   port: 8080
 management:
   port: 9080
+  security:
+    enabled: false
 spring:
   data:
     mongodb:
       host: ${MONGO_URL:localhost}
       port: ${MONGO_PORT:27017}
+logging:
+  path: /var/log/api/
