@@ -90,17 +90,4 @@ public class ArticleExtractorTest {
         assertThat(result, is("Awesome CMS is…an awesome list of awesome CMSes. It’s on GitHub, so anyone can "
             + "add to it via a pull request. Here are some notes on how and why it came to be."));
     }
-
-    @Test
-    public void testBrokenUrl() {
-        Post post = new Post();
-
-        post.setTitle("Title");
-        post.setContentText("Content text");
-        post.setUrl("http://www.businessinsider.com/skypes-niklas-zennstroem-orbital-systems-atomico-2017-4");
-
-        String result = extractor.extract(post);
-
-        assertThat(result, is("Content text"));
-    }
 }
