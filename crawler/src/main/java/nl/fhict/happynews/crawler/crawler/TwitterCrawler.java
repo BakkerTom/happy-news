@@ -36,7 +36,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
     private String[] hashTags;
     private String hashTag;
     private static final int LOAD_TWEETS_PER_HASTAG = 100;  //max value: 100
-    private static final int MAX_TWEETS = 5;
+    private static final int MAX_TWEETS = 3;
 
     @Value("${crawler.twitter.enabled:true}")
     private boolean enabled;
