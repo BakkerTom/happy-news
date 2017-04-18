@@ -3,4 +3,5 @@
     <string name="app_name">Happy News</string>
     <string name="title_activity_browser">BrowserActivity</string>
     <string name="api_url">https://happynews-api.svendubbeld.nl</string>
+    <string name="no_internet_message">You don't seem to have an active internet connection. Check your settings and try again.</string>
 </resources>

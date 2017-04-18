@@ -1,7 +1,12 @@
 package nl.fhict.happynews.android.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,15 +52,22 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
         postManager.setFeedAdapter(feedAdapter);
 
+        // Display an error if not connected on start of this activity
+        notConnectedError();
+
         swipeRefresh.setRefreshing(true);
-        postManager.refresh(this, this);
         loading = true;
+        postManager.refresh(this, this);
 
         addScrollListener();
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //Display an error if not connected
+                notConnectedError();
+
+                //Refresh the posts
                 postManager.refresh(MainActivity.this, MainActivity.this);
             }
         });
@@ -86,6 +98,35 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                 }
             }
         });
+    }
+
+
+    /**
+     * Shows an error message when the app is not connected to the internet.
+     */
+    public void notConnectedError() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+
+        if (!isConnected) {
+            AlertDialog alert = new AlertDialog.Builder(this).create();
+
+            alert.setTitle("Uh oh...");
+            alert.setMessage(getString(R.string.no_internet_message));
+            alert.setButton(RESULT_OK, "Retry", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Display an error if still not connected
+                    notConnectedError();
+
+                    postManager.refresh(MainActivity.this, MainActivity.this);
+                }
+            });
+
+            alert.show();
+        }
     }
 
     /**
