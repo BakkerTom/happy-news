@@ -54,7 +54,7 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
     List<QuoteEnvelope> getRaw() {
         List<QuoteEnvelope> result = new ArrayList<>();
         result.add(quoteApi.getRaw(categories[catIndex]));
-        if (++catIndex > categories.length) {
+        if (++catIndex >= categories.length) {
             catIndex = 0;
         }
         return result;
