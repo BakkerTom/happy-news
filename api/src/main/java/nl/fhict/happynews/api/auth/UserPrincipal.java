@@ -1,6 +1,6 @@
 package nl.fhict.happynews.api.auth;
 
-import nl.fhict.happynews.api.hibernate.User;
+import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +14,15 @@ public class UserPrincipal implements UserDetails {
 
     public UserPrincipal(User user) {
         this.user = user;
+    }
+
+    /**
+     * Deserialize a UserPrincipal from a {@link DBObject}.
+     *
+     * @param dbObject The serialized object.
+     */
+    public UserPrincipal(DBObject dbObject) {
+        this(new User(((DBObject) dbObject.get("user"))));
     }
 
     @Override

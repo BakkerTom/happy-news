@@ -1,4 +1,4 @@
-package nl.fhict.happynews.api.hibernate;
+package nl.fhict.happynews.api.auth;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

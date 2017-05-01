@@ -1,5 +1,7 @@
-package nl.fhict.happynews.api.hibernate;
+package nl.fhict.happynews.api.auth;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.DBObject;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -22,6 +24,19 @@ public class User {
     private Set<String> roles = new HashSet<>();
 
     public User() {
+    }
+
+    /**
+     * Deserialize a User from a {@link DBObject}.
+     *
+     * @param dbObject The serialized object.
+     */
+    @SuppressWarnings("unchecked")
+    public User(DBObject dbObject) {
+        uuid = dbObject.get("_id").toString();
+        username = (String) dbObject.get("username");
+        password = (String) dbObject.get("password");
+        ((BasicDBList) dbObject.get("roles")).forEach(o -> roles.add((String) o));
     }
 
     public String getUuid() {

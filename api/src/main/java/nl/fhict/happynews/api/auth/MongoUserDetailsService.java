@@ -1,7 +1,5 @@
 package nl.fhict.happynews.api.auth;
 
-import nl.fhict.happynews.api.hibernate.User;
-import nl.fhict.happynews.api.hibernate.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
