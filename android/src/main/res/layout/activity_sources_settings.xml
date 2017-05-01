@@ -10,4 +10,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nl.fhict.happynews.android.activity.SourcesSettingsActivity">
 
+    <Switch
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Twitter"
+    android:textSize="20dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:textColor="@color/colorTweet"
+    android:id="@+id/switch_twitter"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true"
+    android:checked="false"
+    android:layout_alignParentStart="true"/>
+
+    <View android:background="@color/colorPrimary"
+          android:layout_below="@+id/switch_twitter"
+          android:layout_width = "match_parent"
+          android:layout_height="1dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quotes"
+        android:textSize="20dp"
+        android:id="@+id/switch_quotes"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorQuote"
+        android:checked="false"
+        android:layout_below="@+id/switch_twitter"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/switch_twitter"
+        />
+
+    <View android:background="@color/colorPrimary"
+          android:layout_below="@+id/switch_quotes"
+          android:layout_width = "match_parent"
+          android:layout_height="1dp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Articles"
+        android:textSize="20dp"
+        android:id="@+id/switch_articles"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorArticle"
+        android:checked="false"
+        android:layout_below="@+id/switch_quotes"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

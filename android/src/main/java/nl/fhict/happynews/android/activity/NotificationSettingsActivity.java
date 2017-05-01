@@ -1,6 +1,8 @@
 package nl.fhict.happynews.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -14,6 +16,9 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.settings_notification_title);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(
+            getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     }
 
     /**

@@ -8,5 +8,6 @@
     <string name="settings_language_title">Language</string>
     <string name="settings_notification_title">Notifications</string>
     <string name="settings_sources_title">Sources</string>
+    <string name="preference_file_key">HappyNews_Local_Settings</string>
 
 </resources>
