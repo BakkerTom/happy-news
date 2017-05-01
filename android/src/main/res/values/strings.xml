@@ -3,4 +3,5 @@
     <string name="app_name">Happy News</string>
     <string name="title_activity_browser">BrowserActivity</string>
     <string name="api_url">https://happynews-api.svendubbeld.nl</string>
+    <string name="settings_title">Settings</string>
 </resources>
