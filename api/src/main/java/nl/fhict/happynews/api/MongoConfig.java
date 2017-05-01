@@ -6,6 +6,7 @@ import nl.fhict.happynews.api.auth.oauth2.AuthenticationReadConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
@@ -13,8 +14,9 @@ import org.springframework.data.mongodb.core.convert.CustomConversions;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("!test")
 @Configuration
-public class MongoConfiguration extends AbstractMongoConfiguration {
+public class MongoConfig extends AbstractMongoConfiguration {
 
     @Value("${spring.data.mongodb.database}")
     private String database;
