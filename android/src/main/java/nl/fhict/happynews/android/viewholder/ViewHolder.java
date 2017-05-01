@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Toast;
+import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.model.Post;
 
 import java.util.Date;
@@ -31,6 +32,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
 
     public void bindType(Post post) {
         this.post = post;
+        itemView.setAlpha(1f);
     }
 
     /**
@@ -57,6 +59,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
 
         if (!post.getUrl().isEmpty()) {
             Uri uri = Uri.parse(post.getUrl());
+            new ReadingHistoryController(context).addReadPost(context, post);
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
             customTabsIntent.launchUrl(context, uri);
         } else {

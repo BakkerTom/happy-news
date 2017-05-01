@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.viewholder.PostHolder;
@@ -29,12 +30,19 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private final Context context;
+    private ReadingHistoryController history;
     private Page lastPage;
     private ArrayList<Post> posts;
 
+    /**
+     * Creates FeedAdapter.
+     * @param context The context.
+     * @param posts The postst.
+     */
     public FeedAdapter(Context context, ArrayList<Post> posts) {
         this.context = context;
         this.posts = posts;
+        this.history = new ReadingHistoryController(this.context);
     }
 
     @Override
@@ -99,22 +107,37 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case NEWS:
                 PostHolder postHolder = (PostHolder) holder;
                 postHolder.bindType(post);
+                if (history.postIsRead(post)) {
+                    postHolder.itemView.setAlpha(.3f);
+                }
                 break;
             case NEWSIMAGE:
                 PostImageHolder postImageHolder = (PostImageHolder) holder;
                 postImageHolder.bindType(post);
+                if (history.postIsRead(post)) {
+                    postImageHolder.itemView.setAlpha(.3f);
+                }
                 break;
             case QUOTE:
                 PostQuoteHolder postQuoteHolder = (PostQuoteHolder) holder;
                 postQuoteHolder.bindType(post);
+                if (history.postIsRead(post)) {
+                    postQuoteHolder.itemView.setAlpha(.3f);
+                }
                 break;
             case TWEET:
                 PostTweetHolder postTweetHolder = (PostTweetHolder) holder;
                 postTweetHolder.bindType(post);
+                if (history.postIsRead(post)) {
+                    postTweetHolder.itemView.setAlpha(.3f);
+                }
                 break;
             case TWEETIMAGE:
                 PostTweetImageHolder postTweetImageHolder = (PostTweetImageHolder) holder;
                 postTweetImageHolder.bindType(post);
+                if (history.postIsRead(post)) {
+                    postTweetImageHolder.itemView.setAlpha(.3f);
+                }
                 break;
         }
     }

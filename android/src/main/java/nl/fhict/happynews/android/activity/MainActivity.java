@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import nl.fhict.happynews.android.LoadListener;
-import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
-
 import java.util.ArrayList;
 
 
