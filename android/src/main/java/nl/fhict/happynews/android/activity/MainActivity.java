@@ -5,9 +5,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ReadingHistoryController.getInstance().initialize(this);
 
         postManager = PostManager.getInstance(getApplicationContext());
 
@@ -96,5 +99,11 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     public void onFinishedLoading() {
         loading = false;
         swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedAdapter.notifyDataSetChanged();
     }
 }

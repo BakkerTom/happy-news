@@ -12,22 +12,28 @@ import java.util.Set;
  */
 public class ReadingHistoryController {
     private static final String FILE = "readingHistory.set";
-    private Set<String> readingHistory;
-    private FileManager filemanager = FileManager.getInstance();
+    private static Set<String> readingHistory;
+    private static FileManager filemanager = FileManager.getInstance();
+
+    private static ReadingHistoryController instance = new ReadingHistoryController();
+
+    private ReadingHistoryController() {
+
+    }
 
     /**
-     * Creates the ReadingHistoryController.
-     * @param context The context.
+     * Gets an instance of Filemanager.
+     * @return An instance.
      */
-    public ReadingHistoryController(Context context) {
-        initialize(context);
+    public static ReadingHistoryController getInstance() {
+        return instance;
     }
 
     /**
      * Initializes the reading history.
      * @param context The context.
      */
-    private void initialize(Context context) {
+    public void initialize(Context context) {
         if (!filemanager.fileExists(context, FILE)) {
             filemanager.writeFile(context, FILE, new HashSet<String>());
         }
