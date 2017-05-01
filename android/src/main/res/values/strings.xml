@@ -4,4 +4,9 @@
     <string name="title_activity_browser">BrowserActivity</string>
     <string name="api_url">https://happynews-api.svendubbeld.nl</string>
     <string name="settings_title">Settings</string>
+    <string name="settings_about_title">About</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_notification_title">Notifications</string>
+    <string name="settings_sources_title">Sources</string>
+
 </resources>

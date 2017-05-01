@@ -17,6 +17,14 @@
         </activity>
         <activity android:name=".activity.SettingsActivity">
         </activity>
+        <activity android:name=".activity.LanguageSettingsActivity">
+        </activity>
+        <activity android:name=".activity.NotificationSettingsActivity">
+        </activity>
+        <activity android:name=".activity.SourcesSettingsActivity">
+        </activity>
+        <activity android:name=".activity.AboutActivity">
+        </activity>
     </application>
 
 </manifest>
