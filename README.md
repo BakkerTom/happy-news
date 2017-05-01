@@ -20,6 +20,8 @@ Happy News is a source of positive news. A school project for Fontys Hogeschool 
 
 ## API
 
+For full documentation see our [wiki](https://github.com/BakkerTom/happy-news/wiki/API-Documentation).
+
 #### » `https://happynews-api.svendubbeld.nl/post?page={pagenumber}&size={size}`
 
 Retrieves all posts in paginated format. Default page is 0 and default size is 20.
@@ -40,7 +42,7 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
         {
             "uuid": "5907217ea7b11b00016e5a44",
             "source": "the-next-web",
-            "sourceName": null,
+            "sourceName": "The Next Web",
             "author": "Arno Nijhof",
             "title": "These companies are growing extremely quickly and will be the unicorns of tomorrow",
             "contentText": "For the fourth year in a row, Adyen and TNW are celebrating European startups with the Tech5. In this competition, we measure companies on growth in revenue over the last three years. ...",
