@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Switch;
 import nl.fhict.happynews.android.R;
 
@@ -28,6 +29,36 @@ public class SourcesSettingsActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        twitterSwitch.setChecked(preferences.getBoolean("twitter_enabled", true));
+        articleSwitch.setChecked(preferences.getBoolean("articles_enabled", true));
+        quotesSwitch.setChecked(preferences.getBoolean("quotes_enabled", true));
+
+        final SharedPreferences.Editor editor = preferences.edit();
+
+        twitterSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean("twitter_enabled", twitterSwitch.isChecked());
+                editor.apply();
+            }
+        });
+
+        articleSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean("articles_enabled", articleSwitch.isChecked());
+                editor.apply();
+            }
+        });
+
+        quotesSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean("quotes_enabled", quotesSwitch.isChecked());
+                editor.apply();
+            }
+        });
     }
 
     /**
