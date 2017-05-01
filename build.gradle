@@ -1,8 +1,8 @@
 buildscript {
     repositories {
-        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://repo.spring.io/libs-release" }
         jcenter()
     }
     dependencies {
@@ -18,10 +18,10 @@ allprojects {
     version '1.0-SNAPSHOT'
 
     repositories {
-        mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://repo.spring.io/libs-release" }
     }
 
     checkstyle {
