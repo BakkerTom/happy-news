@@ -13,7 +13,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.settings_about_title);
+        setTitle(R.string.title_settings_about);
     }
 
     /**

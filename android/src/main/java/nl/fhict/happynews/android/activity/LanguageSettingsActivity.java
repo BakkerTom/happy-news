@@ -15,7 +15,7 @@ public class LanguageSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.settings_language_title);
+        setTitle(R.string.title_settings_language);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);

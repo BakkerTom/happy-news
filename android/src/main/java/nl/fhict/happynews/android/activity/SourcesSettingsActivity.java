@@ -21,7 +21,7 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sources_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.settings_sources_title);
+        setTitle(R.string.title_settings_sources);
 
         twitterSwitch = (Switch) findViewById(R.id.switch_twitter);
         articleSwitch = (Switch) findViewById(R.id.switch_articles);
@@ -30,8 +30,8 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        twitterSwitch.setChecked(preferences.getBoolean("twitter_enabled", true));
-        articleSwitch.setChecked(preferences.getBoolean("articles_enabled", true));
+        twitterSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
+        articleSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
         quotesSwitch.setChecked(preferences.getBoolean("quotes_enabled", true));
 
         final SharedPreferences.Editor editor = preferences.edit();

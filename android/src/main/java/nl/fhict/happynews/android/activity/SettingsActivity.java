@@ -1,66 +1,88 @@
 package nl.fhict.happynews.android.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.adapter.SettingsAdapter;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button languageButton;
-    private Button notificationsButton;
-    private Button sourcesButton;
-    private Button aboutButton;
+    private ListView settingsList;
+    final ArrayList<String> settings = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        setTitle(R.string.settings_title);
+        setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        languageButton = (Button) findViewById(R.id.btn_settings_language);
-        notificationsButton = (Button) findViewById(R.id.btn_settings_notifications);
-        sourcesButton = (Button) findViewById(R.id.btn_settings_sources);
-        aboutButton = (Button) findViewById(R.id.btn_settings_about);
+        settings.add("Language");
+        settings.add("Notifications");
+        settings.add("Sources");
+        settings.add("About");
+        settings.add("Rate App");
 
-        languageButton.setOnClickListener(new View.OnClickListener() {
+        settingsList = (ListView) findViewById(R.id.settingsListView);
+        SettingsAdapter settingsAdapter = new SettingsAdapter(this, R.layout.activity_settings, settings);
+        settingsList.setAdapter(settingsAdapter);
+
+        settingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent languageSettingsIntent = new Intent(getApplicationContext(), LanguageSettingsActivity.class);
-                startActivityForResult(languageSettingsIntent, 0);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String chosenSetting = settings.get(position);
+
+                switch (chosenSetting) {
+                    case "Language":
+                        Intent languageSettingsIntent = new Intent(getApplicationContext(),
+                            LanguageSettingsActivity.class);
+                        startActivityForResult(languageSettingsIntent, 0);
+                        break;
+                    case "Notifications":
+                        Intent notificationSettingsIntent = new Intent(getApplicationContext(),
+                            NotificationSettingsActivity.class);
+                        startActivityForResult(notificationSettingsIntent, 0);
+                        break;
+                    case "Sources":
+                        Intent sourcesSettingsIntent = new Intent(getApplicationContext(),
+                            SourcesSettingsActivity.class);
+                        startActivityForResult(sourcesSettingsIntent, 0);
+                        break;
+                    case "About":
+                        Intent aboutActivityIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivityForResult(aboutActivityIntent, 0);
+                        break;
+                    case "Rate App":
+                        openAppInAppStore();
+                        break;
+                    default:
+                        break;
+                }
+
             }
         });
+    }
 
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent notificationSettingsIntent = new Intent(getApplicationContext(),
-                    NotificationSettingsActivity.class);
-                startActivityForResult(notificationSettingsIntent, 0);
-            }
-        });
-
-        sourcesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sourcesSettingsIntent = new Intent(getApplicationContext(), SourcesSettingsActivity.class);
-                startActivityForResult(sourcesSettingsIntent, 0);
-            }
-        });
-
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent aboutActivityIntent = new Intent(getApplicationContext(), AboutActivity.class);
-                startActivityForResult(aboutActivityIntent, 0);
-            }
-        });
+    /**
+     * Opens the app in the app store.
+     */
+    private void openAppInAppStore() {
+        final String appPackageName = getPackageName();
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
     }
 
     /**

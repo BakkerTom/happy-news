@@ -10,52 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="nl.fhict.happynews.android.activity.SettingsActivity">
 
-    <Button
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Language"
-        android:textColor="@color/colorWhiteText"
-        android:id="@+id/btn_settings_language"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/settingsListView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notifications"
-        android:textColor="@color/colorWhiteText"
-        android:id="@+id/btn_settings_notifications"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/btn_settings_language"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/btn_settings_language"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sources"
-        android:id="@+id/btn_settings_sources"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhiteText"
-        android:layout_below="@+id/btn_settings_notifications"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/btn_settings_notifications"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="About"
-        android:id="@+id/btn_settings_about"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhiteText"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/btn_settings_sources"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/btn_settings_sources"/>
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
