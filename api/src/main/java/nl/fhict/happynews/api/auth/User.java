@@ -1,5 +1,6 @@
 package nl.fhict.happynews.api.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,6 +21,7 @@ public class User {
     private String uuid;
     @Indexed(unique = true)
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private Set<String> roles = new HashSet<>();
 
@@ -41,6 +43,10 @@ public class User {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getUsername() {

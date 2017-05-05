@@ -15,8 +15,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
+/**
+ * Converter for converting Mongo database objects to {@link OAuth2Authentication} objects.
+ */
 @ReadingConverter
 public class AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
@@ -43,11 +46,9 @@ public class AuthenticationReadConverter implements Converter<DBObject, OAuth2Au
     }
 
     private Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>(authorities.size());
-        for (Map<String, String> authority : authorities) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(authority.get("role")));
-        }
-        return grantedAuthorities;
+        return authorities.stream()
+            .map(grantedAuthorities -> new SimpleGrantedAuthority(grantedAuthorities.get("role")))
+            .collect(Collectors.toSet());
     }
 
 }

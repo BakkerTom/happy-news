@@ -14,6 +14,9 @@ import org.springframework.data.mongodb.core.convert.CustomConversions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Configuration of the MongoDB connection.
+ */
 @Profile("!test")
 @Configuration
 public class MongoConfig extends AbstractMongoConfiguration {
