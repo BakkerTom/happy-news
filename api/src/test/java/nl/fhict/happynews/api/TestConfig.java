@@ -30,8 +30,7 @@ public class TestConfig {
         @Bean(destroyMethod = "close")
         public Mongo mongo() throws Exception {
             return new EmbeddedMongoBuilder()
-                .version("2.4.5")
-                .bindIp("127.0.0.1")
+                .version("3.4.2")
                 .build();
         }
 

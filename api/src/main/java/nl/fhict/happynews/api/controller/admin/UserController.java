@@ -9,6 +9,7 @@ import nl.fhict.happynews.api.exception.UsernameAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,8 +115,17 @@ public class UserController {
      * @param uuid The UUID.
      */
     @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable String uuid) {
-        userRepository.delete(uuid);
+    public ResponseEntity deleteUser(@PathVariable String uuid) {
+        if (userRepository.exists(uuid)) {
+            userRepository.delete(uuid);
+            return ResponseEntity
+                .ok()
+                .build();
+        } else {
+            return ResponseEntity
+                .notFound()
+                .build();
+        }
     }
 
     /**
@@ -124,7 +134,16 @@ public class UserController {
      * @param username The username.
      */
     @RequestMapping(value = "/username/{username}", method = RequestMethod.DELETE)
-    public void deleteUserByUsername(@PathVariable String username) {
-        userRepository.deleteByUsername(username);
+    public ResponseEntity deleteUserByUsername(@PathVariable String username) {
+        if (userRepository.existsByUsername(username)) {
+            userRepository.deleteByUsername(username);
+            return ResponseEntity
+                .ok()
+                .build();
+        } else {
+            return ResponseEntity
+                .notFound()
+                .build();
+        }
     }
 }
