@@ -43,7 +43,7 @@ class Feed extends Component {
     });
 
     return (
-      <ul>
+      <ul className='list-group'>
         { posts }
       </ul>
     );

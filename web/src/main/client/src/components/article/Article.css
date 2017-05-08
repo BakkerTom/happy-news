@@ -1,0 +1,30 @@
+.source {
+  display: inline-block;
+  text-transform: uppercase;
+  color: #BA37C6;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+
+  margin-bottom: 4px;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.thumb{
+  flex-shrink: 0;
+  margin-right: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.thumb img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

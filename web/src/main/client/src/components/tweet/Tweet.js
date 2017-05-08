@@ -7,7 +7,9 @@ class Tweet extends Component {
 
   render() {
     return (
-      <li>Tweet: { this.props.data.contentText }</li>
+      <li className='list-group-item'>
+        Tweet: { this.props.data.contentText }
+      </li>
     );
   }
 }

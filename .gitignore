@@ -104,6 +104,10 @@ gradle-app.setting
 # testing
 **/coverage
 
+## Remove build
+**/client/build
+**/main/resources/static
+
 # production
 # misc
 .env
