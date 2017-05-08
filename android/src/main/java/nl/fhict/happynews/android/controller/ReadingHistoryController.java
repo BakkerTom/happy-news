@@ -1,19 +1,17 @@
 package nl.fhict.happynews.android.controller;
 
+import android.content.ContentValues;
 import android.content.Context;
-import nl.fhict.happynews.android.manager.FileManager;
+import android.database.sqlite.SQLiteDatabase;
 import nl.fhict.happynews.android.model.Post;
-
-import java.util.HashSet;
-import java.util.Set;
+import nl.fhict.happynews.android.persistence.DatabaseHelper;
+import nl.fhict.happynews.android.persistence.ReadingHistoryContract;
 
 /**
  * Created by Tobi on 01-May-17.
  */
 public class ReadingHistoryController {
-    private static final String FILE = "readingHistory.set";
-    private static Set<String> readingHistory;
-    private static FileManager filemanager = FileManager.getInstance();
+    private SQLiteDatabase db;
 
     private static ReadingHistoryController instance = new ReadingHistoryController();
 
@@ -34,10 +32,8 @@ public class ReadingHistoryController {
      * @param context The context.
      */
     public void initialize(Context context) {
-        if (!filemanager.fileExists(context, FILE)) {
-            filemanager.writeFile(context, FILE, new HashSet<String>());
-        }
-        readingHistory = (Set<String>) filemanager.readFile(context, FILE);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
     /**
@@ -46,7 +42,14 @@ public class ReadingHistoryController {
      * @return True if post is read.
      */
     public boolean postIsRead(Post post) {
-        return readingHistory.contains(post.getUuid());
+        return db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
+            new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1},
+            ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1 + " = ?",
+            new String[]{ post.getUuid() },
+            null,
+            null,
+            null
+            ).getCount() > 0;
     }
 
     /**
@@ -55,8 +58,12 @@ public class ReadingHistoryController {
      * @param post The post to add.
      */
     public void addReadPost(Context context, Post post) {
-        readingHistory.add(post.getUuid());
-        filemanager.writeFile(context, FILE, readingHistory);
+        if (postIsRead(post)) {
+            return;
+        }
+        ContentValues val = new ContentValues();
+        val.put(ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1, post.getUuid());
+        db.insert(ReadingHistoryContract.HistoryEntry.TABLE_NAME, null, val);
     }
 
 }
