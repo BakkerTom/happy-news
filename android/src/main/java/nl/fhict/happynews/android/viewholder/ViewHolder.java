@@ -36,11 +36,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
      */
     public void bindType(Post post) {
         this.post = post;
-        if (ReadingHistoryController.getInstance().postIsRead(post)) {
-            itemView.setAlpha(.3f);
-        } else {
-            itemView.setAlpha(1f);
-        }
+        itemView.setAlpha(ReadingHistoryController.getInstance().postIsRead(post) ? .3f : 1f);
     }
 
     /**

@@ -18,14 +18,14 @@ public final class ReadingHistoryContract {
     /* Inner class that defines the table contents */
     public static class HistoryEntry implements BaseColumns {
         public static final String TABLE_NAME       = "History";
-        public static final String COLUMN_NAME_COL1 = "Post_UUID";
+        public static final String COLUMN_POST_UUID = "Post_UUID";
 
         public static final String CREATE_TABLE = "CREATE TABLE "
             + TABLE_NAME
             + " ("
             + _ID
             + " INTEGER PRIMARY KEY,"
-            + COLUMN_NAME_COL1
+            + COLUMN_POST_UUID
             + TEXT_TYPE
             + " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

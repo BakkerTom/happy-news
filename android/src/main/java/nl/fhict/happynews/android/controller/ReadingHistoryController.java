@@ -43,8 +43,8 @@ public class ReadingHistoryController {
      */
     public boolean postIsRead(Post post) {
         return db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
-            new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1},
-            ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1 + " = ?",
+            new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID},
+            ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID + " = ?",
             new String[]{ post.getUuid() },
             null,
             null,
@@ -61,7 +61,7 @@ public class ReadingHistoryController {
             return;
         }
         ContentValues val = new ContentValues();
-        val.put(ReadingHistoryContract.HistoryEntry.COLUMN_NAME_COL1, post.getUuid());
+        val.put(ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID, post.getUuid());
         db.insert(ReadingHistoryContract.HistoryEntry.TABLE_NAME, null, val);
     }
 
