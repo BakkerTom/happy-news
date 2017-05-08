@@ -54,10 +54,9 @@ public class ReadingHistoryController {
 
     /**
      * Adds a post to the reading history list.
-     * @param context The context.
      * @param post The post to add.
      */
-    public void addReadPost(Context context, Post post) {
+    public void addReadPost(Post post) {
         if (postIsRead(post)) {
             return;
         }

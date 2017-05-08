@@ -67,7 +67,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
 
         if (!post.getUrl().isEmpty()) {
             Uri uri = Uri.parse(post.getUrl());
-            ReadingHistoryController.getInstance().addReadPost(context, post);
+            ReadingHistoryController.getInstance().addReadPost(post);
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder().build();
             customTabsIntent.launchUrl(context, uri);
         } else {
