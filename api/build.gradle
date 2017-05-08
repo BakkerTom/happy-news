@@ -29,6 +29,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.security.oauth:spring-security-oauth2')
     compile('org.springframework.boot:spring-boot-configuration-processor')
+    compile('joda-time:joda-time')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda')
 
     compile project(path: ':shared')
 

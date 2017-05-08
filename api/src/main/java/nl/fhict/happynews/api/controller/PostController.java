@@ -1,22 +1,20 @@
 package nl.fhict.happynews.api.controller;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.fhict.happynews.shared.QPost;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
 
 /**
  * Created by Tobi on 06-Mar-17.
@@ -38,7 +36,9 @@ public class PostController {
      */
     @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
     public Page<Post> getAllByPage(Pageable pageable) {
-        return this.postRepository.findAllByOrderByPublishedAtDesc(pageable);
+        Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
+        Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        return postRepository.findAll(notHidden(), sortedPageable);
     }
 
     /**
@@ -49,7 +49,7 @@ public class PostController {
      */
     @RequestMapping(value = "/post/uuid/{uuid}", method = RequestMethod.GET, produces = "application/json")
     public Post getPostByUuid(@PathVariable("uuid") String uuid) {
-        return this.postRepository.findByUuid(uuid);
+        return postRepository.findOne(uuid);
     }
 
     /**
@@ -60,21 +60,21 @@ public class PostController {
      * @return The Posts in JSON.
      */
     @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
-    public Collection<Post> getPostAfterDate(
-        @PathVariable("date") String date,
+    public Iterable<Post> getPostAfterDate(
+        @PathVariable("date") long date,
         @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered) {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d hh:mm:ss z yyyy");
-        Date properdate = null;
-        try {
-            properdate = sdf.parse(date);
-        } catch (ParseException e) {
-            Logger logger = LoggerFactory.getLogger(PostRepository.class);
-            logger.error("Date cannot be parsed.", e);
-        }
+
+        BooleanExpression predicate = notHidden().and(QPost.post.publishedAt.after(new DateTime(date)));
+        Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
+
         if (ordered) {
-            return this.postRepository.findByPublishedAtAfterOrderByPublishedAtDesc(properdate);
+            return postRepository.findAll(predicate, sort);
         } else {
-            return this.postRepository.findByPublishedAtAfter(properdate);
+            return postRepository.findAll(predicate);
         }
+    }
+
+    private BooleanExpression notHidden() {
+        return QPost.post.hidden.isFalse();
     }
 }
