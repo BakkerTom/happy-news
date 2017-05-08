@@ -11,11 +11,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.SwipeDismissListViewTouchListener;
 import nl.fhict.happynews.android.adapter.NotificationAdapter;
 import nl.fhict.happynews.android.fragments.TimePickerFragment;
 import nl.fhict.happynews.android.model.CustomNotification;
@@ -84,6 +87,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 
     /**
      * Updates the persisted notifications settings.
+     *
      * @param updatedNotifications updated list
      */
     public void updateChanges(ArrayList<CustomNotification> updatedNotifications) {
@@ -102,6 +106,26 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
             R.layout.activity_notification_settings,
             notifications);
         notificationListView.setAdapter(notificationAdapter);
+
+        SwipeDismissListViewTouchListener touchListener =
+            new SwipeDismissListViewTouchListener(
+                notificationListView,
+                new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            notifications.remove(position);
+                            updateChanges(notifications);
+                        }
+
+                    }
+                });
+        notificationListView.setOnTouchListener(touchListener);
         notificationAdapter.setParentActivity(this);
         notificationAdapter.notifyDataSetChanged();
     }

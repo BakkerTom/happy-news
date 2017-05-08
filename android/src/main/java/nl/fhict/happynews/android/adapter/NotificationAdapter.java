@@ -1,6 +1,7 @@
 package nl.fhict.happynews.android.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -8,15 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
+import android.widget.TextView;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.model.CustomNotification;
+
 import java.util.ArrayList;
 
 /**
  * Created by Sander on 08/05/2017.
  */
-public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
+public class NotificationAdapter extends ArrayAdapter<CustomNotification> {
 
     private final Context context;
     private ArrayList<CustomNotification> notifications;
@@ -24,8 +27,9 @@ public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
 
     /**
      * Constructor for notificationAdapter.
-     * @param context app context
-     * @param resource resource layout
+     *
+     * @param context       app context
+     * @param resource      resource layout
      * @param notifications list of notifications
      */
     public NotificationAdapter(Context context,
@@ -42,16 +46,24 @@ public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
         View rowView = inflater.inflate(R.layout.list_item_notification, null, true);
 
         final CustomNotification notification = notifications.get(position);
-
         final Switch notificationSwitch = (Switch) rowView.findViewById(R.id.notificationSwitch);
+        final TextView notificationTextView = (TextView) rowView.findViewById(R.id.notificationTextView);
 
-        notificationSwitch.setText(notification.getTime());
         notificationSwitch.setChecked(notification.isEnabled());
+        notificationTextView.setText(notification.getTime());
+        if (!notification.isEnabled()) {
+            notificationTextView.setTextColor(Color.GRAY);
+        }
 
         notificationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 notification.setEnabled(notificationSwitch.isChecked());
+                if (notificationSwitch.isChecked()) {
+                    notificationTextView.setTextColor(Color.BLACK);
+                } else {
+                    notificationTextView.setTextColor(Color.GRAY);
+                }
                 parentActivity.updateChanges(notifications);
             }
         });
