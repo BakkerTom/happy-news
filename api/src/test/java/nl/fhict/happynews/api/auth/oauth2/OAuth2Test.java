@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Collections;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,6 +45,12 @@ public class OAuth2Test {
 
     private User user;
 
+    @Value("${oauth2.client.client-id}")
+    private String clientId;
+
+    @Value("${oauth2.client.secret}")
+    private String clientSecret;
+
     /**
      * Create default user.
      */
@@ -62,7 +69,6 @@ public class OAuth2Test {
     }
 
     @Test
-    @WithMockUser(username = "happynews-editor", password = "OuNNQtRGBIfUTG2IDICCdOUt")
     public void testToken() throws Exception {
 
         mockMvc.perform(get("/admin/users"))
@@ -70,6 +76,7 @@ public class OAuth2Test {
 
         MvcResult mvcResult = mockMvc.perform(
             post("/oauth/token")
+                .with(httpBasic(clientId, clientSecret))
                 .param("grant_type", "password")
                 .param("username", user.getUsername())
                 .param("password", user.getPassword())

@@ -13,6 +13,7 @@ services:
       - MONGO_PORT=27017
     volumes:
       - "./.docker/logs/api:/var/log/api"
+      - "./.docker/config/api:/opt/api/config"
   crawler:
     build: crawler/
     restart: always

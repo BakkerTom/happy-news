@@ -1,0 +1,4 @@
+oauth2:
+  client:
+    client-id: test-client-id
+    secret: test-secret
