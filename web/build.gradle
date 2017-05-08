@@ -54,7 +54,7 @@ task copyBuildToStatic {
     doLast {
         copy {
             from "${project.projectDir}/src/main/client/build/"
-            into "${project.projectDir}/src/main/resources/static/"
+            into "${project.projectDir}/build/resources/main/static/"
         }
 
     }
