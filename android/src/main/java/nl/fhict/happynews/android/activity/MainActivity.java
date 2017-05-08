@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     private void setAlarms() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > 9) {
+        if (calendar.get(Calendar.HOUR_OF_DAY) > 15) {
             int day = calendar.get(Calendar.DATE);
             calendar.set(Calendar.DATE, day + 1);
         }
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
