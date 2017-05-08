@@ -38,6 +38,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         setContentView(R.layout.activity_notification_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_settings_notification);
+        notificationListView = (ListView) findViewById(R.id.notificationListView);
 
         preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -58,14 +59,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         if (!notificationsGsonString.equals("")) {
             notifications = new Gson().fromJson(notificationsGsonString, type);
         }
-
-        notificationAdapter = new NotificationAdapter(this,
-            R.layout.activity_notification_settings,
-            notifications);
-
-        notificationListView = (ListView) findViewById(R.id.notificationListView);
-        notificationListView.setAdapter(notificationAdapter);
-
+        refreshList();
     }
 
     /**
@@ -84,11 +78,19 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         notifications.add(new CustomNotification(hourOfDay, minute));
-        String notificationsGsonString = new Gson().toJson(notifications);
+        updateChanges(notifications);
+        refreshList();
+    }
+
+    /**
+     * Updates the persisted notifications settings.
+     * @param updatedNotifications updated list
+     */
+    public void updateChanges(ArrayList<CustomNotification> updatedNotifications) {
+        String notificationsGsonString = new Gson().toJson(updatedNotifications);
         SharedPreferences.Editor preferenesEditor = preferences.edit();
         preferenesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
         preferenesEditor.apply();
-        refreshList();
     }
 
     /**
@@ -100,6 +102,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
             R.layout.activity_notification_settings,
             notifications);
         notificationListView.setAdapter(notificationAdapter);
+        notificationAdapter.setParentActivity(this);
         notificationAdapter.notifyDataSetChanged();
     }
 }

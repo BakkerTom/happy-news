@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.model.CustomNotification;
-
 import java.util.ArrayList;
 
 /**
@@ -20,6 +20,7 @@ public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
 
     private final Context context;
     private ArrayList<CustomNotification> notifications;
+    private NotificationSettingsActivity parentActivity;
 
     /**
      * Constructor for notificationAdapter.
@@ -40,12 +41,20 @@ public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_item_notification, null, true);
 
-        CustomNotification notification = notifications.get(position);
+        final CustomNotification notification = notifications.get(position);
 
-        Switch notificationSwitch = (Switch) rowView.findViewById(R.id.notificationSwitch);
+        final Switch notificationSwitch = (Switch) rowView.findViewById(R.id.notificationSwitch);
 
         notificationSwitch.setText(notification.getTime());
         notificationSwitch.setChecked(notification.isEnabled());
+
+        notificationSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notification.setEnabled(notificationSwitch.isChecked());
+                parentActivity.updateChanges(notifications);
+            }
+        });
 
         return rowView;
     }
@@ -53,6 +62,10 @@ public class NotificationAdapter  extends ArrayAdapter<CustomNotification> {
     @Override
     public int getCount() {
         return super.getCount();
+    }
+
+    public void setParentActivity(NotificationSettingsActivity parentActivity) {
+        this.parentActivity = parentActivity;
     }
 }
 
