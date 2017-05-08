@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Happy News</string>
-    <string name="api_url" translatable="false">https://happynews-api.svendubbeld.nl</string>
 </resources>
