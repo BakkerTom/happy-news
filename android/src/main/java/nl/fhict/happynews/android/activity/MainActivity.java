@@ -1,12 +1,15 @@
 package nl.fhict.happynews.android.activity;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,22 +75,23 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         });
     }
 
-
+    /**
+     * Set alarms for notifications based on user preferences.
+     */
     private void setAlarms() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > 15) {
+        if (calendar.get(Calendar.HOUR_OF_DAY) > 16) {
             int day = calendar.get(Calendar.DATE);
             calendar.set(Calendar.DATE, day + 1);
         }
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
         PendingIntent alarmIntentMorning = PendingIntent.getBroadcast(getApplicationContext(), 0, i, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
             AlarmManager.INTERVAL_DAY, alarmIntentMorning);
-
     }
 
     private void addScrollListener() {
