@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "oauth2.client.client-id",
+      "type": "java.lang.String",
+      "description": "Client id for the OAuth2 client."
+    },
+    {
+      "name": "oauth2.client.secret",
+      "type": "java.lang.String",
+      "description": "Secret for the OAuth2 client."
+    }
+  ] }
