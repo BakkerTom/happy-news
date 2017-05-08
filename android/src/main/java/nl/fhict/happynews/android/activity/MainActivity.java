@@ -10,6 +10,7 @@ import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ReadingHistoryController.getInstance().initialize(this);
+        SourceController.getInstance().initialize(this);
 
         postManager = PostManager.getInstance(getApplicationContext());
 
