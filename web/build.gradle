@@ -50,8 +50,19 @@ task jsBuild(type: NpmTask) {
     args = ['run', 'build']
 }
 
+task copyBuildToStatic {
+    doLast {
+        copy {
+            from "${project.projectDir}/src/main/client/build/"
+            into "${project.projectDir}/src/main/resources/static/"
+        }
+
+    }
+}
+
 project.tasks.processResources.dependsOn('installNpm')
 project.tasks.processResources.dependsOn('jsBuild')
+project.tasks.processResources.dependsOn('copyBuildToStatic')
 
 idea {
     module {
