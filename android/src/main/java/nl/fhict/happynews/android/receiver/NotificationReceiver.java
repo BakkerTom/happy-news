@@ -19,16 +19,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            // Set the alarm here.
-            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent i = new Intent(context, NotificationReceiver.class);
-            PendingIntent alarmIntent;
-            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        //if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
 
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 10000, alarmIntent);
-        }
+        //}
 
         NotificationManager notificationManager;
         notificationManager = (NotificationManager)context.getSystemService(context.NOTIFICATION_SERVICE);
