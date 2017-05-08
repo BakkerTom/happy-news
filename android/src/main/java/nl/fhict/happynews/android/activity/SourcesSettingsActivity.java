@@ -30,9 +30,9 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        twitterSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
-        articleSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
-        quotesSwitch.setChecked(preferences.getBoolean("quotes_enabled", true));
+        twitterSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_twitter_enabled), true));
+        articleSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_articles_enabled), true));
+        quotesSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
 
         final SharedPreferences.Editor editor = preferences.edit();
 

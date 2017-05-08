@@ -1,11 +1,13 @@
 package nl.fhict.happynews.android.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import nl.fhict.happynews.android.R;
 
@@ -37,6 +39,12 @@ public class SettingsAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_item_setting, null, true);
         TextView settingText = (TextView) rowView.findViewById(R.id.settingsTextView);
+        ImageView iconImage = (ImageView) rowView.findViewById(R.id.iconImageView);
+        Drawable iconDrawable = getIconDrawableByString(settings.get(position));
+
+        iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+        iconImage.setImageDrawable(iconDrawable);
+
         settingText.setText(settings.get(position));
         return rowView;
     }
@@ -44,5 +52,29 @@ public class SettingsAdapter extends ArrayAdapter<String> {
     @Override
     public int getCount() {
         return settings.size();
+    }
+
+
+    private Drawable getIconDrawableByString(String setting) {
+        Drawable iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+        switch (setting) {
+            case "Language":
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                break;
+            case "Notifications":
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                break;
+            case "Sources":
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                break;
+            case "About":
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                break;
+            case "Rate App":
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                break;
+            default: break;
+        }
+        return iconDrawable;
     }
 }
