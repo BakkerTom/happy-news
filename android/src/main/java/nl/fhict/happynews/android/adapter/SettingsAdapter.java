@@ -41,8 +41,6 @@ public class SettingsAdapter extends ArrayAdapter<String> {
         TextView settingText = (TextView) rowView.findViewById(R.id.settingsTextView);
         ImageView iconImage = (ImageView) rowView.findViewById(R.id.iconImageView);
         Drawable iconDrawable = getIconDrawableByString(settings.get(position));
-
-        iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
         iconImage.setImageDrawable(iconDrawable);
 
         settingText.setText(settings.get(position));
@@ -62,16 +60,16 @@ public class SettingsAdapter extends ArrayAdapter<String> {
                 iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
                 break;
             case "Notifications":
-                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_notifications_black_24dp);
                 break;
             case "Sources":
-                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_forum_black_24dp);
                 break;
             case "About":
-                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_info_outline_black_24dp);
                 break;
             case "Rate App":
-                iconDrawable = context.getResources().getDrawable(R.drawable.ic_language_black_24dp);
+                iconDrawable = context.getResources().getDrawable(R.drawable.ic_grade_black_24dp);
                 break;
             default: break;
         }
