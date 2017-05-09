@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 class Tweet extends Component {
-  onComponentDidMount() {
-
+  componentDidMount() {
   }
 
   render() {

@@ -1,12 +1,16 @@
 .source {
   display: inline-block;
   text-transform: uppercase;
-  color: #BA37C6;
+
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.6px;
 
   margin-bottom: 4px;
+}
+
+.source-article {
+  color: #BA37C6;
 }
 
 .flex {

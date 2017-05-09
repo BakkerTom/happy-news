@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Image } from 'react-bootstrap';
 import './Article.css';
 
 class Article extends Component {
@@ -16,7 +15,7 @@ class Article extends Component {
             <img src={data.imageUrls[0]}/>
           </div>
           <div>
-            <span className='source'>{ data.source }</span>
+            <span className='source source-article'>{ data.source }</span>
             <a href={data.url}>
               <h4 className='list-group-item-heading'>{ data.title }</h4>
             </a>

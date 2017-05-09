@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Quote.css';
 
 class Quote extends Component {
   onComponentDidMount() {
@@ -6,9 +7,15 @@ class Quote extends Component {
   }
 
   render() {
+    const data = this.props.data;
+
     return (
       <li className='list-group-item'>
-        Tweet: { this.props.data.contentText }
+        <span className='source source-quote'>{ data.source }</span>
+        <blockquote cite={ data.url}>
+          <p>{ data.contentText }</p>
+          <cite>– { data.author }</cite>
+        </blockquote>
       </li>
     );
   }
