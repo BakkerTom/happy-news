@@ -12,21 +12,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by Tobi on 06-Mar-17.
  */
+@RequestMapping("/post")
 @RestController
 public class PostController {
 
     /**
      * Automagically creates a repository.
      **/
+    private final PostRepository postRepository;
+
     @Autowired
-    private PostRepository postRepository;
+    public PostController(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
 
     /**
      * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
@@ -34,7 +38,7 @@ public class PostController {
      * @param pageable the page and page size
      * @return A Page with Post information
      */
-    @RequestMapping(value = "/post", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping
     public Page<Post> getAllByPage(Pageable pageable) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
@@ -47,7 +51,7 @@ public class PostController {
      * @param uuid The UUID.
      * @return The Post in JSON.
      */
-    @RequestMapping(value = "/post/uuid/{uuid}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping("/uuid/{uuid}")
     public Post getPostByUuid(@PathVariable("uuid") String uuid) {
         return postRepository.findOne(uuid);
     }
@@ -59,7 +63,7 @@ public class PostController {
      * @param ordered Whether the list should be ordered by latest or not.
      * @return The Posts in JSON.
      */
-    @RequestMapping(value = "/post/afterdate/{date}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping("/afterdate/{date}")
     public Iterable<Post> getPostAfterDate(
         @PathVariable("date") long date,
         @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered) {

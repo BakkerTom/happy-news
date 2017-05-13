@@ -7,6 +7,7 @@ dependencies{
     compile("com.querydsl:querydsl-apt:4.1.4:jpa")
     compile('com.querydsl:querydsl-mongodb:4.1.4')
     compile('joda-time:joda-time:2.9.7')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.0')
 }
 
 

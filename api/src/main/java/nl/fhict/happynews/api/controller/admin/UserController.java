@@ -2,10 +2,10 @@ package nl.fhict.happynews.api.controller.admin;
 
 import nl.fhict.happynews.api.auth.User;
 import nl.fhict.happynews.api.auth.UserRepository;
-import nl.fhict.happynews.api.auth.UserValidator;
 import nl.fhict.happynews.api.exception.NotFoundException;
 import nl.fhict.happynews.api.exception.UserCreationException;
 import nl.fhict.happynews.api.exception.UsernameAlreadyExistsException;
+import nl.fhict.happynews.api.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
