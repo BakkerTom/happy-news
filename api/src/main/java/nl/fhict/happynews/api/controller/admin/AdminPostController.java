@@ -1,5 +1,6 @@
 package nl.fhict.happynews.api.controller.admin;
 
+import io.swagger.annotations.ApiOperation;
 import nl.fhict.happynews.api.exception.NotFoundException;
 import nl.fhict.happynews.api.exception.PostCreationException;
 import nl.fhict.happynews.api.hibernate.PostRepository;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -50,7 +54,8 @@ public class AdminPostController {
      * @param pageable the page and page size
      * @return A Page with Post information
      */
-    @RequestMapping
+    @ApiOperation("Get all posts in a paginated format")
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Post> getAllByPage(Pageable pageable) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
@@ -58,12 +63,13 @@ public class AdminPostController {
     }
 
     /**
-     * Handles a GET request by returning a Post by it's UUID.
+     * Handles a GET request by returning a Post by its UUID.
      *
      * @param uuid The UUID.
      * @return The Post in JSON.
      */
-    @RequestMapping("/{uuid}")
+    @ApiOperation("Get a post by its UUID")
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Post getPostByUuid(@PathVariable("uuid") String uuid) {
         Post post = postRepository.findOne(uuid);
 
@@ -80,7 +86,9 @@ public class AdminPostController {
      * @param post The post to create.
      * @return The newly created post.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation("Create a new post")
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> addPost(@Valid @RequestBody Post post) {
         post.setUuid(null);
 
@@ -102,7 +110,8 @@ public class AdminPostController {
      * @param post The post content.
      * @return The new state of the post.
      */
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT)
+    @ApiOperation("Create or replace a post")
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> updatePost(@PathVariable String uuid, @Valid @RequestBody Post post) {
         post.setUuid(uuid);
 
@@ -116,11 +125,12 @@ public class AdminPostController {
     }
 
     /**
-     * Delete a user by its UUID.
+     * Delete a post by its UUID.
      *
      * @param uuid The UUID.
      */
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+    @ApiOperation("Delete a post")
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> deletePost(@PathVariable String uuid) {
         if (postRepository.exists(uuid)) {
             postRepository.delete(uuid);
@@ -140,7 +150,8 @@ public class AdminPostController {
      * @param uuid The UUID.
      * @return The new state of the post.
      */
-    @RequestMapping(value = "/{uuid}/hide", method = RequestMethod.POST)
+    @ApiOperation("Hide or un-hide a post")
+    @RequestMapping(value = "/{uuid}/hide", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Post> hide(@PathVariable String uuid, @RequestBody HideRequest body) {
         Post post = postRepository.findOne(uuid);
 

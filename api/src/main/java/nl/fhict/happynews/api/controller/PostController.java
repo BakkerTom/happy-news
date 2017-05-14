@@ -1,6 +1,7 @@
 package nl.fhict.happynews.api.controller;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import io.swagger.annotations.ApiOperation;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
 import nl.fhict.happynews.shared.QPost;
@@ -10,8 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +41,8 @@ public class PostController {
      * @param pageable the page and page size
      * @return A Page with Post information
      */
-    @RequestMapping
+    @ApiOperation("Get all posts in a paginated format")
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Post> getAllByPage(Pageable pageable) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
@@ -46,12 +50,13 @@ public class PostController {
     }
 
     /**
-     * Handles a GET request by returning a Post by it's UUID.
+     * Handles a GET request by returning a Post by its UUID.
      *
      * @param uuid The UUID.
      * @return The Post in JSON.
      */
-    @RequestMapping("/uuid/{uuid}")
+    @ApiOperation("Get a post by its UUID")
+    @RequestMapping(value = "/uuid/{uuid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Post getPostByUuid(@PathVariable("uuid") String uuid) {
         return postRepository.findOne(uuid);
     }
@@ -63,7 +68,9 @@ public class PostController {
      * @param ordered Whether the list should be ordered by latest or not.
      * @return The Posts in JSON.
      */
-    @RequestMapping("/afterdate/{date}")
+    @ApiOperation("Get posts after a given date")
+    @RequestMapping(value = "/afterdate/{date}", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Post> getPostAfterDate(
         @PathVariable("date") long date,
         @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered) {
