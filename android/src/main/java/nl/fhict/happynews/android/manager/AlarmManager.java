@@ -39,7 +39,7 @@ public class AlarmManager {
         if (!notificationsGsonString.equals("")) {
             alarms = new Gson().fromJson(notificationsGsonString, type);
         }
-        Log.d("size:", "::" + alarms.size());
+        
         for (int i = 0; i < alarms.size(); i++) {
             int hour = alarms.get(i).getHour();
             int minute = alarms.get(i).getMinute();
