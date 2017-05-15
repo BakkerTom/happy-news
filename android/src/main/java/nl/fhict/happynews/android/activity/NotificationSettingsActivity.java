@@ -1,7 +1,6 @@
 package nl.fhict.happynews.android.activity;
 
 import android.app.DialogFragment;
-import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +10,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.SwipeDismissListViewTouchListener;
 import nl.fhict.happynews.android.adapter.NotificationAdapter;
 import nl.fhict.happynews.android.fragments.TimePickerFragment;
-import nl.fhict.happynews.android.model.CustomNotification;
+import nl.fhict.happynews.android.model.NotificationSetting;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -32,7 +29,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
     private ListView notificationListView;
     private FloatingActionButton addNotificationFab;
     private NotificationAdapter notificationAdapter;
-    private ArrayList<CustomNotification> notifications;
+    private ArrayList<NotificationSetting> notifications;
     private SharedPreferences preferences;
 
     @Override
@@ -57,7 +54,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 
         notifications = new ArrayList<>();
         String notificationsGsonString = preferences.getString(getString(R.string.preference_notifications), "");
-        Type type = new TypeToken<List<CustomNotification>>() {
+        Type type = new TypeToken<List<NotificationSetting>>() {
         }.getType();
         if (!notificationsGsonString.equals("")) {
             notifications = new Gson().fromJson(notificationsGsonString, type);
@@ -80,7 +77,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        notifications.add(new CustomNotification(hourOfDay, minute));
+        notifications.add(new NotificationSetting(hourOfDay, minute));
         updateChanges(notifications);
         refreshList();
     }
@@ -90,7 +87,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
      *
      * @param updatedNotifications updated list
      */
-    public void updateChanges(ArrayList<CustomNotification> updatedNotifications) {
+    public void updateChanges(ArrayList<NotificationSetting> updatedNotifications) {
         String notificationsGsonString = new Gson().toJson(updatedNotifications);
         SharedPreferences.Editor preferenesEditor = preferences.edit();
         preferenesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
@@ -122,7 +119,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                             notifications.remove(position);
                             updateChanges(notifications);
                         }
-
                     }
                 });
         notificationListView.setOnTouchListener(touchListener);

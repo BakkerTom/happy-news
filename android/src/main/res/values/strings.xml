@@ -13,4 +13,5 @@
     <string name="preference_quotes_enabled">quotes_enabled</string>
     <string name="preference_articles_enabled">articles_enabled</string>
     <string name="preference_notifications">notifications</string>
+    <string name="preference_sources">notifications</string>
 </resources>

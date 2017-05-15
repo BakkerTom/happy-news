@@ -3,7 +3,7 @@ package nl.fhict.happynews.android.model;
 /**
  * Created by Sander on 08/05/2017.
  */
-public class CustomNotification {
+public class NotificationSetting {
     private int hour;
     private int minute;
     private boolean enabled;
@@ -15,7 +15,7 @@ public class CustomNotification {
      * @param hour   hour of the notification
      * @param minute minutes for the notifications
      */
-    public CustomNotification(int hour, int minute) {
+    public NotificationSetting(int hour, int minute) {
         this.hour = hour;
         this.minute = minute;
         enabled = true;

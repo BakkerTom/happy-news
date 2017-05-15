@@ -7,14 +7,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.Switch;
+import com.google.gson.Gson;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.SourceManager;
+import nl.fhict.happynews.android.adapter.SourceSettingsAdapter;
+import nl.fhict.happynews.android.model.NotificationSetting;
+import nl.fhict.happynews.android.model.Source;
+import nl.fhict.happynews.android.model.SourceSetting;
+
+import java.util.ArrayList;
 
 public class SourcesSettingsActivity extends AppCompatActivity {
 
-    private Switch twitterSwitch;
-    private Switch articleSwitch;
-    private Switch quotesSwitch;
+    private ArrayList<SourceSetting> sources;
+    private SharedPreferences preferences;
+    private SourceSettingsAdapter sourcesAdapter;
+    private ListView sourcesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,46 +34,17 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_settings_sources);
 
-        twitterSwitch = (Switch) findViewById(R.id.switch_twitter);
-        articleSwitch = (Switch) findViewById(R.id.switch_articles);
-        quotesSwitch = (Switch) findViewById(R.id.switch_quotes);
-
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(
+        preferences = getApplicationContext().getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        twitterSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_twitter_enabled), true));
-        articleSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_articles_enabled), true));
-        quotesSwitch.setChecked(preferences.getBoolean(getString(R.string.preference_quotes_enabled), true));
-
-        final SharedPreferences.Editor editor = preferences.edit();
-
-        twitterSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean("twitter_enabled", twitterSwitch.isChecked());
-                editor.apply();
-            }
-        });
-
-        articleSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean("articles_enabled", articleSwitch.isChecked());
-                editor.apply();
-            }
-        });
-
-        quotesSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean("quotes_enabled", quotesSwitch.isChecked());
-                editor.apply();
-            }
-        });
+        sourcesListView = (ListView) findViewById(R.id.sourcesListView);
+        sources = createSourcesObjects();
+        refreshList();
+        sourcesAdapter.setParentActivity(this);
     }
 
     /**
-     * back button implementation.
+     * Back button implementation.
      *
      * @param item menuItem
      * @return boolean start activity
@@ -71,5 +53,56 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivityForResult(myIntent, 0);
         return true;
+    }
+
+    /**
+     * Create sources for twitter quote and article,
+     * Get the article sources from the api.
+     *
+     * @return list of source settings.
+     */
+    private ArrayList<SourceSetting> createSourcesObjects() {
+        sources = new ArrayList<>();
+        SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
+        SourceSetting quoteSourceSetting = new SourceSetting("Quote");
+        SourceSetting articleSourceSetting = new SourceSetting("Article");
+
+        sources.add(twitterSourceSetting);
+        sources.add(quoteSourceSetting);
+        sources.add(articleSourceSetting);
+
+        SourceManager sourceManager = SourceManager.getInstance(this);
+        ArrayList<Source> sourcesFromApi = sourceManager.getSources();
+
+        for (Source s : sourcesFromApi) {
+            sources.add(new SourceSetting(articleSourceSetting, s.getName()));
+        }
+
+        return sources;
+    }
+
+    /**
+     * Updates the persisted notifications settings.
+     *
+     * @param updatedSources Arraylist of sourceSettings.
+     */
+    public void updateChanges(ArrayList<SourceSetting> updatedSources) {
+        String sourcesGsonString = new Gson().toJson(updatedSources);
+        SharedPreferences.Editor preferenesEditor = preferences.edit();
+        preferenesEditor.putString(getString(R.string.preference_sources), sourcesGsonString);
+        preferenesEditor.apply();
+        refreshList();
+    }
+
+    /**
+     * Refresh the list of sources.
+     */
+    private void refreshList() {
+        sourcesAdapter = new SourceSettingsAdapter(this,
+            R.layout.activity_sources_settings,
+            sources);
+        sourcesListView.setAdapter(sourcesAdapter);
+        sourcesAdapter.setParentActivity(this);
+        sourcesAdapter.notifyDataSetChanged();
     }
 }

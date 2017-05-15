@@ -12,17 +12,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
-import nl.fhict.happynews.android.model.CustomNotification;
+import nl.fhict.happynews.android.model.NotificationSetting;
 
 import java.util.ArrayList;
 
 /**
  * Created by Sander on 08/05/2017.
  */
-public class NotificationAdapter extends ArrayAdapter<CustomNotification> {
+public class NotificationAdapter extends ArrayAdapter<NotificationSetting> {
 
     private final Context context;
-    private ArrayList<CustomNotification> notifications;
+    private ArrayList<NotificationSetting> notifications;
     private NotificationSettingsActivity parentActivity;
 
     /**
@@ -34,7 +34,7 @@ public class NotificationAdapter extends ArrayAdapter<CustomNotification> {
      */
     public NotificationAdapter(Context context,
                                @LayoutRes int resource,
-                               @NonNull ArrayList<CustomNotification> notifications) {
+                               @NonNull ArrayList<NotificationSetting> notifications) {
         super(context, resource, notifications);
         this.notifications = notifications;
         this.context = context;
@@ -45,7 +45,7 @@ public class NotificationAdapter extends ArrayAdapter<CustomNotification> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_item_notification, null, true);
 
-        final CustomNotification notification = notifications.get(position);
+        final NotificationSetting notification = notifications.get(position);
         final Switch notificationSwitch = (Switch) rowView.findViewById(R.id.notificationSwitch);
         final TextView notificationTextView = (TextView) rowView.findViewById(R.id.notificationTextView);
 
