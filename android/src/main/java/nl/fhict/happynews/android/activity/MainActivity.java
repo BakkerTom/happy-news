@@ -13,6 +13,7 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
@@ -99,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         calendar.set(Calendar.HOUR_OF_DAY, hour);
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, 0);
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
             AlarmManager.INTERVAL_DAY, alarmIntent);
     }
