@@ -56,7 +56,8 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
             "positivityScore": 0.0,
             "expirationDate": null,
             "type": "article",
-            "tags": [ ]
+            "tags": [ ],
+            "hidden": false
         }
     ],
     "last": false,

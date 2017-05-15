@@ -4,6 +4,7 @@ import nl.fhict.happynews.crawler.api.QuoteApi;
 import nl.fhict.happynews.crawler.model.quoteapi.Quote;
 import nl.fhict.happynews.crawler.model.quoteapi.QuoteEnvelope;
 import nl.fhict.happynews.shared.Post;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,8 +76,8 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
             toAdd.setContentText(quote.getQuote());
             toAdd.setTags(Arrays.asList(quote.getTags()));
             toAdd.setAuthor(quote.getAuthor());
-            toAdd.setIndexedAt(new Date());
-            toAdd.setPublishedAt(new Date());
+            toAdd.setIndexedAt(new DateTime());
+            toAdd.setPublishedAt(new DateTime());
             result.add(toAdd);
         }
         return result;
