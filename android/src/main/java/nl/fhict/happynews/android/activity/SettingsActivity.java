@@ -3,6 +3,7 @@ package nl.fhict.happynews.android.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
         setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        settings.add("Language");
         settings.add("Notifications");
         settings.add("Sources");
         settings.add("About");
@@ -42,11 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
                 String chosenSetting = settings.get(position);
 
                 switch (chosenSetting) {
-                    case "Language":
-                        Intent languageSettingsIntent = new Intent(getApplicationContext(),
-                            LanguageSettingsActivity.class);
-                        startActivityForResult(languageSettingsIntent, 0);
-                        break;
                     case "Notifications":
                         Intent notificationSettingsIntent = new Intent(getApplicationContext(),
                             NotificationSettingsActivity.class);
@@ -92,8 +87,13 @@ public class SettingsActivity extends AppCompatActivity {
      * @return boolean start activity
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

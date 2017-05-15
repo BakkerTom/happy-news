@@ -68,11 +68,10 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
         sourceNameTextView.setText(sourceSetting.getName());
 
-        if (!sourceSetting.isEnabled()) {
-            sourceSwitch.setChecked(false);
+        sourceSwitch.setChecked(sourceSetting.isEnabled());
+        if (!sourceSwitch.isChecked()) {
             sourceNameTextView.setTextColor(Color.GRAY);
         } else {
-            sourceSwitch.setChecked(true);
             sourceNameTextView.setTextColor(Color.BLACK);
         }
 

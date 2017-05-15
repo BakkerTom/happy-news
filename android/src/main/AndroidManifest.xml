@@ -23,13 +23,6 @@
                 android:value=".activity.MainActivity"/>
         </activity>
         <activity
-            android:name=".activity.LanguageSettingsActivity"
-            android:parentActivityName=".activity.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.SettingsActivity"/>
-        </activity>
-        <activity
             android:name=".activity.NotificationSettingsActivity"
             android:parentActivityName=".activity.SettingsActivity">
             <meta-data

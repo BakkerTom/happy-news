@@ -36,20 +36,7 @@ public class NotificationSetting {
      * @return String
      */
     public String getTime() {
-        String hourString;
-        String minuteString;
-        if (hour < 10) {
-            hourString = "0" + hour;
-        } else {
-            hourString = "" + hour;
-        }
-        if (minute < 10) {
-            minuteString = "0" + minute;
-        } else {
-            minuteString = "" + minute;
-        }
-
-        return hourString + ":" + minuteString;
+        return String.format("%d:%02d", hour, minute);
     }
 
     public int getHour() {
