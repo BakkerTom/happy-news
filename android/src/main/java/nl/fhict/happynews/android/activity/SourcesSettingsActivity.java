@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.SourceManager;
 import nl.fhict.happynews.android.adapter.SourceSettingsAdapter;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.NotificationSetting;
 import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 public class SourcesSettingsActivity extends AppCompatActivity {
 
     private ArrayList<SourceSetting> sources;
-    private SharedPreferences preferences;
     private SourceSettingsAdapter sourcesAdapter;
     private ListView sourcesListView;
 
@@ -34,11 +34,11 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_settings_sources);
 
-        preferences = getApplicationContext().getSharedPreferences(
-            getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
         sourcesListView = (ListView) findViewById(R.id.sourcesListView);
         sources = createSourcesObjects();
+        for (SourceSetting src : sources) {
+            SourceController.getInstance().addSource(getApplicationContext(), src);
+        }
         refreshList();
         sourcesAdapter.setParentActivity(this);
     }
@@ -71,7 +71,7 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         sources.add(quoteSourceSetting);
         sources.add(articleSourceSetting);
 
-        SourceManager sourceManager = SourceManager.getInstance(this);
+        SourceManager sourceManager = SourceManager.getInstance(getApplicationContext());
         ArrayList<Source> sourcesFromApi = sourceManager.getSources();
 
         for (Source s : sourcesFromApi) {
@@ -87,10 +87,9 @@ public class SourcesSettingsActivity extends AppCompatActivity {
      * @param updatedSources Arraylist of sourceSettings.
      */
     public void updateChanges(ArrayList<SourceSetting> updatedSources) {
-        String sourcesGsonString = new Gson().toJson(updatedSources);
-        SharedPreferences.Editor preferenesEditor = preferences.edit();
-        preferenesEditor.putString(getString(R.string.preference_sources), sourcesGsonString);
-        preferenesEditor.apply();
+        for (SourceSetting source : updatedSources) {
+            SourceController.getInstance().addSource(getApplicationContext(), source);
+        }
         refreshList();
     }
 

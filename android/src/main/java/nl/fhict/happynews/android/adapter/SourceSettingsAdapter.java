@@ -13,6 +13,7 @@ import android.widget.TextView;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.activity.SourcesSettingsActivity;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
@@ -68,7 +69,9 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
         sourceNameTextView.setText(sourceSetting.getName());
 
-        sourceSwitch.setChecked(sourceSetting.isEnabled());
+        SourceSetting src = SourceController.getInstance().getSource(context, sourceSetting.getName());
+
+        sourceSwitch.setChecked(src != null && !src.isEnabled());
         if (!sourceSwitch.isChecked()) {
             sourceNameTextView.setTextColor(Color.GRAY);
         } else {
@@ -78,7 +81,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
         sourceSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sourceSetting.setEnabled(sourceSwitch.isChecked());
+                SourceController.getInstance().toggleSource(getContext(), sourceSetting.getName());
                 if (sourceSwitch.isChecked()) {
                     sourceNameTextView.setTextColor(Color.BLACK);
                 } else {

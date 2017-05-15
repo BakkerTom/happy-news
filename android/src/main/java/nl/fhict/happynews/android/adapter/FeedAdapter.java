@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.model.SourceSetting;
 import nl.fhict.happynews.android.viewholder.PostHolder;
 import nl.fhict.happynews.android.viewholder.PostImageHolder;
 import nl.fhict.happynews.android.viewholder.PostQuoteHolder;
@@ -99,6 +101,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Post post = posts.get(position);
+        SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
+        if (src != null && src.isEnabled()) {
+            return;
+        }
 
         switch (holder.getItemViewType()) {
             default:

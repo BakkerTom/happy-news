@@ -1,10 +1,15 @@
 package nl.fhict.happynews.android.controller;
 
 import android.content.Context;
+import com.google.gson.reflect.TypeToken;
+import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.model.Source;
+import nl.fhict.happynews.android.model.SourceSetting;
 import nl.fhict.happynews.android.persistence.PreferenceJsonController;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Tobi on 08-May-17.
@@ -12,6 +17,7 @@ import java.util.HashSet;
 public class SourceController {
 
     private static final String KEY = "SOURCES";
+    private static PreferenceJsonController<SourceSetting> preferences = new PreferenceJsonController<>();
 
     private static SourceController instance = new SourceController();
 
@@ -32,9 +38,37 @@ public class SourceController {
      * @param context The context.
      */
     public void initialize(Context context) {
-        if (PreferenceJsonController.get(context, KEY) == null) {
-            PreferenceJsonController.put(context, KEY, new HashSet<String>());
+        if (preferences.get(context, KEY) == null) {
+            preferences.put(context, KEY, new HashSet<SourceSetting>());
         }
+    }
+
+    /**
+     * Gets the source.
+     * @param context The context.
+     * @param srcName The source name.
+     * @return The source.
+     */
+    public SourceSetting getSource(Context context, String srcName) {
+        for (SourceSetting src : getSources(context)) {
+            if (src.getName().equals(srcName)) {
+                return src;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Toggles the source.
+     * @param context The context.
+     * @param srcName The sourcename.
+     */
+    public void toggleSource(Context context, String srcName) {
+        SourceSetting src = getSource(context, srcName);
+        removeSource(context, src);
+        src.setEnabled(!src.isEnabled());
+        addSource(context, src);
+
     }
 
     /**
@@ -42,8 +76,8 @@ public class SourceController {
      * @param context The context.
      * @return All sources.
      */
-    public Collection<String> getSources(Context context) {
-        return (Collection<String>)PreferenceJsonController.getAsCollection(context, KEY);
+    public Collection<SourceSetting> getSources(Context context) {
+        return preferences.getAsCollection(context, KEY, new TypeToken<Collection<SourceSetting>>(){});
     }
 
     /**
@@ -51,10 +85,10 @@ public class SourceController {
      * @param context The context.
      * @param source The source.
      */
-    public void addSource(Context context, String source) {
-        Collection<String> sources = getSources(context);
+    public void addSource(Context context, SourceSetting source) {
+        Collection<SourceSetting> sources = getSources(context);
         sources.add(source);
-        PreferenceJsonController.put(context, KEY, sources);
+        preferences.put(context, KEY, sources);
     }
 
     /**
@@ -62,9 +96,9 @@ public class SourceController {
      * @param context The context.
      * @param source The source.
      */
-    public void removeSource(Context context, String source) {
-        Collection<String> sources = getSources(context);
+    public void removeSource(Context context, SourceSetting source) {
+        Collection<SourceSetting> sources = getSources(context);
         sources.remove(source);
-        PreferenceJsonController.put(context, KEY, sources);
+        preferences.put(context, KEY, sources);
     }
 }
