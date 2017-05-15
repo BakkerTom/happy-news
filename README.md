@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/BakkerTom/happy-news.svg?branch=master)](https://travis-ci.org/BakkerTom/happy-news)
 [![codebeat badge](https://codebeat.co/badges/503aab65-3852-4b7b-9c46-938a56e05b97)](https://codebeat.co/projects/github-com-bakkertom-happy-news-master)
 
+<a href='https://play.google.com/store/apps/details?id=nl.fhict.happynews.android&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="150"/></a>
+
 ## Table of Contents
 * [Description](#description)
 * [API](#api)
@@ -15,7 +17,10 @@
 
 Happy News is a source of positive news. A school project for Fontys Hogeschool ICT in collaboration with [Citrus Software](http://citrus.nl/).
 
+
 ## API
+
+For full documentation see our [wiki](https://github.com/BakkerTom/happy-news/wiki/API-Documentation).
 
 #### » `https://happynews-api.svendubbeld.nl/post?page={pagenumber}&size={size}`
 
@@ -32,21 +37,38 @@ Retrieves all posts after a Java `Date`. ordered is not required, and defaults t
 #### Example JSON
 ```json
 {
-    "uuid": "58cfcb4aa7b11b00013d4e0a",
-    "source": "associated-press",
-    "sourceName" : "Associated Press",
-    "author": "James Vincent",
-    "title": "Jeff Bezos looks a little too happy piloting a giant mechanical robot",
-    "contentText": "A billionaire entrepreneur with a side-line building space rockets has been showing off piloting a 13-foot-tall robot.",
-    "url": "https://www.cnbc.com/2017/03/20/jeff-bezos-looks-a-little-too-happy-piloting-a-giant-mechanical-robot.html",
-    "imageUrls": ["https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/03/20/104351978-C7Vl-gtWkAAkj-Y.1910x1000.jpg"],
-    "videoUrl": "www.video.nl",
-    "publishedAt": 1490012058000,
-    "indexedAt" : 1490012058000,
-    "positivityScore" : 7.6,
-    "expirationDate" : null,
-    "type" : "article",
-    "tags" : []
+
+    "content": [
+        {
+            "uuid": "5907217ea7b11b00016e5a44",
+            "source": "the-next-web",
+            "sourceName": "The Next Web",
+            "author": "Arno Nijhof",
+            "title": "These companies are growing extremely quickly and will be the unicorns of tomorrow",
+            "contentText": "For the fourth year in a row, Adyen and TNW are celebrating European startups with the Tech5. In this competition, we measure companies on growth in revenue over the last three years. ...",
+            "url": "https://thenextweb.com/insider/2017/05/01/these-companies-are-growing-extremely-quickly-and-will-be-the-unicorns-of-tomorrow/",
+            "imageUrls": [
+                "https://cdn2.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/image3.jpg"
+            ],
+            "videoUrl": null,
+            "publishedAt": 1493643989000,
+            "indexedAt": 1493639401003,
+            "positivityScore": 0.0,
+            "expirationDate": null,
+            "type": "article",
+            "tags": [ ],
+            "hidden": false
+        }
+    ],
+    "last": false,
+    "totalElements": 1,
+    "totalPages": 1,
+    "numberOfElements": 1,
+    "sort": null,
+    "first": true,
+    "size": 20,
+    "number": 0
+
 }
 ```
 

@@ -79,7 +79,7 @@ public class ArticleExtractor implements ContentExtractor {
         String result = builder.toString();
 
         if (result.isEmpty()) {
-            return post.getContentText();
+            return post.getContentText() != null ? post.getContentText() : "";
         } else {
             return result;
         }
