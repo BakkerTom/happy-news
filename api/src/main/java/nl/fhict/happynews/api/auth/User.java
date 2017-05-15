@@ -3,6 +3,7 @@ package nl.fhict.happynews.api.auth;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -23,6 +24,7 @@ public class User {
     @Indexed(unique = true)
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ApiModelProperty(hidden = true)
     private String password;
     private Set<String> roles = new HashSet<>();
 
