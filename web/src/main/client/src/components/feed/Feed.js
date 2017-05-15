@@ -18,14 +18,19 @@ class Feed extends Component {
 
   componentDidMount() {
     //Load first page when component mounts
-    this.loadItems(0, false);
+    this.loadItems(0);
   }
 
   //loadItems load
   loadItems(pageNumber){
-    const url = `/post?page=${pageNumber}&size=${PAGE_SIZE}`;
+    const url = `/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
 
-    fetch(url)
+    fetch(url, {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.access_token,
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      })
       .then(blob => blob.json())
       .then(data => {
         this.setState({
