@@ -18,6 +18,7 @@ import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.SwipeDismissListViewTouchListener;
 import nl.fhict.happynews.android.adapter.NotificationAdapter;
 import nl.fhict.happynews.android.fragments.TimePickerFragment;
+import nl.fhict.happynews.android.manager.AlarmManager;
 import nl.fhict.happynews.android.model.NotificationSetting;
 
 import java.lang.reflect.Type;
@@ -89,9 +90,10 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
      */
     public void updateChanges(ArrayList<NotificationSetting> updatedNotifications) {
         String notificationsGsonString = new Gson().toJson(updatedNotifications);
-        SharedPreferences.Editor preferenesEditor = preferences.edit();
-        preferenesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
-        preferenesEditor.apply();
+        SharedPreferences.Editor preferencesEditor = preferences.edit();
+        preferencesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
+        preferencesEditor.apply();
+        AlarmManager.setAlarms(getApplicationContext());
     }
 
     /**
