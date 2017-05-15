@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +40,14 @@ public class AlarmManager {
             alarms = new Gson().fromJson(notificationsGsonString, type);
         }
 
+        android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(
+            Context.ALARM_SERVICE);
+
+        //Cancel all alarms
+        android.app.AlarmManager.AlarmClockInfo alarmClockInfo = alarmManager.getNextAlarmClock();
+
+
+
         for (int i = 0; i < alarms.size(); i++) {
             NotificationSetting notificationSetting = alarms.get(i);
             int hour = notificationSetting.getHour();
@@ -59,11 +66,9 @@ public class AlarmManager {
                     alarmTime.set(Calendar.DATE, day + 1);
                 }
 
-                android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(
-                    Context.ALARM_SERVICE);
+
                 Intent intent = new Intent(context, NotificationReceiver.class);
                 PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
-                alarmManager.cancel(alarmIntent);
                 alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),
                     android.app.AlarmManager.INTERVAL_DAY, alarmIntent);
             }
