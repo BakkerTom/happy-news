@@ -4,6 +4,7 @@
                 android:id="@+id/activity_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:launchMode="singleTop"
                 tools:context=".activity.MainActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -16,7 +17,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/recyclerView"
                 android:background="@color/colorBackground"/>
-
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

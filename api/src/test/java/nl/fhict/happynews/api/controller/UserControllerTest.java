@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -42,6 +43,9 @@ public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private WebApplicationContext context;
@@ -89,7 +93,7 @@ public class UserControllerTest {
 
         assertThat(userRepository.count(), is(2L));
         assertThat(userRepository.existsByUsername("user"), is(true));
-        assertThat(userRepository.findByUsername("user").getPassword(), is("password1"));
+        assertThat(passwordEncoder.matches("password1", userRepository.findByUsername("user").getPassword()), is(true));
     }
 
     @Test
@@ -108,7 +112,7 @@ public class UserControllerTest {
                 is(instanceOf(UsernameAlreadyExistsException.class))));
 
         assertThat(userRepository.count(), is(1L));
-        assertThat(userRepository.findByUsername("admin").getPassword(), is("password"));
+        assertThat(passwordEncoder.matches("password", userRepository.findByUsername("admin").getPassword()), is(true));
     }
 
     @Test
