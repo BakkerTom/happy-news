@@ -24,6 +24,6 @@ public class UserValidator implements Validator {
 
         User user = (User) target;
 
-        passwordValidator.validate(user.getPassword(), errors);
+        passwordValidator.validate(user.getRawPassword(), errors);
     }
 }

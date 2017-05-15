@@ -6,6 +6,7 @@ import com.mongodb.DBObject;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +27,10 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ApiModelProperty(hidden = true)
     private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ApiModelProperty(hidden = true)
+    @Transient
+    private String rawPassword;
     private Set<String> roles = new HashSet<>();
 
     public User() {
@@ -86,6 +91,11 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
+        this.rawPassword = password;
+    }
+
+    public String getRawPassword() {
+        return rawPassword;
     }
 
     public Set<String> getRoles() {
