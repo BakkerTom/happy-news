@@ -1,6 +1,6 @@
 package nl.fhict.happynews.crawler.model.newsapi;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Article from a news source according to newsapi.org format
@@ -12,7 +12,7 @@ public class Article {
     private String description;
     private String url;
     private String urlToImage;
-    private Date publishedAt;
+    private DateTime publishedAt;
 
 
     public Article() {
@@ -28,7 +28,7 @@ public class Article {
      * @param imageUrl    An optional link to the image associated with the article.
      * @param publishedAt The date the article is published.
      */
-    public Article(String author, String title, String description, String url, String imageUrl, Date publishedAt) {
+    public Article(String author, String title, String description, String url, String imageUrl, DateTime publishedAt) {
         this.author = author;
         this.title = title;
         this.description = description;
@@ -58,7 +58,7 @@ public class Article {
         return urlToImage;
     }
 
-    public Date getPublishedAt() {
+    public DateTime getPublishedAt() {
         return publishedAt;
     }
 
@@ -82,7 +82,7 @@ public class Article {
         this.urlToImage = urlToImage;
     }
 
-    public void setPublishedAt(Date publishedAt) {
+    public void setPublishedAt(DateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 }
