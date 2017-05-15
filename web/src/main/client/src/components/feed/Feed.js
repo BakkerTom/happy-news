@@ -56,13 +56,15 @@ class Feed extends Component {
 
     //Map correct components to results
     const posts = this.state.feedData.map(post => {
-      switch ( post.source ){
-        case 'Twitter':
+      switch ( post.type ){
+        case 'tweet':
           return <Tweet data={post} key={post.uuid}/>;
-        case 'Inspirational Quote':
+        case 'quote':
           return <Quote data={post} key={post.uuid}/>;
-        default:
+        case 'article':
           return <Article data={post} key={post.uuid} />;
+        default:
+          return <li className='list-group-item'>Unsupported content</li>;
       }
     });
 
