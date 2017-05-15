@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Created by daan_ on 6-3-2017.
  */
 @Document
+@Entity
 public class Post {
 
     @Id
@@ -35,12 +37,13 @@ public class Post {
     private String url;
     private List<String> imageUrls = new ArrayList<>();
     private String videoUrl;
-    private Date publishedAt;
-    private Date indexedAt;
+    private DateTime publishedAt;
+    private DateTime indexedAt;
     private double positivityScore;
-    private Date expirationDate;
+    private DateTime expirationDate;
     private Type type;
     private List<String> tags = new ArrayList<>();
+    private boolean hidden;
 
     public Post() {
     }
@@ -81,11 +84,11 @@ public class Post {
         return videoUrl;
     }
 
-    public Date getPublishedAt() {
+    public DateTime getPublishedAt() {
         return publishedAt;
     }
 
-    public Date getIndexedAt() {
+    public DateTime getIndexedAt() {
         return indexedAt;
     }
 
@@ -93,7 +96,7 @@ public class Post {
         return positivityScore;
     }
 
-    public Date getExpirationDate() {
+    public DateTime getExpirationDate() {
         return expirationDate;
     }
 
@@ -108,6 +111,10 @@ public class Post {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
     public void setUuid(String uuid) {
@@ -146,11 +153,11 @@ public class Post {
         this.videoUrl = videoUrl;
     }
 
-    public void setPublishedAt(Date publishedAt) {
+    public void setPublishedAt(DateTime publishedAt) {
         this.publishedAt = publishedAt;
     }
 
-    public void setIndexedAt(Date indexedAt) {
+    public void setIndexedAt(DateTime indexedAt) {
         this.indexedAt = indexedAt;
     }
 
@@ -158,7 +165,7 @@ public class Post {
         this.positivityScore = positivityScore;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(DateTime expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -168,6 +175,10 @@ public class Post {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public enum Type {

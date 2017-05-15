@@ -11,13 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import nl.fhict.happynews.android.LoadListener;
-import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.controller.ReadingHistoryController;
+import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.receiver.NotificationReceiver;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -41,10 +41,14 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         NotificationManager notificationManager;
         notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
         notificationManager.cancel(1);
+
+
+        ReadingHistoryController.getInstance().initialize(this);
+
 
         setAlarms();
         
@@ -138,5 +142,11 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     public void onFinishedLoading() {
         loading = false;
         swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedAdapter.notifyDataSetChanged();
     }
 }
