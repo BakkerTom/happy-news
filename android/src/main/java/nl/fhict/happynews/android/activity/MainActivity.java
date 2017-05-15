@@ -79,13 +79,23 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
      * Set alarms for notifications based on user preferences.
      */
     private void setAlarms() {
+        //TODO Implement multiple alarms but have to wait for settings menu to be fixed.
+        int hour = 11;
+        int minute = 15;
+
+
+        Calendar alarmTime = Calendar.getInstance();
+        alarmTime.setTimeInMillis(System.currentTimeMillis());
+        alarmTime.set(Calendar.HOUR_OF_DAY, hour);
+        alarmTime.set(Calendar.MINUTE, minute);
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > 16) {
+        if (alarmTime.before(calendar)) {
             int day = calendar.get(Calendar.DATE);
             calendar.set(Calendar.DATE, day + 1);
         }
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
