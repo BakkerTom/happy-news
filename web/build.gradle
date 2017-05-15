@@ -64,6 +64,10 @@ project.tasks.processResources.dependsOn('installNpm')
 project.tasks.processResources.dependsOn('jsBuild')
 project.tasks.processResources.dependsOn('copyBuildToStatic')
 
+node {
+    download = true
+}
+
 idea {
     module {
         iml {
