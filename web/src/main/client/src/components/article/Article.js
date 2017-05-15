@@ -60,7 +60,7 @@ class Article extends Component {
       <li className='list-group-item flex'>
         <div className={'flex ' + (this.state.hidden ? 'removed' : '')}>
           <div className='thumb'>
-            <img src={data.imageUrls[0]}/>
+            <img src={data.imageUrls[0]} alt='thumbnail'/>
           </div>
           <div className='content'>
             <span className='source source-article'>{ data.source }</span>
