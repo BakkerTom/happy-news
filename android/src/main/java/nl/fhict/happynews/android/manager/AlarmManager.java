@@ -25,6 +25,7 @@ public class AlarmManager {
 
     /**
      * Set alarms for notifications based on user preferences.
+     *
      * @param context application context.
      */
     public static void setAlarms(Context context) {
@@ -39,31 +40,33 @@ public class AlarmManager {
         if (!notificationsGsonString.equals("")) {
             alarms = new Gson().fromJson(notificationsGsonString, type);
         }
-        
+
         for (int i = 0; i < alarms.size(); i++) {
-            int hour = alarms.get(i).getHour();
-            int minute = alarms.get(i).getMinute();
+            NotificationSetting notificationSetting = alarms.get(i);
+            int hour = notificationSetting.getHour();
+            int minute = notificationSetting.getMinute();
 
-            Calendar alarmTime = Calendar.getInstance();
-            alarmTime.setTimeInMillis(System.currentTimeMillis());
-            alarmTime.set(Calendar.HOUR_OF_DAY, hour);
-            alarmTime.set(Calendar.MINUTE, minute);
+            if (notificationSetting.isEnabled()) {
+                Calendar alarmTime = Calendar.getInstance();
+                alarmTime.setTimeInMillis(System.currentTimeMillis());
+                alarmTime.set(Calendar.HOUR_OF_DAY, hour);
+                alarmTime.set(Calendar.MINUTE, minute);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            if (alarmTime.before(calendar)) {
-                int day = calendar.get(Calendar.DATE);
-                calendar.set(Calendar.DATE, day + 1);
+                Calendar now = Calendar.getInstance();
+                now.setTimeInMillis(System.currentTimeMillis());
+                if (alarmTime.before(now)) {
+                    int day = alarmTime.get(Calendar.DATE);
+                    alarmTime.set(Calendar.DATE, day + 1);
+                }
+
+                android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(
+                    Context.ALARM_SERVICE);
+                Intent intent = new Intent(context, NotificationReceiver.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
+                alarmManager.cancel(alarmIntent);
+                alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),
+                    android.app.AlarmManager.INTERVAL_DAY, alarmIntent);
             }
-            calendar.set(Calendar.HOUR_OF_DAY, hour);
-            calendar.set(Calendar.MINUTE, minute);
-
-            android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(
-                Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, NotificationReceiver.class);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
-            alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                android.app.AlarmManager.INTERVAL_DAY, alarmIntent);
         }
     }
 }
