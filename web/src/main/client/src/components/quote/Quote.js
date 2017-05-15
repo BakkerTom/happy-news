@@ -11,11 +11,18 @@ class Quote extends Component {
 
     return (
       <li className='list-group-item'>
-        <span className='source source-quote'>{ data.source }</span>
-        <blockquote cite={ data.url}>
-          <p>{ data.contentText }</p>
-          <cite>– { data.author }</cite>
-        </blockquote>
+        <div className='flex'>
+          <div className='content'>
+            <span className='source source-quote'>{ data.source }</span>
+            <blockquote cite={ data.url}>
+              <p>{ data.contentText }</p>
+              <cite>– { data.author }</cite>
+            </blockquote>
+          </div>
+          <button className='btn btn-default options'>
+            <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </button>
+        </div>
       </li>
     );
   }
