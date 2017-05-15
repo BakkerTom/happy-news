@@ -45,6 +45,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             .setContentIntent(resultPendingIntent)
             .build();
 
-        notificationManager.notify(R.string.app_name, notification);
+        notificationManager.notify(1, notification);
     }
 }

@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+        notificationManager.cancel(1);
 
         setAlarms();
-
-
+        
         postManager = PostManager.getInstance(getApplicationContext());
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
