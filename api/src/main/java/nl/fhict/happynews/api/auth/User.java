@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.GeneratedValue;
 import java.util.HashSet;
@@ -26,6 +27,18 @@ public class User {
     private Set<String> roles = new HashSet<>();
 
     public User() {
+    }
+
+    /**
+     * Create a User.
+     * @param username The username.
+     * @param password The raw password.
+     * @param roles The roles, as "ROLE_" + one of {@link nl.fhict.happynews.api.WebSecurityConfig.Roles}.
+     */
+    public User(String username, String password, Set<String> roles) {
+        this.username = username;
+        setPassword(password);
+        this.roles = roles;
     }
 
     /**
@@ -57,12 +70,20 @@ public class User {
         this.username = username;
     }
 
+    /**
+     * @return The encoded password.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets and encodes the password.
+     *
+     * @param password The raw password
+     */
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public Set<String> getRoles() {
