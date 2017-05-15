@@ -15,15 +15,40 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SettingsActivity">
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
         </activity>
-        <activity android:name=".activity.LanguageSettingsActivity">
+        <activity
+            android:name=".activity.LanguageSettingsActivity"
+            android:parentActivityName=".activity.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SettingsActivity"/>
         </activity>
-        <activity android:name=".activity.NotificationSettingsActivity">
+        <activity
+            android:name=".activity.NotificationSettingsActivity"
+            android:parentActivityName=".activity.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SettingsActivity"/>
         </activity>
-        <activity android:name=".activity.SourcesSettingsActivity">
+        <activity
+            android:name=".activity.SourcesSettingsActivity"
+            android:parentActivityName=".activity.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SettingsActivity"/>
         </activity>
-        <activity android:name=".activity.AboutActivity">
+        <activity
+            android:name=".activity.AboutActivity"
+            android:parentActivityName=".activity.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SettingsActivity"/>
         </activity>
     </application>
 </manifest>
