@@ -79,7 +79,7 @@ public class OAuth2Test {
                 .with(httpBasic(clientId, clientSecret))
                 .param("grant_type", "password")
                 .param("username", user.getUsername())
-                .param("password", user.getPassword())
+                .param("password", user.getRawPassword())
         )
             .andExpect(status().isOk())
             .andReturn();
