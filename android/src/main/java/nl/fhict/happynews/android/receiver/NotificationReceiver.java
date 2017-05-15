@@ -16,6 +16,7 @@ import nl.fhict.happynews.android.activity.MainActivity;
  */
 public class NotificationReceiver extends BroadcastReceiver {
 
+    public static final int NOTIFICATION_ID = 1;
 
     /**
      * Sends a notification to the user when called by an alarm.
@@ -45,6 +46,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             .setContentIntent(resultPendingIntent)
             .build();
 
-        notificationManager.notify(1, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 }

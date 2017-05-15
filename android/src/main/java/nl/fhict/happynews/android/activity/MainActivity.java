@@ -18,6 +18,7 @@ import nl.fhict.happynews.android.manager.AlarmManager;
 import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.receiver.NotificationReceiver;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     private int totalItemCount;
     private static final int PAGE_SIZE = 20;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
         NotificationManager notificationManager;
         notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
-        notificationManager.cancel(1);
+        notificationManager.cancel(NotificationReceiver.NOTIFICATION_ID);
 
 
         ReadingHistoryController.getInstance().initialize(this);
