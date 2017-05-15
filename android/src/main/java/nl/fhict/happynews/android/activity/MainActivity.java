@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
      */
     private void setAlarms() {
         //TODO Implement multiple alarms but have to wait for settings menu to be fixed.
-        int hour = 11;
-        int minute = 15;
+        int hour = 16;
+        int minute = 0;
 
         Calendar alarmTime = Calendar.getInstance();
         alarmTime.setTimeInMillis(System.currentTimeMillis());
