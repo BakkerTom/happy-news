@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         int hour = 11;
         int minute = 15;
 
-
         Calendar alarmTime = Calendar.getInstance();
         alarmTime.setTimeInMillis(System.currentTimeMillis());
         alarmTime.set(Calendar.HOUR_OF_DAY, hour);
