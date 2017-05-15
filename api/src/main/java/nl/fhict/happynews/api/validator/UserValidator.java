@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
  */
 public class UserValidator implements Validator {
 
-    private static final int MINIMUM_PASSWORD_LENGTH = 6;
+    private final PasswordValidator passwordValidator = new PasswordValidator();
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -24,9 +24,6 @@ public class UserValidator implements Validator {
 
         User user = (User) target;
 
-        if (user.getPassword() != null && user.getPassword().length() < MINIMUM_PASSWORD_LENGTH) {
-            errors.rejectValue("password", "field.min.length", new Object[]{MINIMUM_PASSWORD_LENGTH},
-                "The password must be at least [" + MINIMUM_PASSWORD_LENGTH + "] characters in length.");
-        }
+        passwordValidator.validate(user.getRawPassword(), errors);
     }
 }
