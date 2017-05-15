@@ -4,4 +4,43 @@ dependencies{
     compile('org.springframework.boot:spring-boot-starter-data-mongodb:1.5.2.RELEASE')
     compile('org.hibernate:hibernate-annotations:3.5.6-Final')
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.0')
+    compile("com.querydsl:querydsl-apt:4.1.4:jpa")
+    compile('com.querydsl:querydsl-mongodb:4.1.4')
+    compile('joda-time:joda-time:2.9.7')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.0')
+}
+
+
+compileJava {
+    options.compilerArgs << "-s"
+    options.compilerArgs << "$projectDir/generated/java"
+
+    doFirst {
+        // make sure that directory exists
+        file(new File(projectDir, "/generated/java")).mkdirs()
+    }
+}
+
+clean.doLast {
+    // clean-up directory when necessary
+    file(new File(projectDir, "/generated")).deleteDir()
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDir "$projectDir/generated/java"
+        }
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("$projectDir/generated/java")
+        generatedSourceDirs += file("$projectDir/generated/java")
+    }
+}
+
+checkstyle {
+    sourceSets = [sourceSets.main]
 }
