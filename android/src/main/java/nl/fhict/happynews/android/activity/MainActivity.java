@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent alarmIntentMorning = PendingIntent.getBroadcast(getApplicationContext(), 0, i, 0);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, i, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-            AlarmManager.INTERVAL_DAY, alarmIntentMorning);
+            AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
     private void addScrollListener() {
