@@ -18,7 +18,7 @@ class Toggle extends Component {
     fetch(url, {
       method: 'post',
       headers: {
-        'Authorization': 'Bearer ' + localStorage.access_token,
+        'Authorization': 'Bearer ' + sessionStorage.access_token,
         'Content-Type': 'application/json; charset=utf-8'
       },
       body: JSON.stringify({

@@ -7,8 +7,8 @@ import { Navbar } from 'react-bootstrap';
 class App extends Component {
   componentDidMount() {
     //Authenticate the current client
-    if (localStorage.access_token != null) return (
-      console.log('Already retrieved token: ' + localStorage.access_token)
+    if (sessionStorage.access_token != null) return (
+      console.log('Already retrieved token: ' + sessionStorage.access_token)
     );
 
     fetch('/oauth/token', {
@@ -21,9 +21,9 @@ class App extends Component {
     })
     .then(blob => blob.json())
     .then(data => {
-      localStorage.setItem("access_token", data.access_token);
+      sessionStorage.setItem("access_token", data.access_token);
 
-      console.log("Retrieved Access Token: " + localStorage.access_token);
+      console.log("Retrieved Access Token: " + sessionStorage.access_token);
     });
   }
 
