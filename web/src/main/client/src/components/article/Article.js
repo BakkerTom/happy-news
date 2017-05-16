@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Toggle from '../../components/toggle/Toggle';
+
 import './Article.css';
 
 class Article extends Component {
@@ -8,48 +10,11 @@ class Article extends Component {
     this.state = {
       hidden: props.data.hidden
     };
-
-    this.hidePost = this.hidePost.bind(this);
-    this.unhidePost = this.unhidePost.bind(this);
   }
 
-  hidePost() {
-    const url = `/admin/posts/${this.props.data.uuid}/hide`;
-    fetch(url, {
-      method: 'post',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.access_token,
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify({
-        'hidden': true
-      })
-    })
-    .then(blob => blob.json())
-    .then(data => {
-      this.setState({
-        hidden: true
-      });
-    });
-  }
-
-  unhidePost() {
-    const url = `/admin/posts/${this.props.data.uuid}/hide`;
-    fetch(url, {
-      method: 'post',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.access_token,
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify({
-        'hidden': false
-      })
-    })
-    .then(blob => blob.json())
-    .then(data => {
-      this.setState({
-        hidden: false
-      });
+  handleHide(isHidden) {
+    this.setState({
+      hidden: isHidden
     });
   }
 
@@ -69,9 +34,7 @@ class Article extends Component {
             </a>
             <p className='list-group-item-text'>{ data.contentText }</p>
           </div>
-          <button className='btn btn-default options' onClick={this.state.hidden ? this.unhidePost : this.hidePost}>
-            <span className={'glyphicon ' + (this.state.hidden ? 'glyphicon-eye-open' : 'glyphicon-eye-close')}></span>
-          </button>
+          <Toggle hidden={ this.state.hidden } uuid={ data.uuid } parentHide={this.handleHide.bind(this)} />
         </div>
       </li>
     );
