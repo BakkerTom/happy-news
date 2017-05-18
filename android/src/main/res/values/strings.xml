@@ -7,6 +7,7 @@
     <string name="title_settings_language">Language</string>
     <string name="title_settings_notification">Notifications</string>
     <string name="title_settings_sources">Sources</string>
+    <string name="title_settings_rate_app">Rate App</string>
     <string name="preference_file_key" translatable="false">HappyNews_Local_Settings</string>
     <string name="preference_twitter_enabled" translatable="false">twitter_enabled</string>
     <string name="preference_quotes_enabled" translatable="false">quotes_enabled</string>
