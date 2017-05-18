@@ -47,6 +47,13 @@ public class AlarmManager {
         android.app.AlarmManager.AlarmClockInfo alarmClockInfo = alarmManager.getNextAlarmClock();
 
 
+        int lastCount = preferences.getInt("lastCount", 0);
+        Intent intent = new Intent(context, NotificationReceiver.class);
+
+        for (int i = 0; i < lastCount; i++) { // Cancel ze allemaal
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
+            alarmManager.cancel(alarmIntent);
+        }
 
         for (int i = 0; i < alarms.size(); i++) {
             NotificationSetting notificationSetting = alarms.get(i);
@@ -66,12 +73,11 @@ public class AlarmManager {
                     alarmTime.set(Calendar.DATE, day + 1);
                 }
 
-
-                Intent intent = new Intent(context, NotificationReceiver.class);
                 PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, 0);
                 alarmManager.setRepeating(android.app.AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(),
                     android.app.AlarmManager.INTERVAL_DAY, alarmIntent);
             }
+            preferences.edit().putInt("lastCount", alarms.size()).apply();
         }
     }
 }
