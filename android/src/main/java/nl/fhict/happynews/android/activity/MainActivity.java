@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
         notificationManager.cancel(NotificationReceiver.NOTIFICATION_ID);
 
-
         ReadingHistoryController.getInstance().initialize(this);
 
         AlarmManager.setAlarms(this);
