@@ -28,7 +28,7 @@ allprojects {
         toolVersion = "7.6.1"
     }
 
-    tasks.withType(Checkstyle) {
+    tasks.withType(Checkstyle).matching({ task -> !task.name.startsWith('checkstyleGenerated')}).all {
         reports {
             xml.enabled false
             html.enabled true

@@ -1,14 +1,18 @@
 package nl.fhict.happynews.api.controller.admin;
 
+import io.swagger.annotations.ApiOperation;
+import nl.fhict.happynews.api.auth.PasswordChangeRequest;
 import nl.fhict.happynews.api.auth.User;
 import nl.fhict.happynews.api.auth.UserRepository;
-import nl.fhict.happynews.api.auth.UserValidator;
 import nl.fhict.happynews.api.exception.NotFoundException;
 import nl.fhict.happynews.api.exception.UserCreationException;
 import nl.fhict.happynews.api.exception.UsernameAlreadyExistsException;
+import nl.fhict.happynews.api.validator.PasswordValidator;
+import nl.fhict.happynews.api.validator.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -38,9 +43,15 @@ public class UserController {
     }
 
     @SuppressWarnings("unused")
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
+    @InitBinder("user")
+    protected void initUserBinder(WebDataBinder binder) {
         binder.addValidators(new UserValidator());
+    }
+
+    @SuppressWarnings("unused")
+    @InitBinder("passwordChangeRequest")
+    protected void initPasswordBinder(WebDataBinder binder) {
+        binder.addValidators(new PasswordValidator());
     }
 
     /**
@@ -48,7 +59,8 @@ public class UserController {
      *
      * @return A list of all users.
      */
-    @RequestMapping
+    @ApiOperation("Get all users")
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
         return userRepository.findAll();
     }
@@ -59,7 +71,8 @@ public class UserController {
      * @param user The user to create.
      * @return The newly created user.
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation("Create a new user")
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@Valid @RequestBody User user) {
         user.setUuid(null);
 
@@ -81,7 +94,8 @@ public class UserController {
      * @param uuid The UUID.
      * @return The user.
      */
-    @RequestMapping("/{uuid}")
+    @ApiOperation("Get a user by its UUID")
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@PathVariable String uuid) {
         User user = userRepository.findOne(uuid);
 
@@ -98,7 +112,9 @@ public class UserController {
      * @param username The username.
      * @return The user.
      */
-    @RequestMapping("/username/{username}")
+    @ApiOperation("Get a user by its username")
+    @RequestMapping(value = "/username/{username}", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserByUsername(@PathVariable String username) {
         User user = userRepository.findByUsername(username);
 
@@ -114,7 +130,8 @@ public class UserController {
      *
      * @param uuid The UUID.
      */
-    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE)
+    @ApiOperation("Delete a user by its UUID")
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteUser(@PathVariable String uuid) {
         if (userRepository.exists(uuid)) {
             userRepository.delete(uuid);
@@ -133,7 +150,9 @@ public class UserController {
      *
      * @param username The username.
      */
-    @RequestMapping(value = "/username/{username}", method = RequestMethod.DELETE)
+    @ApiOperation("Delete a user by its username")
+    @RequestMapping(value = "/username/{username}", method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity deleteUserByUsername(@PathVariable String username) {
         if (userRepository.existsByUsername(username)) {
             userRepository.deleteByUsername(username);
@@ -145,5 +164,34 @@ public class UserController {
                 .notFound()
                 .build();
         }
+    }
+
+    /**
+     * Get the current user.
+     *
+     * @param principal The logged in user.
+     * @return The current user.
+     */
+    @ApiOperation("Get the current user")
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    public User getMe(Principal principal) {
+        return getUserByUsername(principal.getName());
+    }
+
+    /**
+     * Change the password of the logged in user.
+     *
+     * @param principal The logged in user.
+     * @param password  The new raw password.
+     */
+    @ApiOperation("Change your password")
+    @RequestMapping(value = "/me/password", method = RequestMethod.POST)
+    public ResponseEntity changePassword(Principal principal, @RequestBody @Valid PasswordChangeRequest password) {
+
+        User user = userRepository.findByUsername(principal.getName());
+        user.setPassword(password.getPassword());
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
     }
 }
