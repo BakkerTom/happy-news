@@ -43,10 +43,6 @@ public class AlarmManager {
         android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(
             Context.ALARM_SERVICE);
 
-        //Cancel all alarms
-        android.app.AlarmManager.AlarmClockInfo alarmClockInfo = alarmManager.getNextAlarmClock();
-
-
         int lastCount = preferences.getInt("lastCount", 0);
         Intent intent = new Intent(context, NotificationReceiver.class);
 
