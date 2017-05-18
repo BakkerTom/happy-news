@@ -1,20 +1,14 @@
 package nl.fhict.happynews.android.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Switch;
 import com.google.gson.Gson;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.SourceManager;
 import nl.fhict.happynews.android.adapter.SourceSettingsAdapter;
-import nl.fhict.happynews.android.model.NotificationSetting;
 import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
 
@@ -41,18 +35,6 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         sources = createSourcesObjects();
         refreshList();
         sourcesAdapter.setParentActivity(this);
-    }
-
-    /**
-     * Back button implementation.
-     *
-     * @param item menuItem
-     * @return boolean start activity
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
     }
 
     /**

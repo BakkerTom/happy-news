@@ -3,12 +3,10 @@ package nl.fhict.happynews.android.activity;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TimePicker;
@@ -63,19 +61,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         }
         refreshList();
     }
-
-    /**
-     * back button implementation.
-     *
-     * @param item menuItem
-     * @return boolean start activity
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
-    }
-
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
