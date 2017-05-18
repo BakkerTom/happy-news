@@ -15,6 +15,7 @@ import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.model.NotificationSetting;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Sander on 08/05/2017.
@@ -37,6 +38,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationSetting> {
                                @NonNull ArrayList<NotificationSetting> notifications) {
         super(context, resource, notifications);
         this.notifications = notifications;
+        Collections.sort(notifications);
         this.context = context;
     }
 
