@@ -106,6 +106,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                         for (int position : reverseSortedPositions) {
                             notifications.remove(position);
                             updateChanges(notifications);
+                            notificationAdapter.notifyDataSetChanged();
                         }
                     }
                 });
