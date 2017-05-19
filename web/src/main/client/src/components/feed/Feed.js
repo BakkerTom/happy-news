@@ -4,8 +4,10 @@ import ReactPaginate from 'react-paginate';
 import Article from '../../components/article/Article';
 import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
+import Authenticator from '../../Authenticator';
 
 let PAGE_SIZE = 20;
+let auth = new Authenticator();
 
 class Feed extends Component {
 
@@ -25,9 +27,14 @@ class Feed extends Component {
   loadItems(pageNumber){
     const url = `/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
 
+    //Check if the client is already authenticated
+    if ( !auth.isAuthenticated ){
+      auth.authenticate();
+    }
+
     fetch(url, {
         headers: {
-          'Authorization': 'Bearer ' + localStorage.access_token,
+          'Authorization': 'Bearer ' + auth.getAccessToken(),
           'Content-Type': 'application/json; charset=utf-8'
         }
       })

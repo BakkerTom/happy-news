@@ -1,31 +1,9 @@
 import React, { Component } from 'react';
 import Feed from './components/feed/Feed';
-const base64 = require('base-64');
 
 import { Navbar } from 'react-bootstrap';
 
 class App extends Component {
-  componentDidMount() {
-    //Authenticate the current client
-    if (sessionStorage.access_token != null) return (
-      console.log('Already retrieved token: ' + sessionStorage.access_token)
-    );
-
-    fetch('/oauth/token', {
-      method: 'post',
-      headers:{
-        "Authorization": "Basic " + base64.encode('happynews-editor:OuNNQtRGBIfUTG2IDICCdOUt'),
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-      },
-      body: 'grant_type=password&username=admin&password=password'
-    })
-    .then(blob => blob.json())
-    .then(data => {
-      sessionStorage.setItem("access_token", data.access_token);
-
-      console.log("Retrieved Access Token: " + sessionStorage.access_token);
-    });
-  }
 
   render() {
     return (
