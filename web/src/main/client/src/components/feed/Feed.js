@@ -4,10 +4,9 @@ import ReactPaginate from 'react-paginate';
 import Article from '../../components/article/Article';
 import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
-import Authenticator from '../../Authenticator';
 
 let PAGE_SIZE = 20;
-let auth = new Authenticator();
+
 
 class Feed extends Component {
 
@@ -27,14 +26,11 @@ class Feed extends Component {
   loadItems(pageNumber){
     const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
 
-    //Check if the client is already authenticated
-    auth.authenticate();
-
     fetch(url, {
         headers: {
-          'Authorization': 'Bearer ' + auth.getAccessToken(),
+          'Authorization': 'Bearer ' + sessionStorage.access_token,
           'Content-Type': 'application/json; charset=utf-8',
-          'Origin': 'https://happynews.svendubbeld.nl',
+          'Origin': window.location.hostname,
           'Access-Control-Request-Method': 'get',
           'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type'
         }

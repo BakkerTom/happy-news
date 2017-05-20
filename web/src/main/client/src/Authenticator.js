@@ -12,13 +12,14 @@ class Authenticator {
     return instance;
   }
 
-  authenticate(){
+  authenticate(callback){
     //Fetches the authentication token from the oauth api
     fetch('https://happynews-api.svendubbeld.nl/oauth/token', {
       method: 'post',
       headers:{
         "Authorization": "Basic " + base64.encode('happynews-editor:OuNNQtRGBIfUTG2IDICCdOUt'),
-        "Origin": "http://localhost:3000/"
+        "Origin": window.location.hostname,
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
       },
       body: 'grant_type=password&username=admin&password=password'
     })
@@ -26,8 +27,7 @@ class Authenticator {
     .then(data => {
       //Save acces token to sessionStorage
       sessionStorage.setItem("access_token", data.access_token);
-      this.isAuthenticated = true;
-
+      callback();
       console.log("Retrieved Access Token: " + this.getAccessToken());
     });
   }
@@ -35,7 +35,7 @@ class Authenticator {
   isAuthenticated(){
     const access_token = sessionStorage.access_token;
 
-    if (access_token === null) return false;
+    if (access_token === undefined) return false;
     return true;
   }
 

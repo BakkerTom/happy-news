@@ -19,7 +19,8 @@ class Toggle extends Component {
       method: 'post',
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.access_token,
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
+        'Origin': window.location.hostname
       },
       body: JSON.stringify({
         'hidden': !this.state.hidden
