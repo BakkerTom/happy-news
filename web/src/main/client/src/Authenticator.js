@@ -14,11 +14,11 @@ class Authenticator {
 
   authenticate(){
     //Fetches the authentication token from the oauth api
-    fetch('/oauth/token', {
+    fetch('https://happynews-api.svendubbeld.nl/oauth/token', {
       method: 'post',
       headers:{
         "Authorization": "Basic " + base64.encode('happynews-editor:OuNNQtRGBIfUTG2IDICCdOUt'),
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+        "Origin": "http://localhost:3000/"
       },
       body: 'grant_type=password&username=admin&password=password'
     })

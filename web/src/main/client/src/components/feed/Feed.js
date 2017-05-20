@@ -25,17 +25,18 @@ class Feed extends Component {
 
   //loadItems load
   loadItems(pageNumber){
-    const url = `/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
+    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
 
     //Check if the client is already authenticated
-    if ( !auth.isAuthenticated ){
-      auth.authenticate();
-    }
+    auth.authenticate();
 
     fetch(url, {
         headers: {
           'Authorization': 'Bearer ' + auth.getAccessToken(),
-          'Content-Type': 'application/json; charset=utf-8'
+          'Content-Type': 'application/json; charset=utf-8',
+          'Origin': 'https://happynews.svendubbeld.nl',
+          'Access-Control-Request-Method': 'get',
+          'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type'
         }
       })
       .then(blob => blob.json())
