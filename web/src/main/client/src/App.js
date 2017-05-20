@@ -32,22 +32,11 @@ class App extends Component {
   }
 
   render() {
-    if (!this.state.isAuthenticated) return (
-      <div className="App">
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Happy News</a>
-            </Navbar.Brand>
-          </Navbar.Header>
-        </Navbar>
+    let feed = <div>Loading...</div>;
 
-        <div className="container">
-          <div>Loading...</div>
-        </div>
-
-      </div>
-    );
+    if (this.state.isAuthenticated) {
+      feed = <Feed />;
+    }
 
     return (
       <div className="App">
@@ -60,7 +49,7 @@ class App extends Component {
         </Navbar>
 
         <div className="container">
-          <Feed />
+          { feed }
         </div>
 
       </div>
