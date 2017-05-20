@@ -14,7 +14,8 @@ class Toggle extends Component {
   }
 
   handleHide() {
-    const url = `/admin/posts/${this.props.uuid}/hide`;
+    const url = `https://happynews-api.svendubbeld.nl/admin/posts/${this.props.uuid}/hide`;
+    
     fetch(url, {
       method: 'post',
       headers: {
