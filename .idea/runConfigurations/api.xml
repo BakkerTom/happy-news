@@ -8,6 +8,18 @@
     </extension>
     <option name="SPRING_BOOT_MAIN_CLASS" value="nl.fhict.happynews.api.Application" />
     <option name="ALTERNATIVE_JRE_PATH" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="oauth2.client.client-id" />
+        <option name="value" value="client" />
+      </param>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="oauth2.client.secret" />
+        <option name="value" value="password" />
+      </param>
+    </additionalParameters>
     <module name="api" />
     <envs />
     <RunnerSettings RunnerId="JProfiler" />

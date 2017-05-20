@@ -12,6 +12,7 @@
 hs_err_pid*
 
 /*/build/
+/*/generated/
 
 ### macOS template
 *.DS_Store

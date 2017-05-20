@@ -1,7 +1,6 @@
-package nl.fhict.happynews.android;
+package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
-import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -11,6 +10,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import nl.fhict.happynews.android.LoadListener;
+import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.model.Page;
 

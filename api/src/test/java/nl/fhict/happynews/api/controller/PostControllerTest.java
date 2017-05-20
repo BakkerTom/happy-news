@@ -1,28 +1,25 @@
 package nl.fhict.happynews.api.controller;
 
-import com.mongodb.Mongo;
-import cz.jirutka.spring.embedmongo.EmbeddedMongoBuilder;
-import nl.fhict.happynews.api.Application;
+import nl.fhict.happynews.api.TestConfig;
 import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.shared.Post;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,7 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = Application.class)
+@SpringBootTest(classes = TestConfig.class)
+@ActiveProfiles("test")
 public class PostControllerTest {
 
     @Autowired
@@ -52,11 +50,6 @@ public class PostControllerTest {
     private MockMvc mockMvc;
 
     private List<Post> posts;
-
-    @BeforeClass
-    public static void startDatabase() throws IOException {
-        mongo();
-    }
 
     /**
      * Populate the repository with posts.
@@ -76,7 +69,7 @@ public class PostControllerTest {
         post1.setTitle("People are terrible.");
         post1.setContentText("lorem ipsum enz.");
         post1.setUrl("http://www.fakeurl.com/whatisthis/this.html");
-        post1.setPublishedAt(new Date(973814400000L));
+        post1.setPublishedAt(new DateTime(973814400000L));
         posts.add(this.repo.save(post1));
 
         Post post2 = new Post();
@@ -86,7 +79,7 @@ public class PostControllerTest {
         post2.setTitle("What is a good person?");
         post2.setContentText("lorem ipsum enz.");
         post2.setUrl("http://www.fakeurl2.com/whatisthis/this.html");
-        post2.setPublishedAt(new Date(988714400000L));
+        post2.setPublishedAt(new DateTime(988714400000L));
         posts.add(this.repo.save(post2));
 
         Post post3 = new Post();
@@ -96,7 +89,7 @@ public class PostControllerTest {
         post3.setTitle("Blah blah blah.");
         post3.setContentText("ipsum lorem.");
         post3.setUrl("http://www.neppetilburg.nl/dit");
-        post3.setPublishedAt(new Date(998714400000L));
+        post3.setPublishedAt(new DateTime(998714400000L));
         posts.add(this.repo.save(post3));
 
         Post post4 = new Post();
@@ -106,7 +99,7 @@ public class PostControllerTest {
         post4.setTitle("People are terrible.");
         post4.setContentText("lorem.");
         post4.setUrl("http://www.abc.nl");
-        post4.setPublishedAt(new Date(888714400000L));
+        post4.setPublishedAt(new DateTime(888714400000L));
         posts.add(this.repo.save(post4));
 
     }
@@ -134,30 +127,20 @@ public class PostControllerTest {
 
     @Test
     public void getPostAfterDate() throws Exception {
+        DateTime dateTime = new DateTime(2000, 11, 10, 0, 0, 0, DateTimeZone.UTC);
+
         //regular get after date
-        this.mockMvc.perform(get("/post/afterdate/{date}", new Date(973814400000L)))
+        this.mockMvc.perform(get("/post/afterdate/{date}", dateTime.getMillis()))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(2)))
             .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //superfluous ordered parameter
-        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(973814400000L), true))
+        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", dateTime.getMillis(), true))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].sourceName", is("De Tilburger")));
         //unordered list
-        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", new Date(973814400000L), false))
+        this.mockMvc.perform(get("/post/afterdate/{date}?ordered={ordered}", dateTime.getMillis(), false))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].sourceName", is("The NY Times")));
-    }
-
-    /**
-     * @return A new in memory MongoDB.
-     */
-    @Bean(destroyMethod = "close")
-    public static Mongo mongo() throws IOException {
-        return new EmbeddedMongoBuilder()
-            .version("2.4.5")
-            .bindIp("127.0.0.1")
-            .port(12345)
-            .build();
     }
 }
