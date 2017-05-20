@@ -107,7 +107,6 @@ gradle-app.setting
 
 ## Remove build
 **/client/build
-**/main/resources/static
 
 # production
 # misc
