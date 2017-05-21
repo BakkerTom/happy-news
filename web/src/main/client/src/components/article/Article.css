@@ -1,0 +1,49 @@
+.source {
+  display: inline-block;
+  text-transform: uppercase;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+
+  margin-bottom: 4px;
+}
+
+.source-article {
+  color: #BA37C6;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.thumb{
+  flex-shrink: 0;
+  margin-right: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #EFEFEF;
+}
+
+.thumb img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.content {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.options{
+  display: block;
+  font-size: 10px;
+  height: 32px;
+}
+
+.removed {
+  opacity: 0.3;
+}
