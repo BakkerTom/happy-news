@@ -1,5 +1,7 @@
 package nl.fhict.happynews.android.activity;
 
+import android.app.NotificationManager;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,10 +14,13 @@ import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
+import nl.fhict.happynews.android.manager.AlarmManager;
 import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.receiver.NotificationReceiver;
+
 import java.util.ArrayList;
 
 
@@ -34,12 +39,21 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     private int totalItemCount;
     private static final int PAGE_SIZE = 20;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+        notificationManager.cancel(NotificationReceiver.NOTIFICATION_ID);
+
         ReadingHistoryController.getInstance().initialize(this);
         SourceController.getInstance().initialize(this);
+
+        AlarmManager.setAlarms(this);
 
         postManager = PostManager.getInstance(getApplicationContext());
 

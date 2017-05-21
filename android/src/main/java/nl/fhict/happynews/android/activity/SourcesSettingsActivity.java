@@ -1,13 +1,17 @@
 package nl.fhict.happynews.android.activity;
 
 import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
+import com.google.gson.Gson;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.SourceSettingsAdapter;
 import nl.fhict.happynews.android.controller.SourceController;
+import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
@@ -45,6 +49,32 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivityForResult(myIntent, 0);
         return true;
+    }
+
+    /**
+     * Create sources for twitter quote and article,
+     * Get the article sources from the api.
+     *
+     * @return list of source settings.
+     */
+    private ArrayList<SourceSetting> createSourcesObjects() {
+        sources = new ArrayList<>();
+        SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
+        SourceSetting quoteSourceSetting = new SourceSetting("Quote");
+        SourceSetting articleSourceSetting = new SourceSetting("Article");
+
+        sources.add(twitterSourceSetting);
+        sources.add(quoteSourceSetting);
+        sources.add(articleSourceSetting);
+
+        SourceManager sourceManager = SourceManager.getInstance(this);
+        ArrayList<Source> sourcesFromApi = sourceManager.getSources();
+
+        for (Source s : sourcesFromApi) {
+            sources.add(new SourceSetting(articleSourceSetting, s.getName()));
+        }
+
+        return sources;
     }
 
     /**

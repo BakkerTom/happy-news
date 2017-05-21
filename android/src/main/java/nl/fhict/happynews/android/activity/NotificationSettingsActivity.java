@@ -3,12 +3,10 @@ package nl.fhict.happynews.android.activity;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TimePicker;
@@ -18,10 +16,12 @@ import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.SwipeDismissListViewTouchListener;
 import nl.fhict.happynews.android.adapter.NotificationAdapter;
 import nl.fhict.happynews.android.fragments.TimePickerFragment;
+import nl.fhict.happynews.android.manager.AlarmManager;
 import nl.fhict.happynews.android.model.NotificationSetting;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NotificationSettingsActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
@@ -62,19 +62,6 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
         refreshList();
     }
 
-    /**
-     * back button implementation.
-     *
-     * @param item menuItem
-     * @return boolean start activity
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
-    }
-
-
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         notifications.add(new NotificationSetting(hourOfDay, minute));
@@ -89,9 +76,10 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
      */
     public void updateChanges(ArrayList<NotificationSetting> updatedNotifications) {
         String notificationsGsonString = new Gson().toJson(updatedNotifications);
-        SharedPreferences.Editor preferenesEditor = preferences.edit();
-        preferenesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
-        preferenesEditor.apply();
+        SharedPreferences.Editor preferencesEditor = preferences.edit();
+        preferencesEditor.putString(getString(R.string.preference_notifications), notificationsGsonString);
+        preferencesEditor.apply();
+        AlarmManager.setAlarms(getApplicationContext());
     }
 
     /**
@@ -118,6 +106,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements T
                         for (int position : reverseSortedPositions) {
                             notifications.remove(position);
                             updateChanges(notifications);
+                            notificationAdapter.notifyDataSetChanged();
                         }
                     }
                 });
