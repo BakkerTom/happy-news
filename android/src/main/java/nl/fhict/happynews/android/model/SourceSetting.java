@@ -47,7 +47,7 @@ public class SourceSetting implements Comparable<SourceSetting> {
     }
 
     public void setParent(SourceSetting setting) {
-        parent.setParent(setting);
+        this.parent = setting;
     }
 
 

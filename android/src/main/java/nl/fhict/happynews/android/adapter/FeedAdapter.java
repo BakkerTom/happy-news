@@ -148,7 +148,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             List<Post> pageposts = new ArrayList<>();
             for (Post post : page.getContent()) {
                 SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-                if (src != null && src.isEnabled()) {
+                if (src == null || (src != null && src.isEnabled())) {
                     pageposts.add(post);
                 }
             }

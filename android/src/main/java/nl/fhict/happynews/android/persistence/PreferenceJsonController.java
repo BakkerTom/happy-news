@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nl.fhict.happynews.android.model.NotificationSetting;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,7 +47,7 @@ public class PreferenceJsonController<T> {
      * @param key the key.
      * @return A collection.
      */
-    public Collection<T> getAsCollection(Context context, String key, TypeToken token) {
+    public List<T> getAsList(Context context, String key, TypeToken token) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
         return parser.fromJson(settings.getString(key, ""), token.getType());
     }

@@ -97,8 +97,8 @@ public class SourceController {
      * @param context The context.
      * @return All sources.
      */
-    public Collection<SourceSetting> getSources(Context context) {
-        return preferences.getAsCollection(context, KEY, new TypeToken<Collection<SourceSetting>>(){});
+    public List<SourceSetting> getSources(Context context) {
+        return preferences.getAsList(context, KEY, new TypeToken<List<SourceSetting>>(){});
     }
 
     /**

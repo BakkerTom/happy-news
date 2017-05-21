@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SourcesSettingsActivity extends AppCompatActivity {
 
-    private Collection<SourceSetting> sources;
+    private List<SourceSetting> sources;
     private SourceSettingsAdapter sourcesAdapter;
     private ListView sourcesListView;
 
@@ -32,59 +32,9 @@ public class SourcesSettingsActivity extends AppCompatActivity {
 
         sourcesListView = (ListView) findViewById(R.id.sourcesListView);
         sources = SourceController.getInstance().getSources(getApplicationContext());
-        Collections.sort((List<SourceSetting>)sources);
+        Collections.sort(sources);
         refreshList();
         sourcesAdapter.setParentActivity(this);
-    }
-
-    /**
-     * Back button implementation.
-     *
-     * @param item menuItem
-     * @return boolean start activity
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
-    }
-
-    /**
-     * Create sources for twitter quote and article,
-     * Get the article sources from the api.
-     *
-     * @return list of source settings.
-     */
-    private Collection<SourceSetting> createSourcesObjects() {
-        sources = new ArrayList<>();
-        SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
-        SourceSetting quoteSourceSetting = new SourceSetting("Quote");
-        SourceSetting articleSourceSetting = new SourceSetting("Article");
-
-        sources.add(twitterSourceSetting);
-        sources.add(quoteSourceSetting);
-        sources.add(articleSourceSetting);
-
-        SourceManager sourceManager = SourceManager.getInstance(this);
-        ArrayList<Source> sourcesFromApi = sourceManager.getSources();
-
-        for (Source s : sourcesFromApi) {
-            sources.add(new SourceSetting(articleSourceSetting, s.getName()));
-        }
-
-        return sources;
-    }
-
-    /**
-     * Updates the persisted notifications settings.
-     *
-     * @param updatedSources Arraylist of sourceSettings.
-     */
-    public void updateChanges(ArrayList<SourceSetting> updatedSources) {
-        for (SourceSetting source : updatedSources) {
-            SourceController.getInstance().addSource(getApplicationContext(), source);
-        }
-        refreshList();
     }
 
     /**
@@ -93,7 +43,7 @@ public class SourcesSettingsActivity extends AppCompatActivity {
     private void refreshList() {
         sourcesAdapter = new SourceSettingsAdapter(this,
             R.layout.activity_sources_settings,
-            (ArrayList<SourceSetting>) sources);
+            (ArrayList<SourceSetting>)sources);
         sourcesListView.setAdapter(sourcesAdapter);
         sourcesAdapter.setParentActivity(this);
         sourcesAdapter.notifyDataSetChanged();

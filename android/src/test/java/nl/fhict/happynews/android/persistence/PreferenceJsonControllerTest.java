@@ -1,6 +1,8 @@
 package nl.fhict.happynews.android.persistence;
 
+import com.google.gson.reflect.TypeToken;
 import nl.fhict.happynews.android.BuildConfig;
+import nl.fhict.happynews.android.model.SourceSetting;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -8,6 +10,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,14 +24,17 @@ public class PreferenceJsonControllerTest {
 
     @Test
     public void get() throws Exception {
-        PreferenceJsonController.put(RuntimeEnvironment.application, "abc", 12345);
-        assertEquals(PreferenceJsonController.getAsInt(RuntimeEnvironment.application, "abc"), new Integer(12345));
+        PreferenceJsonController<SourceSetting> preferences = new PreferenceJsonController<>();
+
+        preferences.put(RuntimeEnvironment.application, "abc", 12345);
+        assertEquals(preferences.getAsInt(RuntimeEnvironment.application, "abc"), new Integer(12345));
 
         //TODO: maybe make test better
-        ArrayList<String> collection = new ArrayList<String>();
+        List<String> collection = new ArrayList<String>();
         collection.add("abc");
         collection.add("123");
-        PreferenceJsonController.put(RuntimeEnvironment.application, "123", collection);
-        assertTrue(PreferenceJsonController.getAsCollection(RuntimeEnvironment.application, "123").contains("123"));
+        preferences.put(RuntimeEnvironment.application, "123", collection);
+        assertTrue(preferences.getAsList(RuntimeEnvironment.application, "123", new TypeToken<List<String>>(){})
+            .contains("123"));
     }
 }
