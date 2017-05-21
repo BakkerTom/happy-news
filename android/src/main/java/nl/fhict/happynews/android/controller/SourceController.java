@@ -2,13 +2,17 @@ package nl.fhict.happynews.android.controller;
 
 import android.content.Context;
 import com.google.gson.reflect.TypeToken;
+import nl.fhict.happynews.android.SourceManager;
 import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
 import nl.fhict.happynews.android.persistence.PreferenceJsonController;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,7 +43,24 @@ public class SourceController {
      */
     public void initialize(Context context) {
         if (preferences.get(context, KEY) == null) {
-            preferences.put(context, KEY, new HashSet<SourceSetting>());
+            List<SourceSetting> sources = new ArrayList<>();
+            SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
+            SourceSetting quoteSourceSetting = new SourceSetting("quote");
+            SourceSetting articleSourceSetting = new SourceSetting("Article");
+
+            sources.add(twitterSourceSetting);
+            sources.add(quoteSourceSetting);
+            sources.add(articleSourceSetting);
+
+            SourceManager sourceManager = SourceManager.getInstance(context);
+            Collection<Source> sourcesFromApi = sourceManager.getSources();
+
+            for (Source s : sourcesFromApi) {
+                sources.add(new SourceSetting(s.getName()));
+            }
+
+            Collections.sort(sources);
+            preferences.put(context, KEY, sources);
         }
     }
 
@@ -98,7 +119,12 @@ public class SourceController {
      */
     public void removeSource(Context context, SourceSetting source) {
         Collection<SourceSetting> sources = getSources(context);
-        sources.remove(source);
+        for (SourceSetting src : sources) {
+            if (src.getName().equals(source.getName())) {
+                sources.remove(src);
+                break;
+            }
+        }
         preferences.put(context, KEY, sources);
     }
 }

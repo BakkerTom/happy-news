@@ -18,6 +18,7 @@ import nl.fhict.happynews.android.viewholder.PostTweetHolder;
 import nl.fhict.happynews.android.viewholder.PostTweetImageHolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tom on 27/03/2017.
@@ -29,6 +30,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int QUOTE = 2;
     public static final int TWEET = 3;
     public static final int TWEETIMAGE = 4;
+    public static final int CANCELLED = 9;
 
 
     private final Context context;
@@ -51,6 +53,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //Current implementation switches on the availability of a thumbnail image
 
         Post post = posts.get(position);
+
 
         if (post.getImageUrls().size() > 0 && post.getType() == Post.Type.ARTICLE) {
             return NEWSIMAGE;
@@ -101,10 +104,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Post post = posts.get(position);
-        SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-        if (src != null && src.isEnabled()) {
-            return;
-        }
 
         switch (holder.getItemViewType()) {
             default:
@@ -146,7 +145,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void addPage(Page page) {
         if (page != null) {
             this.lastPage = page;
-            this.posts.addAll(page.getContent());
+            List<Post> pageposts = new ArrayList<>();
+            for (Post post : page.getContent()) {
+                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
+                if (src != null && src.isEnabled()) {
+                    pageposts.add(post);
+                }
+            }
+            this.posts.addAll(pageposts);
             this.notifyDataSetChanged();
         }
     }
@@ -161,7 +167,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (page != null) {
             this.lastPage = page;
             this.posts.clear();
-            this.posts.addAll(page.getContent());
+            List<Post> pageposts = new ArrayList<>();
+            for (Post post : page.getContent()) {
+                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
+                if (src == null || (src != null && src.isEnabled())) {
+                    pageposts.add(post);
+                }
+            }
+            this.posts.addAll(pageposts);
             this.notifyDataSetChanged();
         }
     }

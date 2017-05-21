@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import nl.fhict.happynews.android.R;
@@ -17,6 +18,7 @@ import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Sander on 08/05/2017.
@@ -71,23 +73,24 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
         SourceSetting src = SourceController.getInstance().getSource(context, sourceSetting.getName());
 
-        sourceSwitch.setChecked(src != null && !src.isEnabled());
+        sourceSwitch.setChecked(src != null && src.isEnabled());
         if (!sourceSwitch.isChecked()) {
             sourceNameTextView.setTextColor(Color.GRAY);
         } else {
             sourceNameTextView.setTextColor(Color.BLACK);
         }
 
-        sourceSwitch.setOnClickListener(new View.OnClickListener() {
+        sourceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SourceController.getInstance().toggleSource(getContext(), sourceSetting.getName());
                 if (sourceSwitch.isChecked()) {
                     sourceNameTextView.setTextColor(Color.BLACK);
                 } else {
                     sourceNameTextView.setTextColor(Color.GRAY);
                 }
-                parentActivity.updateChanges(sources);
+
+                Collections.sort(sources);
             }
         });
         return v;
