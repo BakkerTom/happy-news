@@ -15,10 +15,14 @@ import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.activity.SourcesSettingsActivity;
 import nl.fhict.happynews.android.controller.SourceController;
+import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Sander on 08/05/2017.
@@ -45,6 +49,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
         super(context, resource, sources);
         this.context = context;
         this.sources = sources;
+        sort();
     }
 
     @Override
@@ -89,8 +94,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
                 } else {
                     sourceNameTextView.setTextColor(Color.GRAY);
                 }
-
-                Collections.sort(sources);
+                sort();
             }
         });
         return v;
@@ -124,5 +128,28 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
      */
     public void setParentActivity(SourcesSettingsActivity parentActivity) {
         this.parentActivity = parentActivity;
+    }
+
+    /**
+     * Method for sorting the sources settings.
+     * First adds all the parent sources to a list and then adds the child sources.`
+     */
+    private void sort() {
+        ArrayList<SourceSetting> sortedSources = new ArrayList<>();
+        HashMap<String, Integer> parentSettingsIndexes = new HashMap();
+        for (SourceSetting sourceSetting : sources) {
+            if (sourceSetting.isParent()) {
+                sortedSources.add(sourceSetting);
+                parentSettingsIndexes.put(sourceSetting.getName(), sortedSources.indexOf(sourceSetting));
+            }
+        }
+        for (SourceSetting sourceSetting : sources) {
+            if (!sourceSetting.isParent()) {
+                int insertIndex = parentSettingsIndexes.get(sourceSetting.getParent().getName()) + 1;
+                sortedSources.add(insertIndex, sourceSetting);
+                parentSettingsIndexes.put(sourceSetting.getParent().getName(), insertIndex);
+            }
+        }
+        this.sources = sortedSources;
     }
 }

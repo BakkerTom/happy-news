@@ -56,7 +56,9 @@ public class SourceController {
             Collection<Source> sourcesFromApi = sourceManager.getSources();
 
             for (Source s : sourcesFromApi) {
-                sources.add(new SourceSetting(s.getName()));
+                SourceSetting sc = new SourceSetting(s.getName());
+                sc.setParent(articleSourceSetting);
+                sources.add(sc);
             }
 
             Collections.sort(sources);
