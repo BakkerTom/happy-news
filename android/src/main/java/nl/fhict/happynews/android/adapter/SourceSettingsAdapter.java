@@ -15,7 +15,6 @@ import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.activity.SourcesSettingsActivity;
 import nl.fhict.happynews.android.controller.SourceController;
-import nl.fhict.happynews.android.model.Source;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
