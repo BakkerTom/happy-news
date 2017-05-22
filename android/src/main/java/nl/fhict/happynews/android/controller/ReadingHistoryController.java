@@ -43,14 +43,16 @@ public class ReadingHistoryController {
      */
     public boolean postIsRead(Post post) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        return db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
+        boolean result = db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
             new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID},
             ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID + " = ?",
             new String[]{ post.getUuid() },
             null,
             null,
             null
-            ).getCount() > 0;
+        ).getCount() > 0;
+        db.close();
+        return result;
     }
 
     /**
@@ -65,6 +67,7 @@ public class ReadingHistoryController {
         ContentValues val = new ContentValues();
         val.put(ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID, post.getUuid());
         db.insert(ReadingHistoryContract.HistoryEntry.TABLE_NAME, null, val);
+        db.close();
     }
 
 }
