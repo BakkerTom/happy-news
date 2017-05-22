@@ -60,10 +60,10 @@ public class ReadingHistoryController {
      * @param post The post to add.
      */
     public void addReadPost(Post post) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (postIsRead(post)) {
             return;
         }
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues val = new ContentValues();
         val.put(ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID, post.getUuid());
         db.insert(ReadingHistoryContract.HistoryEntry.TABLE_NAME, null, val);
