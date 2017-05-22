@@ -11,7 +11,8 @@ import nl.fhict.happynews.android.persistence.ReadingHistoryContract;
  * Created by Tobi on 01-May-17.
  */
 public class ReadingHistoryController {
-    private SQLiteDatabase db;
+
+    private static DatabaseHelper dbHelper;
 
     private static ReadingHistoryController instance = new ReadingHistoryController();
 
@@ -32,8 +33,7 @@ public class ReadingHistoryController {
      * @param context The context.
      */
     public void initialize(Context context) {
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        db = dbHelper.getWritableDatabase();
+        dbHelper = new DatabaseHelper(context);
     }
 
     /**
@@ -42,14 +42,17 @@ public class ReadingHistoryController {
      * @return True if post is read.
      */
     public boolean postIsRead(Post post) {
-        return db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        boolean result = db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
             new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID},
             ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID + " = ?",
             new String[]{ post.getUuid() },
             null,
             null,
             null
-            ).getCount() > 0;
+        ).getCount() > 0;
+        db.close();
+        return result;
     }
 
     /**
@@ -60,9 +63,11 @@ public class ReadingHistoryController {
         if (postIsRead(post)) {
             return;
         }
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues val = new ContentValues();
         val.put(ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID, post.getUuid());
         db.insert(ReadingHistoryContract.HistoryEntry.TABLE_NAME, null, val);
+        db.close();
     }
 
 }

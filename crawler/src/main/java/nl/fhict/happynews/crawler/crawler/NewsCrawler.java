@@ -106,6 +106,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
                 //Create database ready objects
                 Post post = new Post();
                 post.setSource(entity.getSource());
+                post.setSourceName(entity.getSource());
                 post.setAuthor(article.getAuthor());
                 post.setTitle(article.getTitle());
                 post.setContentText(article.getDescription());
