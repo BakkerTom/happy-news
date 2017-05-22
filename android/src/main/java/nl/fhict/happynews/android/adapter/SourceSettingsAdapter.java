@@ -19,6 +19,7 @@ import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Sander on 08/05/2017.
@@ -26,7 +27,7 @@ import java.util.Collections;
 public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
     private final Context context;
-    private ArrayList<SourceSetting> sources;
+    private List<SourceSetting> sources;
     private SourcesSettingsActivity parentActivity;
 
     private static final int PARENT = 0;
@@ -41,7 +42,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
      */
     public SourceSettingsAdapter(Context context,
                                  @LayoutRes int resource,
-                                 @NonNull ArrayList<SourceSetting> sources) {
+                                 @NonNull List<SourceSetting> sources) {
         super(context, resource, sources);
         this.context = context;
         this.sources = sources;

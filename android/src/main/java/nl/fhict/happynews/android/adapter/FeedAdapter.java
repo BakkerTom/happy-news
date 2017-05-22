@@ -30,8 +30,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int QUOTE = 2;
     public static final int TWEET = 3;
     public static final int TWEETIMAGE = 4;
-    public static final int CANCELLED = 9;
-
 
     private final Context context;
     private Page lastPage;

@@ -11,7 +11,8 @@ import nl.fhict.happynews.android.persistence.ReadingHistoryContract;
  * Created by Tobi on 01-May-17.
  */
 public class ReadingHistoryController {
-    private SQLiteDatabase db;
+
+    private static DatabaseHelper dbHelper;
 
     private static ReadingHistoryController instance = new ReadingHistoryController();
 
@@ -32,8 +33,7 @@ public class ReadingHistoryController {
      * @param context The context.
      */
     public void initialize(Context context) {
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
-        db = dbHelper.getWritableDatabase();
+        dbHelper = new DatabaseHelper(context);
     }
 
     /**
@@ -42,6 +42,7 @@ public class ReadingHistoryController {
      * @return True if post is read.
      */
     public boolean postIsRead(Post post) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.query(ReadingHistoryContract.HistoryEntry.TABLE_NAME,
             new String[]{ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID},
             ReadingHistoryContract.HistoryEntry.COLUMN_POST_UUID + " = ?",
@@ -57,6 +58,7 @@ public class ReadingHistoryController {
      * @param post The post to add.
      */
     public void addReadPost(Post post) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (postIsRead(post)) {
             return;
         }

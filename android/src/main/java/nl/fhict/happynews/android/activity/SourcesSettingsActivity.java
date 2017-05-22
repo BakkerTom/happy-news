@@ -43,7 +43,7 @@ public class SourcesSettingsActivity extends AppCompatActivity {
     private void refreshList() {
         sourcesAdapter = new SourceSettingsAdapter(this,
             R.layout.activity_sources_settings,
-            (ArrayList<SourceSetting>)sources);
+            sources);
         sourcesListView.setAdapter(sourcesAdapter);
         sourcesAdapter.setParentActivity(this);
         sourcesAdapter.notifyDataSetChanged();
