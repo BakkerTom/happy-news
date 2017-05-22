@@ -3,7 +3,7 @@ package nl.fhict.happynews.android.model;
 /**
  * Created by Sander on 08/05/2017.
  */
-public class SourceSetting {
+public class SourceSetting implements Comparable<SourceSetting> {
 
     private SourceSetting parent;
     private boolean isEnabled = true;
@@ -47,6 +47,18 @@ public class SourceSetting {
     }
 
     public void setParent(SourceSetting setting) {
-        parent.setParent(setting);
+        this.parent = setting;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return this.name + ": " + this.isEnabled;
+    }
+
+    @Override
+    public int compareTo(SourceSetting o) {
+        return this.getName().compareTo(o.getName());
     }
 }

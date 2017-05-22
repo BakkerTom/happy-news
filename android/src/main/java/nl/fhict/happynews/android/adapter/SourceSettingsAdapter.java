@@ -8,14 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import nl.fhict.happynews.android.R;
-import nl.fhict.happynews.android.activity.NotificationSettingsActivity;
 import nl.fhict.happynews.android.activity.SourcesSettingsActivity;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Sander on 08/05/2017.
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
     private final Context context;
-    private ArrayList<SourceSetting> sources;
+    private List<SourceSetting> sources;
     private SourcesSettingsActivity parentActivity;
 
     private static final int PARENT = 0;
@@ -38,10 +41,11 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
      */
     public SourceSettingsAdapter(Context context,
                                  @LayoutRes int resource,
-                                 @NonNull ArrayList<SourceSetting> sources) {
+                                 @NonNull List<SourceSetting> sources) {
         super(context, resource, sources);
         this.context = context;
         this.sources = sources;
+        sort();
     }
 
     @Override
@@ -68,23 +72,25 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
 
         sourceNameTextView.setText(sourceSetting.getName());
 
-        sourceSwitch.setChecked(sourceSetting.isEnabled());
+        SourceSetting src = SourceController.getInstance().getSource(context, sourceSetting.getName());
+
+        sourceSwitch.setChecked(src != null && src.isEnabled());
         if (!sourceSwitch.isChecked()) {
             sourceNameTextView.setTextColor(Color.GRAY);
         } else {
             sourceNameTextView.setTextColor(Color.BLACK);
         }
 
-        sourceSwitch.setOnClickListener(new View.OnClickListener() {
+        sourceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                sourceSetting.setEnabled(sourceSwitch.isChecked());
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SourceController.getInstance().toggleSource(getContext(), sourceSetting.getName());
                 if (sourceSwitch.isChecked()) {
                     sourceNameTextView.setTextColor(Color.BLACK);
                 } else {
                     sourceNameTextView.setTextColor(Color.GRAY);
                 }
-                parentActivity.updateChanges(sources);
+                sort();
             }
         });
         return v;
@@ -118,5 +124,28 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
      */
     public void setParentActivity(SourcesSettingsActivity parentActivity) {
         this.parentActivity = parentActivity;
+    }
+
+    /**
+     * Method for sorting the sources settings.
+     * First adds all the parent sources to a list and then adds the child sources.`
+     */
+    private void sort() {
+        ArrayList<SourceSetting> sortedSources = new ArrayList<>();
+        HashMap<String, Integer> parentSettingsIndexes = new HashMap();
+        for (SourceSetting sourceSetting : sources) {
+            if (sourceSetting.isParent()) {
+                sortedSources.add(sourceSetting);
+                parentSettingsIndexes.put(sourceSetting.getName(), sortedSources.indexOf(sourceSetting));
+            }
+        }
+        for (SourceSetting sourceSetting : sources) {
+            if (!sourceSetting.isParent()) {
+                int insertIndex = parentSettingsIndexes.get(sourceSetting.getParent().getName()) + 1;
+                sortedSources.add(insertIndex, sourceSetting);
+                parentSettingsIndexes.put(sourceSetting.getParent().getName(), insertIndex);
+            }
+        }
+        this.sources = sortedSources;
     }
 }
