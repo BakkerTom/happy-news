@@ -19,4 +19,6 @@
     <string name="preference_sources" translatable="false">notifications</string>
     <string name="about_text">With Happy News you get the positivity you need to brighten up the day. We have an extensive amount of sources which we use to bring only the most positive news to your screen. No need to log in, completely free and 24/7 available. We just want to bring positivity to your day. \n\n Happy News features:\n - Constant stream of positive articles\n - Happy tweets based on carefully picked hashtags\n - Inspirational quotes to put some spring in your step\n\n At Happy News we aspire to bring positivity around the world. We want to make a hard days work more enjoyable by bringing some much needed positivity when needed.</string>
     <string name="bad_request_toast">Oops, Something went wrong</string>
+    <string name="network_error_title">Uh oh…</string>
+    <string name="retry_button">Retry</string>
 </resources>

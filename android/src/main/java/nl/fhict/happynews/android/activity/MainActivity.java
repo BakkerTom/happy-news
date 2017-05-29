@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
             alert.setTitle("Uh oh...");
             alert.setMessage(getString(R.string.no_internet_message));
-            alert.setButton(RESULT_OK, "Retry", new DialogInterface.OnClickListener() {
+            alert.setButton(RESULT_OK, getString(R.string.retry_button), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //Display an error if still not connected
