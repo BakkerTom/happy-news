@@ -5,9 +5,9 @@ import nl.fhict.happynews.crawler.api.NewsApi;
 import nl.fhict.happynews.crawler.extractor.ArticleExtractor;
 import nl.fhict.happynews.crawler.model.newsapi.Article;
 import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
-import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
+import nl.fhict.happynews.shared.Source;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,16 +52,16 @@ public class NewsCrawler extends Crawler<NewsSource> {
     @PostConstruct
     public void insertSources() {
         List<Source> sources = new ArrayList<>();
-        sources.add(new Source("the-next-web", "latest"));
-        sources.add(new Source("associated-press", "latest"));
-        sources.add(new Source("bbc-news", "top"));
-        sources.add(new Source("bloomberg", "top"));
-        sources.add(new Source("business-insider", "latest"));
-        sources.add(new Source("buzzfeed", "latest"));
-        sources.add(new Source("cnbc", "top"));
-        sources.add(new Source("cnn", "top"));
-        sources.add(new Source("entertainment-weekly", "top"));
-        sources.add(new Source("financial-times", "latest"));
+        sources.add(new Source("the-next-web", "The Next Web", "latest"));
+        sources.add(new Source("associated-press", "Associated Press", "latest"));
+        sources.add(new Source("bbc-news", "BBC News", "top"));
+        sources.add(new Source("bloomberg", "Bloomberg", "top"));
+        sources.add(new Source("business-insider", "Business Insider", "latest"));
+        sources.add(new Source("buzzfeed", "BuzzFeed", "latest"));
+        sources.add(new Source("cnbc", "CNBC", "top"));
+        sources.add(new Source("cnn", "CNN", "top"));
+        sources.add(new Source("entertainment-weekly", "Entertainment Weekly", "top"));
+        sources.add(new Source("financial-times", "Financial Times", "latest"));
         for (Source s : sources) {
             try {
                 sourceRepository.save(s);
@@ -91,7 +91,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
 
         for (Source s : sources) {
             //retrieve news from the source
-            NewsSource newsSource = newsApi.getRaw(s.getName(), s.getType());
+            NewsSource newsSource = newsApi.getRaw(s.getName(), s.getType(), s.getCleanName());
             newsSources.add(newsSource);
         }
         logger.info("Received total of " + newsSources.size() + " articles");
@@ -105,8 +105,8 @@ public class NewsCrawler extends Crawler<NewsSource> {
             for (Article article : entity.getArticles()) {
                 //Create database ready objects
                 Post post = new Post();
-                post.setSource(entity.getSource());
-                post.setSourceName(entity.getSource());
+                post.setSource(entity.getSource()); //raw name
+                post.setSourceName(entity.getSourceName()); //clean name
                 post.setAuthor(article.getAuthor());
                 post.setTitle(article.getTitle());
                 post.setContentText(article.getDescription());

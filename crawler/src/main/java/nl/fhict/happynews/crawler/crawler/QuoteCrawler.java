@@ -69,8 +69,8 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
         }
         for (Quote quote : entity.getContents().getQuotes()) {
             Post toAdd = new Post();
-            toAdd.setSource("Inspirational Quote");
-            toAdd.setSourceName("quote");
+            toAdd.setSource("quote");
+            toAdd.setSourceName("Inspirational Quote");
             toAdd.setTitle(quote.getTitle());
             toAdd.setUrl(quote.getPermalink());
             toAdd.setType(Post.Type.QUOTE);

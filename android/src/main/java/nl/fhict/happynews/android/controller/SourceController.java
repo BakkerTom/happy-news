@@ -44,9 +44,9 @@ public class SourceController {
     public void initialize(Context context) {
         if (preferences.get(context, KEY) == null) {
             List<SourceSetting> sources = new ArrayList<>();
-            SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
-            SourceSetting quoteSourceSetting = new SourceSetting("quote");
-            SourceSetting articleSourceSetting = new SourceSetting("Article");
+            SourceSetting twitterSourceSetting = new SourceSetting("twitter", "Twitter");
+            SourceSetting quoteSourceSetting = new SourceSetting("quote", "Inspirational Quote");
+            SourceSetting articleSourceSetting = new SourceSetting("article", "Article");
 
             sources.add(twitterSourceSetting);
             sources.add(quoteSourceSetting);
@@ -56,7 +56,7 @@ public class SourceController {
             Collection<Source> sourcesFromApi = sourceManager.getSources();
 
             for (Source s : sourcesFromApi) {
-                SourceSetting src = new SourceSetting(s.getName());
+                SourceSetting src = new SourceSetting(s.getName(), s.getSourceName());
                 src.setParent(articleSourceSetting);
                 sources.add(src);
             }
