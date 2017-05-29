@@ -3,10 +3,14 @@ package nl.fhict.happynews.android.viewholder;
 import android.content.Context;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
+import nl.fhict.happynews.android.MyMenuItemClickListener;
+import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.model.Post;
 
@@ -32,6 +36,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
 
     /**
      * Binds type.
+     *
      * @param post The post to bind.
      */
     public void bindType(Post post) {
@@ -70,5 +75,20 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
             Toast.makeText(context, "Link not found",
                 Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Method for inflation the popup menu.
+     * Gets used by all classes that implement ViewHolder.
+     *
+     * @param view     the view of the post.
+     * @param position position in the feedAdapter.
+     */
+    public void showPopupMenu(View view, int position) {
+        PopupMenu popup = new PopupMenu(view.getContext(), view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_cardview_popup, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position));
+        popup.show();
     }
 }

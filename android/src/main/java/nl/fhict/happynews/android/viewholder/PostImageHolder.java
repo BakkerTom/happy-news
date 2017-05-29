@@ -2,6 +2,7 @@ package nl.fhict.happynews.android.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class PostImageHolder extends ViewHolder {
     private TextView headlineTextView;
     private ImageView imageView;
     private ProgressBar progressBar;
+    private ImageButton popupMenuImage;
 
     /**
      * Create a new {@link RecyclerView.ViewHolder} for {@link Post}s of the type article with an image.
@@ -35,6 +37,7 @@ public class PostImageHolder extends ViewHolder {
         headlineTextView = (TextView) view.findViewById(R.id.headlineTextView);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         progressBar = (ProgressBar) view.findViewById(R.id.spinner);
+        popupMenuImage = (ImageButton) view.findViewById(R.id.popupMenuImage);
     }
 
     /**
@@ -60,7 +63,13 @@ public class PostImageHolder extends ViewHolder {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
-    }
 
+        popupMenuImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, getAdapterPosition());
+            }
+        });
+    }
 }
 

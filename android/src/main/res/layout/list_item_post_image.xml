@@ -75,6 +75,16 @@
                               android:layout_height="wrap_content"
                               android:text="4h Ago"
                               android:id="@+id/timeTextView"/>
+
+                    <ImageButton
+                        android:id="@+id/popupMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_more_horiz_black_24dp"
+                        android:background="@null"/>
+
                 </LinearLayout>
 
                 <TextView
