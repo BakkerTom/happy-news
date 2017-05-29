@@ -88,4 +88,18 @@ public class PostController {
     private BooleanExpression notHidden() {
         return QPost.post.hidden.isFalse();
     }
+
+    /**
+     * Method for flagging a post object.
+     *
+     * @param uuid   id of the post.
+     * @param reason reason for flagging.
+     */
+    @RequestMapping(value = "/flagpost/uuid/{uuid}/reason/{reason}", method = RequestMethod.PUT)
+    public void flagPost(@PathVariable("uuid") String uuid,
+                         @PathVariable("reason") String reason) {
+        Post p = postRepository.findOne(uuid);
+        p.addFlagReason(reason);
+        postRepository.save(p);
+    }
 }

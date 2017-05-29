@@ -44,6 +44,7 @@ public class Post {
     private Type type;
     private List<String> tags = new ArrayList<>();
     private boolean hidden;
+    private List<String> flagReasons = new ArrayList<>();
 
     public Post() {
     }
@@ -179,6 +180,10 @@ public class Post {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public void addFlagReason(String reason) {
+        flagReasons.add(reason);
     }
 
     public enum Type {
