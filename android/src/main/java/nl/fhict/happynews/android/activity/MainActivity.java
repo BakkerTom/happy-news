@@ -1,10 +1,15 @@
 package nl.fhict.happynews.android.activity;
 
 import android.app.NotificationManager;
-
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     private int totalItemCount;
     private static final int PAGE_SIZE = 20;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,16 +70,17 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
 
         postManager.setFeedAdapter(feedAdapter);
 
-        swipeRefresh.setRefreshing(true);
-        postManager.refresh(this, this);
-        loading = true;
+        // Display an error if not connected on start of this activity
+        checkConnection();
 
         addScrollListener();
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postManager.refresh(MainActivity.this, MainActivity.this);
+                swipeRefresh.setRefreshing(false);
+                loading = false;
+                checkConnection();
             }
         });
     }
@@ -125,6 +129,37 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                 }
             }
         });
+    }
+
+
+    /**
+     * Shows an error message when the app is not connected to the internet.
+     */
+    private void checkConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+
+        if (!isConnected) {
+            AlertDialog alert = new AlertDialog.Builder(this).create();
+
+            alert.setTitle(getString(R.string.network_error_title));
+            alert.setMessage(getString(R.string.no_internet_message));
+            alert.setButton(RESULT_OK, getString(R.string.retry_button), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Display an error if still not connected
+                    checkConnection();
+                }
+            });
+
+            alert.show();
+        } else {
+            swipeRefresh.setRefreshing(true);
+            loading = true;
+            postManager.refresh(MainActivity.this, MainActivity.this);
+        }
     }
 
     /**
