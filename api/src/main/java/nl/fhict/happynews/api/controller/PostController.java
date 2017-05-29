@@ -43,10 +43,20 @@ public class PostController {
      */
     @ApiOperation("Get all posts in a paginated format")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<Post> getAllByPage(Pageable pageable) {
+    public Page<Post> getAllByPage(Pageable pageable, @RequestParam(required = false, defaultValue = "") String query) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        return postRepository.findAll(notHidden(), sortedPageable);
+
+        if (query.isEmpty()) {
+            return postRepository.findAll(notHidden(), sortedPageable);
+        } else {
+            return postRepository.findAll(notHidden()
+                .and(
+                    QPost.post.title.containsIgnoreCase(query)
+                        .or(QPost.post.contentText.containsIgnoreCase(query))
+                        .or(QPost.post.sourceName.containsIgnoreCase(query))
+                ), sortedPageable);
+        }
     }
 
     /**
