@@ -1,8 +1,13 @@
 package nl.fhict.happynews.android.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +23,8 @@ import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
 
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SearchFragment extends Fragment implements LoadListener, SearchListener {
 
@@ -106,6 +113,39 @@ public class SearchFragment extends Fragment implements LoadListener, SearchList
 
         this.query = query;
 
+        checkConnection();
+
         postManager.refresh(query, getActivity(), this);
+    }
+
+    /**
+     * Shows an error message when the app is not connected to the internet.
+     */
+    private void checkConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context
+            .CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+
+        if (!isConnected) {
+            AlertDialog alert = new AlertDialog.Builder(getActivity()).create();
+
+            alert.setTitle(getString(R.string.network_error_title));
+            alert.setMessage(getString(R.string.no_internet_message));
+            alert.setButton(RESULT_OK, getString(R.string.retry_button), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Display an error if still not connected
+                    checkConnection();
+                }
+            });
+
+            alert.show();
+        } else {
+            swipeRefresh.setRefreshing(true);
+            loading = true;
+            postManager.refresh(getActivity(), SearchFragment.this);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -111,7 +112,7 @@ public class PostManager {
      * @param context  The Application context.
      * @param listener Implementing the LoadListener Interface.
      */
-    public void refresh(Context context, final LoadListener listener) {
+    public void refresh(final Context context, final LoadListener listener) {
         final int firstPage = 0;
 
         loadPage(firstPage, DEFAULT_PAGE_SIZE, context, new FutureCallback<Page>() {
@@ -133,12 +134,16 @@ public class PostManager {
      * @param context  The Application context.
      * @param listener Implementing the LoadListener Interface.
      */
-    public void refresh(String query, Context context, final LoadListener listener) {
+    public void refresh(String query, final Context context, final LoadListener listener) {
         final int firstPage = 0;
 
         loadPage(query, firstPage, DEFAULT_PAGE_SIZE, context, new FutureCallback<Page>() {
             @Override
             public void onCompleted(Exception e, Page result) {
+                if (e != null) {
+                    Toast.makeText(context, R.string.bad_request_toast, Toast.LENGTH_SHORT).show();
+                }
+
                 feedAdapter.setPage(result);
 
                 if (listener != null) {
