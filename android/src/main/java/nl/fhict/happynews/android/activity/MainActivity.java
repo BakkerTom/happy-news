@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         if (!isConnected) {
             AlertDialog alert = new AlertDialog.Builder(this).create();
 
-            alert.setTitle("Uh oh...");
+            alert.setTitle(getString(R.string.network_error_title));
             alert.setMessage(getString(R.string.no_internet_message));
             alert.setButton(RESULT_OK, getString(R.string.retry_button), new DialogInterface.OnClickListener() {
                 @Override
