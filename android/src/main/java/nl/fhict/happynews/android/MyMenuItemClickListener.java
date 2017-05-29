@@ -6,7 +6,8 @@ import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import nl.fhict.happynews.android.model.Post;
 
-/** clickerlistener.
+/**
+ * clickerlistener.
  * Created by Sander on 29/05/2017.
  */
 public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
@@ -16,10 +17,11 @@ public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListene
     private Post post;
 
     /**
-     *  constructor for listener.
+     * constructor for listener.
+     *
      * @param position position in feedadapter
-     * @param context current application context
-     * @param post relevant post
+     * @param context  current application context
+     * @param post     relevant post
      */
     public MyMenuItemClickListener(int position, Context context, Post post) {
         this.position = position;
@@ -31,16 +33,30 @@ public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListene
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.Share:
-                String shareText = post.getUrl() + "\n";
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-                shareIntent.setType("text/plain");
-                context.startActivity(Intent.createChooser(shareIntent, "Share some positivity!"));
+                share();
                 return true;
             case R.id.Flag:
                 return true;
             default:
         }
         return false;
+    }
+
+    /**
+     * creates the share intent and based on the type of post it creates a certain share message.
+     */
+    private void share() {
+        String shareText;
+        if (post.getType() == Post.Type.QUOTE) {
+            shareText = post.getContentText() + " -- " + post.getAuthor() + "\n"
+                + context.getString(R.string.share_text_disclaimer);
+        } else {
+            shareText = post.getUrl() + "\n" + context.getString(R.string.share_text_disclaimer);
+        }
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        shareIntent.setType("text/plain");
+        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.intent_chooser_message)));
     }
 }
