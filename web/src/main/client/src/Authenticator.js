@@ -12,7 +12,7 @@ class Authenticator {
     return instance;
   }
 
-  authenticate(callback){
+  authenticate(username, password, callback){
     //Fetches the authentication token from the oauth api
     fetch('https://happynews-api.svendubbeld.nl/oauth/token', {
       method: 'post',
@@ -21,18 +21,26 @@ class Authenticator {
         "Origin": window.location.hostname,
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
       },
-      body: 'grant_type=password&username=admin&password=password'
+      body: `grant_type=password&username=${username}&password=${password}`
     })
-    .then(blob => blob.json())
+    .then(response => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+
+      return response.json();
+    })
     .then(data => {
       //Save acces token to sessionStorage
       sessionStorage.setItem("access_token", data.access_token);
-      callback();
-      console.log("Retrieved Access Token: " + this.getAccessToken());
+      callback(true);
+    }, (error) => {
+      console.error(error);
+      callback(false);
     });
   }
 
-  isAuthenticated(){
+  isAuthenticated() {
     const access_token = sessionStorage.access_token;
 
     if (access_token === undefined) return false;
