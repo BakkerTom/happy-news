@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     }
 }
 
@@ -36,6 +37,10 @@ allprojects {
 
         rootProject.tasks.checkstyle.dependsOn it
     }
+
+    tasks.withType(JacocoReport) {
+        rootProject.tasks.generateCoverageReports.dependsOn it
+    }
 }
 
 // Don't generate .ipr and .iws files when running 'idea' task
@@ -52,3 +57,5 @@ task installGitHooks(type: Copy) {
 }
 
 task checkstyle
+
+task generateCoverageReports
