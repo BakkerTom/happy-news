@@ -1,21 +1,30 @@
 package nl.fhict.happynews.android.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import nl.fhict.happynews.android.LoadListener;
-import nl.fhict.happynews.android.PostManager;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.controller.ReadingHistoryController;
+import nl.fhict.happynews.android.controller.SourceController;
+import nl.fhict.happynews.android.manager.AlarmManager;
+import nl.fhict.happynews.android.manager.PostManager;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
+import nl.fhict.happynews.android.receiver.NotificationReceiver;
 
 import java.util.ArrayList;
 
@@ -39,6 +48,15 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+        notificationManager.cancel(NotificationReceiver.NOTIFICATION_ID);
+
+        ReadingHistoryController.getInstance().initialize(this);
+        SourceController.getInstance().initialize(this);
+
+        AlarmManager.setAlarms(this);
 
         postManager = PostManager.getInstance(getApplicationContext());
 
@@ -71,6 +89,25 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                 postManager.refresh(MainActivity.this, MainActivity.this);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_layout, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void addScrollListener() {
@@ -138,5 +175,11 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     public void onFinishedLoading() {
         loading = false;
         swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedAdapter.notifyDataSetChanged();
     }
 }

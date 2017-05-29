@@ -8,6 +8,7 @@ import nl.fhict.happynews.crawler.model.newsapi.NewsSource;
 import nl.fhict.happynews.crawler.model.newsapi.Source;
 import nl.fhict.happynews.crawler.repository.SourceRepository;
 import nl.fhict.happynews.shared.Post;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,6 +106,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
                 //Create database ready objects
                 Post post = new Post();
                 post.setSource(entity.getSource());
+                post.setSourceName(entity.getSource());
                 post.setAuthor(article.getAuthor());
                 post.setTitle(article.getTitle());
                 post.setContentText(article.getDescription());
@@ -119,7 +120,7 @@ public class NewsCrawler extends Crawler<NewsSource> {
                     post.setPublishedAt(article.getPublishedAt());
                 }
 
-                post.setIndexedAt(new Date());
+                post.setIndexedAt(new DateTime());
 
                 post.setType(Post.Type.ARTICLE);
 

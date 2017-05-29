@@ -2,6 +2,7 @@ package nl.fhict.happynews.crawler.crawler;
 
 import nl.fhict.happynews.crawler.model.twitterapi.TweetBundle;
 import nl.fhict.happynews.shared.Post;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -155,8 +155,8 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
         newPost.setAuthor("@" + status.getUser().getScreenName());
         newPost.setType(Post.Type.TWEET);
         newPost.setContentText(status.getText());
-        newPost.setIndexedAt(new Date());
-        newPost.setPublishedAt(status.getCreatedAt());
+        newPost.setIndexedAt(new DateTime());
+        newPost.setPublishedAt(new DateTime(status.getCreatedAt()));
 
         //retrieve link URLS. No list of links in Post yet
         /*

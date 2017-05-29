@@ -4,6 +4,7 @@ import nl.fhict.happynews.crawler.api.QuoteApi;
 import nl.fhict.happynews.crawler.model.quoteapi.Quote;
 import nl.fhict.happynews.crawler.model.quoteapi.QuoteEnvelope;
 import nl.fhict.happynews.shared.Post;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,7 +54,7 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
     List<QuoteEnvelope> getRaw() {
         List<QuoteEnvelope> result = new ArrayList<>();
         result.add(quoteApi.getRaw(categories[catIndex]));
-        if (catIndex++ > categories.length) {
+        if (++catIndex >= categories.length) {
             catIndex = 0;
         }
         return result;
@@ -70,14 +70,15 @@ public class QuoteCrawler extends Crawler<QuoteEnvelope> {
         for (Quote quote : entity.getContents().getQuotes()) {
             Post toAdd = new Post();
             toAdd.setSource("Inspirational Quote");
+            toAdd.setSourceName("quote");
             toAdd.setTitle(quote.getTitle());
             toAdd.setUrl(quote.getPermalink());
             toAdd.setType(Post.Type.QUOTE);
             toAdd.setContentText(quote.getQuote());
             toAdd.setTags(Arrays.asList(quote.getTags()));
             toAdd.setAuthor(quote.getAuthor());
-            toAdd.setIndexedAt(new Date());
-            toAdd.setPublishedAt(new Date());
+            toAdd.setIndexedAt(new DateTime());
+            toAdd.setPublishedAt(new DateTime());
             result.add(toAdd);
         }
         return result;

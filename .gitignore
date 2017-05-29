@@ -12,6 +12,7 @@
 hs_err_pid*
 
 /*/build/
+/*/generated/
 
 ### macOS template
 *.DS_Store
@@ -95,3 +96,21 @@ gradle-app.setting
 
 # Production data
 /.docker/
+
+
+### React
+# dependencies
+**/node_modules
+
+# testing
+**/coverage
+
+## Remove build
+**/client/build
+
+# production
+# misc
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
