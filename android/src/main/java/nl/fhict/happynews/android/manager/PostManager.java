@@ -1,6 +1,8 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -83,21 +85,25 @@ public class PostManager {
 
     /**
      * Sends content of the first page to the FeedAdapter.
-     * @param context The Application context.
+     *
+     * @param context  The Application context.
      * @param listener Implementing the LoadListener Interface.
      */
-    public void refresh(Context context, final LoadListener listener) {
+    public void refresh(final Context context, final LoadListener listener) {
         final int firstPage = 0;
         final int defaultPageSize = 20;
 
         loadPage(firstPage, defaultPageSize, context, new FutureCallback<Page>() {
             @Override
             public void onCompleted(Exception e, Page result) {
+                if (e != null) {
+                    Toast.makeText(context, R.string.bad_request_toast, Toast.LENGTH_SHORT).show();
+                }
                 feedAdapter.setPage(result);
-
                 if (listener != null) {
                     listener.onFinishedLoading();
                 }
+
             }
         });
     }
@@ -105,9 +111,10 @@ public class PostManager {
 
     /**
      * Loads a page from the server and returns its results in a FutureCallback.
-     * @param page The requested page.
-     * @param size The requested pagesize.
-     * @param context The application context.
+     *
+     * @param page     The requested page.
+     * @param size     The requested pagesize.
+     * @param context  The application context.
      * @param callback FutureCallback
      */
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
@@ -120,6 +127,7 @@ public class PostManager {
 
     /**
      * Register an adapter to manage the date types as long values.
+     *
      * @param builder The GsonBuilder to register the TypeAdapter to.
      */
     private void registerTypeAdapter(GsonBuilder builder) {

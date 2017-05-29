@@ -73,20 +73,14 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         // Display an error if not connected on start of this activity
         notConnectedError();
 
-        swipeRefresh.setRefreshing(true);
-        loading = true;
-        postManager.refresh(this, this);
-
         addScrollListener();
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Display an error if not connected
+                swipeRefresh.setRefreshing(false);
+                loading = false;
                 notConnectedError();
-
-                //Refresh the posts
-                postManager.refresh(MainActivity.this, MainActivity.this);
             }
         });
     }
@@ -141,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     /**
      * Shows an error message when the app is not connected to the internet.
      */
-    public void notConnectedError() {
+    private void notConnectedError() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
@@ -157,12 +151,14 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                 public void onClick(DialogInterface dialog, int which) {
                     //Display an error if still not connected
                     notConnectedError();
-
-                    postManager.refresh(MainActivity.this, MainActivity.this);
                 }
             });
 
             alert.show();
+        } else {
+            swipeRefresh.setRefreshing(true);
+            loading = true;
+            postManager.refresh(MainActivity.this, MainActivity.this);
         }
     }
 
