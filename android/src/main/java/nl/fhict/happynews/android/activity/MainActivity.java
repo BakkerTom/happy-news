@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         postManager.setFeedAdapter(feedAdapter);
 
         // Display an error if not connected on start of this activity
-        notConnectedError();
+        checkConnection();
 
         addScrollListener();
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
             public void onRefresh() {
                 swipeRefresh.setRefreshing(false);
                 loading = false;
-                notConnectedError();
+                checkConnection();
             }
         });
     }
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
     /**
      * Shows an error message when the app is not connected to the internet.
      */
-    private void notConnectedError() {
+    private void checkConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //Display an error if still not connected
-                    notConnectedError();
+                    checkConnection();
                 }
             });
 
