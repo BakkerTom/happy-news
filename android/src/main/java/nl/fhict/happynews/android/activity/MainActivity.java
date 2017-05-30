@@ -18,7 +18,7 @@ import nl.fhict.happynews.android.fragments.SearchFragment;
 import nl.fhict.happynews.android.manager.AlarmManager;
 import nl.fhict.happynews.android.receiver.NotificationReceiver;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private State state = State.DEFAULT;
 
@@ -55,43 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         final SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true; // Handle query here, do not launch search intent
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                if (query.isEmpty()) {
-                    Log.d("Search", "Query empty");
-
-                    if (state == State.SEARCH) {
-                        Log.d("Search", "Closing SearchFragment");
-
-                        state = State.DEFAULT;
-                        getFragmentManager().popBackStack("search", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
-                } else {
-                    if (state != State.SEARCH) {
-                        Log.d("Search", "Opening SearchFragment");
-
-                        state = State.SEARCH;
-                        getFragmentManager().beginTransaction()
-                            .replace(R.id.fragment, searchFragment)
-                            .addToBackStack("search")
-                            .commit();
-
-                        getFragmentManager().executePendingTransactions();
-                    }
-
-                    searchFragment.onSearch(query);
-                }
-
-                return true;
-            }
-        });
+        search.setOnQueryTextListener(this);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -107,6 +71,41 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true; // Handle query here, do not launch search intent
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        if (query.isEmpty()) {
+            Log.d("Search", "Query empty");
+
+            if (state == State.SEARCH) {
+                Log.d("Search", "Closing SearchFragment");
+
+                state = State.DEFAULT;
+                getFragmentManager().popBackStack("search", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        } else {
+            if (state != State.SEARCH) {
+                Log.d("Search", "Opening SearchFragment");
+
+                state = State.SEARCH;
+                getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment, searchFragment)
+                    .addToBackStack("search")
+                    .commit();
+
+                getFragmentManager().executePendingTransactions();
+            }
+
+            searchFragment.onSearch(query);
+        }
+
+        return true;
     }
 
     private enum State {

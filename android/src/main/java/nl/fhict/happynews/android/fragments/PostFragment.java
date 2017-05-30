@@ -50,7 +50,6 @@ public abstract class PostFragment extends Fragment implements LoadListener {
 
     private PostManager postManager;
     private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private FeedAdapter feedAdapter;
 
@@ -62,11 +61,12 @@ public abstract class PostFragment extends Fragment implements LoadListener {
 
         postManager = PostManager.getInstance(getActivity().getApplicationContext());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
 
         feedAdapter = new FeedAdapter(getActivity(), new ArrayList<Post>());
         layoutManager = new LinearLayoutManager(getActivity());
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setAdapter(feedAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -110,13 +110,11 @@ public abstract class PostFragment extends Fragment implements LoadListener {
                 totalItemCount = layoutManager.getItemCount();
                 pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
-                if (!loading) {
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                        loading = true;
-                        Page lastPage = feedAdapter.getLastPage();
-                        if (!lastPage.isLast()) {
-                            doLoadNextPage(postManager, lastPage, nextPageCallback);
-                        }
+                if (!loading && (visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                    loading = true;
+                    Page lastPage = feedAdapter.getLastPage();
+                    if (!lastPage.isLast()) {
+                        doLoadNextPage(postManager, lastPage, nextPageCallback);
                     }
                 }
             }
