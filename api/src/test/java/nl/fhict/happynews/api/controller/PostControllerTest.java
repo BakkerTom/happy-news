@@ -86,7 +86,7 @@ public class PostControllerTest {
         post3.setSource("tilburger");
         post3.setSourceName("De Tilburger");
         post3.setAuthor("Jan Karel Klojo");
-        post3.setTitle("Blah blah blah.");
+        post3.setTitle("Blah, \"blah\" & “blah”.");
         post3.setContentText("ipsum lorem.");
         post3.setUrl("http://www.neppetilburg.nl/dit");
         post3.setPublishedAt(new DateTime(998714400000L));
@@ -115,7 +115,66 @@ public class PostControllerTest {
         this.mockMvc.perform(get("/post"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content", hasSize(5)));
+    }
 
+    @Test
+    public void testGetAllPostsWithQuery() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "people")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(2)));
+    }
+
+    @Test
+    public void testGetAllPostsWithEmptyQuery() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(5)));
+    }
+
+    @Test
+    public void testGetAllPostsWithQueryNoResults() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "this string will not be found")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(0)));
+    }
+
+    @Test
+    public void testGetAllPostsWithQuerySpecialCharacters() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "Blah, \"blah\" & “blah”.")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(1)));
+    }
+
+    @Test
+    public void testGetAllPostsWithQueryContent() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "ipsum")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(3)));
+    }
+
+    @Test
+    public void testGetAllPostsWithQuerySource() throws Exception {
+        mockMvc.perform(
+            get("/post")
+                .param("query", "The Post")
+        )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content", hasSize(2)));
     }
 
     @Test
