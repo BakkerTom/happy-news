@@ -58,7 +58,7 @@ public class SourceController {
             Collection<Source> sourcesFromApi = sourceManager.getSources();
 
             for (Source s : sourcesFromApi) {
-                SourceSetting src = new SourceSetting(s.getName(), s.getSourceName());
+                SourceSetting src = new SourceSetting(s.getName(), s.getCleanName());
                 src.setParent(articleSourceSetting);
                 sources.add(src);
             }
@@ -103,9 +103,11 @@ public class SourceController {
      * @param context The context.
      * @param srcName The sourcename.
      */
-    public void toggleSourceChildren(Context context, String srcName) {
+    public void toggleSourceChildren(Context context, String srcName, boolean value) {
         for (SourceSetting sourcesetting : getSources(context)) {
-            if (sourcesetting.getParent() != null && sourcesetting.getParent().getName().equals(srcName)) {
+            if (sourcesetting.getParent() != null
+                && sourcesetting.getParent().getName().equals(srcName)
+                && sourcesetting.isEnabled() != value) {
                 toggleSource(context, sourcesetting.getName());
             }
         }

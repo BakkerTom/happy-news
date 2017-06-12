@@ -7,18 +7,18 @@ public class Source {
     private String uuid;
 
     private String name;
-    private String sourceName;
+    private String cleanName;
     private String type;
 
     /**
      * Source is source.
      * @param name The name.
-     * @param sourceName The clean name.
+     * @param cleanName The clean name.
      * @param type The type.
      */
-    public Source(String name, String sourceName, String type) {
+    public Source(String name, String cleanName, String type) {
         this.name = name;
-        this.sourceName = sourceName;
+        this.cleanName = cleanName;
         this.type = type;
     }
 
@@ -37,12 +37,12 @@ public class Source {
         this.name = name;
     }
 
-    public String getSourceName() {
-        return sourceName;
+    public String getCleanName() {
+        return cleanName;
     }
 
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+    public void setSourceName(String cleanName) {
+        this.cleanName = cleanName;
     }
 
     public String getType() {

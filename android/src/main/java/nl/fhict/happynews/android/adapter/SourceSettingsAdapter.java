@@ -87,7 +87,9 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
                 SourceController.getInstance().toggleSource(getContext(), sourceSetting.getName());
                 boolean refresh = false;
                 if (sourceSetting.isParent()) {
-                    SourceController.getInstance().toggleSourceChildren(getContext(), sourceSetting.getName());
+                    SourceController.getInstance().toggleSourceChildren(getContext(),
+                        sourceSetting.getName(),
+                        sourceSwitch.isChecked());
                     refresh = true;
                 }
                 if (sourceSwitch.isChecked()) {
