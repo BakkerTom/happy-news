@@ -11,4 +11,11 @@
     <string name="notification_text">Er staat positiviteit voor je klaar!</string>
     <string name="share_text_disclaimer">Mogelijk gemaakt door Happy News</string>
     <string name="intent_chooser_message">Deel wat positiviteit!</string>
+    <string name="flag_content_title">Kies reden</string>
+    <string-array name="flag_options">
+        <item>Sexuele inhoud</item>
+        <item>Aanstootgevend</item>
+        <item>Niet happy</item>
+        <item>Gewelddadig</item>
+    </string-array>
 </resources>

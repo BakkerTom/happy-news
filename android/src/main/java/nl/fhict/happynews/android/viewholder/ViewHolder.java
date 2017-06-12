@@ -9,7 +9,7 @@ import android.text.format.DateUtils;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
-import nl.fhict.happynews.android.MyMenuItemClickListener;
+import nl.fhict.happynews.android.PostMenuItemClickListener;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.model.Post;
@@ -88,7 +88,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_cardview_popup, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position, view.getContext(), post));
+        popup.setOnMenuItemClickListener(new PostMenuItemClickListener(position, view.getContext(), post));
         popup.show();
     }
 }
