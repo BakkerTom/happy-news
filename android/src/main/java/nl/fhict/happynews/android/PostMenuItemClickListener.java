@@ -36,10 +36,10 @@ public class PostMenuItemClickListener implements PopupMenu.OnMenuItemClickListe
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.Share:
+            case R.id.share:
                 share();
                 return true;
-            case R.id.Flag:
+            case R.id.flag:
                 flag();
                 return true;
             default:

@@ -31,4 +31,6 @@
     <string name="bad_request_toast">Oops, Something went wrong</string>
     <string name="network_error_title">Uh oh…</string>
     <string name="retry_button">Retry</string>
+    <string name="flag_text">Flag as inappropriate</string>
+    <string name="share_text">Share</string>
 </resources>

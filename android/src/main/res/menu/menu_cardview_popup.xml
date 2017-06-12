@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-xmlns:app="http://schemas.android.com/apk/res-auto">
 <item
-    android:id="@+id/Share"
+    android:id="@+id/share"
     android:orderInCategory="100"
-    android:title="Share"/>
+    android:title="@string/share_text"/>
 
 <item
-    android:id="@+id/Flag"
+    android:id="@+id/flag"
     android:orderInCategory="101"
-    android:title="Flag as inappropriate"></item>
+    android:title="@string/flag_text"></item>
 </menu>

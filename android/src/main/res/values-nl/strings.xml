@@ -23,4 +23,6 @@
     <string name="network_error_title">Oh oh…</string>
     <string name="no_internet_message">Het lijkt erop dat je geen actieve internetverbinding hebt. Kijk naar je instellingen en probeer opnieuw.</string>
     <string name="retry_button">Probeer Opnieuw</string>
+    <string name="flag_text">Markeer als ongepast</string>
+    <string name="share_text">Deel</string>
 </resources>
