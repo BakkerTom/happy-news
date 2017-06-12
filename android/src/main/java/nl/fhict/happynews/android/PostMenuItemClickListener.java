@@ -16,9 +16,12 @@ import nl.fhict.happynews.android.model.Post;
  */
 public class PostMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
+    private static final int POSITIVE_BUTTON_ID  = -1;
+
     private int position;
     private Context context;
     private Post post;
+
 
     /**
      * Constructor.
@@ -78,7 +81,7 @@ public class PostMenuItemClickListener implements PopupMenu.OnMenuItemClickListe
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     AlertDialog ad = (AlertDialog) dialog;
-                    ad.getButton(-1).setEnabled(true);
+                    ad.getButton(POSITIVE_BUTTON_ID).setEnabled(true);
                     selectedIndex[0] = which;
                 }
             })
@@ -94,7 +97,7 @@ public class PostMenuItemClickListener implements PopupMenu.OnMenuItemClickListe
                     dialog.dismiss();
                 }
             }).show()
-            .getButton(-1)
+            .getButton(POSITIVE_BUTTON_ID)
             .setEnabled(false);
 
     }

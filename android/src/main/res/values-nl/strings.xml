@@ -25,4 +25,6 @@
     <string name="retry_button">Probeer Opnieuw</string>
     <string name="flag_text">Markeer als ongepast</string>
     <string name="share_text">Deel</string>
+    <string name="flag_response">Bedankt voor je reactie</string>
+    <string name="flag_error_response">Er ging iets mis, probeer later opnieuw</string>
 </resources>

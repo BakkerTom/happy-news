@@ -1,7 +1,7 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
-import android.util.Log;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -14,7 +14,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.model.Page;
-import nl.fhict.happynews.android.model.Post;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -122,6 +121,7 @@ public class PostManager {
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
         Ion.with(context)
             .load(apiUrl + "/post?page=" + page + "&size=" + size)
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -140,6 +140,7 @@ public class PostManager {
             .addQuery("page", String.valueOf(page))
             .addQuery("size", String.valueOf(size))
             .addQuery("query", query)
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -165,13 +166,25 @@ public class PostManager {
      * @param postUuid uuid for the post
      * @param reason   reason for flag
      */
-    public void flagPost(Context context,String postUuid, String reason) {
+    public void flagPost(final Context context, String postUuid, String reason) {
         String uri = apiUrl + "/post/" + postUuid + "/flag";
         JsonObject json = new JsonObject();
         json.addProperty("reason", reason);
         Ion.with(context)
             .load(uri)
+            .setTimeout(5000)
             .setJsonObjectBody(json)
-            .asJsonObject();
+            .asString()
+            .setCallback(new FutureCallback<String>() {
+                @Override
+                public void onCompleted(Exception e, String result) {
+
+                    if (e == null) {
+                        Toast.makeText(context, R.string.flag_response, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, R.string.flag_error_response, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 }

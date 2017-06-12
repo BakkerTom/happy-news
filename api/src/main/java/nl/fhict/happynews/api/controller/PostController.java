@@ -108,11 +108,10 @@ public class PostController {
      * @param uuid id of the post.
      * @param body reason for flagging.
      */
-    @ApiOperation("flag a post by it's UUID")
+    @ApiOperation("flag a post by its UUID")
     @RequestMapping(value = "/{uuid}/flag", method = RequestMethod.POST)
     public void flagPost(@PathVariable("uuid") String uuid,
                          @RequestBody FlagRequest body) {
-        System.out.println("Request handle" + body.getReason());
         Post p = postRepository.findOne(uuid);
         p.addFlagReason(body.getReason());
         postRepository.save(p);

@@ -33,4 +33,6 @@
     <string name="retry_button">Retry</string>
     <string name="flag_text">Flag as inappropriate</string>
     <string name="share_text">Share</string>
+    <string name="flag_response">Thank you for your feedback</string>
+    <string name="flag_error_response">Something went wrong, please try again</string>
 </resources>
