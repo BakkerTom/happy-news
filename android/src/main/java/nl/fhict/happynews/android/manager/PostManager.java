@@ -1,11 +1,13 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -144,8 +146,20 @@ public class PostManager {
         this.feedAdapter = feedAdapter;
     }
 
+
+    /**
+     * Send a call to the api to flag given post with a given reason.
+     *
+     * @param postUuid uuid for the post
+     * @param reason   reason for flag
+     */
     public void flagPost(String postUuid, String reason) {
-        Ion.with(context).load("/flagpost?uuid=" + postUuid + "&reason=" + reason);
-        //"/flagpost/uuid/{uuid}/reason/{reason}"
+        String uri = apiUrl + "/post/" + postUuid + "/flag";
+        JsonObject json = new JsonObject();
+        json.addProperty("reason", reason);
+        Ion.with(context)
+            .load(uri)
+            .setJsonObjectBody(json)
+            .asJsonObject();
     }
 }
