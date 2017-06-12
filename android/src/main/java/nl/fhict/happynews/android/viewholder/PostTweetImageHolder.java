@@ -2,6 +2,7 @@ package nl.fhict.happynews.android.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class PostTweetImageHolder extends ViewHolder {
     private TextView twitterUsernameTextView;
     private ImageView imageView;
     private ProgressBar progressBar;
+    private ImageButton popupMenuImage;
 
     /**
      * Creates a new {@link RecyclerView.ViewHolder} for {@link Post}s.
@@ -34,6 +36,7 @@ public class PostTweetImageHolder extends ViewHolder {
         twitterUsernameTextView = (TextView) view.findViewById(R.id.twitterUsernameTextView);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         progressBar = (ProgressBar) view.findViewById(R.id.spinner);
+        popupMenuImage = (ImageButton) view.findViewById(R.id.popupMenuImage);
     }
 
     /**
@@ -56,5 +59,12 @@ public class PostTweetImageHolder extends ViewHolder {
                     progressBar.setVisibility(View.GONE);
                 }
             });
+
+        popupMenuImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, getAdapterPosition());
+            }
+        });
     }
 }

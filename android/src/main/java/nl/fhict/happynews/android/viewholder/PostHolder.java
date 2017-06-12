@@ -2,6 +2,7 @@ package nl.fhict.happynews.android.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.model.Post;
@@ -14,6 +15,7 @@ public class PostHolder extends ViewHolder {
     private TextView sourceTextView;
     private TextView timeTextView;
     private TextView headlineTextView;
+    private ImageButton popupMenuImage;
 
     /**
      * Create a new {@link RecyclerView.ViewHolder} for {@link Post}s of the type article.
@@ -27,7 +29,7 @@ public class PostHolder extends ViewHolder {
         sourceTextView = (TextView) view.findViewById(R.id.sourceTextView);
         timeTextView = (TextView) view.findViewById(R.id.timeTextView);
         headlineTextView = (TextView) view.findViewById(R.id.headlineTextView);
-
+        popupMenuImage = (ImageButton) view.findViewById(R.id.popupMenuImage);
     }
 
     /**
@@ -42,6 +44,11 @@ public class PostHolder extends ViewHolder {
         sourceTextView.setText(post.getSourceName());
         timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
         headlineTextView.setText(post.getTitle());
+        popupMenuImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, getAdapterPosition());
+            }
+        });
     }
-
 }

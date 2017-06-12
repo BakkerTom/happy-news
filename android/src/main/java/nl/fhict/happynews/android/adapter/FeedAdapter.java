@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import nl.fhict.happynews.android.R;
-import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;

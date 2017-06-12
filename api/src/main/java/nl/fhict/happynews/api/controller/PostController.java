@@ -3,6 +3,7 @@ package nl.fhict.happynews.api.controller;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import io.swagger.annotations.ApiOperation;
 import nl.fhict.happynews.api.hibernate.PostRepository;
+import nl.fhict.happynews.api.util.FlagRequest;
 import nl.fhict.happynews.shared.Post;
 import nl.fhict.happynews.shared.QPost;
 import org.joda.time.DateTime;
@@ -13,10 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * Created by Tobi on 06-Mar-17.
@@ -121,5 +124,20 @@ public class PostController {
 
     private BooleanExpression notHidden() {
         return QPost.post.hidden.isFalse();
+    }
+
+    /**
+     * Handles a put request for flagging a post
+     *
+     * @param uuid id of the post.
+     * @param body reason for flagging.
+     */
+    @ApiOperation("flag a post by its UUID")
+    @RequestMapping(value = "/{uuid}/flag", method = RequestMethod.POST)
+    public void flagPost(@PathVariable("uuid") String uuid,
+                         @RequestBody FlagRequest body) {
+        Post p = postRepository.findOne(uuid);
+        p.addFlagReason(body.getReason());
+        postRepository.save(p);
     }
 }

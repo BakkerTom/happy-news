@@ -1,11 +1,13 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -101,7 +103,7 @@ public class PostManager {
     /**
      * Sends content of the first page to the FeedAdapter, filtered by the query.
      *
-     * @param query The search query.
+     * @param query    The search query.
      * @param context  The Application context.
      * @param callback The callback when the page is loaded.
      */
@@ -126,6 +128,7 @@ public class PostManager {
             .addQuery("page", String.valueOf(page))
             .addQuery("size", String.valueOf(size))
             .addQuery("whitelist", generateWhitelist(context))
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -145,6 +148,7 @@ public class PostManager {
             .addQuery("size", String.valueOf(size))
             .addQuery("query", query)
             .addQuery("whitelist", generateWhitelist(context))
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -174,5 +178,33 @@ public class PostManager {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }
         });
+    }
+
+    /**
+     * Send a call to the api to flag given post with a given reason.
+     *
+     * @param postUuid uuid for the post
+     * @param reason   reason for flag
+     */
+    public void flagPost(final Context context, String postUuid, String reason) {
+        String uri = apiUrl + "/post/" + postUuid + "/flag";
+        JsonObject json = new JsonObject();
+        json.addProperty("reason", reason);
+        Ion.with(context)
+            .load(uri)
+            .setTimeout(5000)
+            .setJsonObjectBody(json)
+            .asString()
+            .setCallback(new FutureCallback<String>() {
+                @Override
+                public void onCompleted(Exception e, String result) {
+
+                    if (e == null) {
+                        Toast.makeText(context, R.string.flag_response, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, R.string.flag_error_response, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 }
