@@ -53,7 +53,13 @@ public class SourceSetting implements Comparable<SourceSetting> {
         this.parent = setting;
     }
 
+    public String getCleanName() {
+        return cleanName;
+    }
 
+    public void setCleanName(String cleanName) {
+        this.cleanName = cleanName;
+    }
 
     @Override
     public String toString() {

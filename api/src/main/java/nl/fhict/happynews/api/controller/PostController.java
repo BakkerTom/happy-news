@@ -40,7 +40,7 @@ public class PostController {
     /**
      * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
      *
-     * @param pageable the page and page size
+     * @param pageable         the page and page size
      * @param sourcesWhitelist optional list of requested sources
      * @return A Page with Post information
      */
@@ -49,7 +49,11 @@ public class PostController {
     public Page<Post> getAllByPage(Pageable pageable, @PathVariable(required = false) String[] sourcesWhitelist) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
+        if (sourcesWhitelist != null) {
+            return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
+        } else {
+            return postRepository.findAll(notHidden(), sortedPageable);
+        }
     }
 
     /**
@@ -67,8 +71,8 @@ public class PostController {
     /**
      * Handles a GET request by returning a collection of Post after a certain date.
      *
-     * @param date    The date after which posts should be retrieved.
-     * @param ordered Whether the list should be ordered by latest or not.
+     * @param date             The date after which posts should be retrieved.
+     * @param ordered          Whether the list should be ordered by latest or not.
      * @param sourcesWhitelist optional list of requested sources
      * @return The Posts in JSON.
      */
@@ -80,9 +84,15 @@ public class PostController {
         @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered,
         @PathVariable(required = false) String[] sourcesWhitelist) {
 
-        BooleanExpression predicate = notHidden()
-            .and(QPost.post.publishedAt.after(new DateTime(date)))
-            .and(isAllowed(sourcesWhitelist));
+        BooleanExpression predicate = null;
+        if (sourcesWhitelist != null) {
+            predicate = notHidden()
+                .and(QPost.post.publishedAt.after(new DateTime(date)))
+                .and(isAllowed(sourcesWhitelist));
+        } else {
+            predicate = notHidden()
+                .and(QPost.post.publishedAt.after(new DateTime(date)));
+        }
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
 
         if (ordered) {

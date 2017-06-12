@@ -27,6 +27,7 @@ public class SourceController {
 
     /**
      * Returns the instance.
+     *
      * @return An instance.
      */
     public static SourceController getInstance() {
@@ -39,6 +40,7 @@ public class SourceController {
 
     /**
      * Initializes the Source Set.
+     *
      * @param context The context.
      */
     public void initialize(Context context) {
@@ -68,6 +70,7 @@ public class SourceController {
 
     /**
      * Gets the source.
+     *
      * @param context The context.
      * @param srcName The source name.
      * @return The source.
@@ -83,6 +86,7 @@ public class SourceController {
 
     /**
      * Toggles the source.
+     *
      * @param context The context.
      * @param srcName The sourcename.
      */
@@ -91,22 +95,38 @@ public class SourceController {
         removeSource(context, src);
         src.setEnabled(!src.isEnabled());
         addSource(context, src);
+    }
 
+    /**
+     * Toggles the source's children.
+     *
+     * @param context The context.
+     * @param srcName The sourcename.
+     */
+    public void toggleSourceChildren(Context context, String srcName) {
+        for (SourceSetting sourcesetting : getSources(context)) {
+            if (sourcesetting.getParent() != null && sourcesetting.getParent().getName().equals(srcName)) {
+                toggleSource(context, sourcesetting.getName());
+            }
+        }
     }
 
     /**
      * Gets all the sources that are blocked.
+     *
      * @param context The context.
      * @return All sources.
      */
     public List<SourceSetting> getSources(Context context) {
-        return preferences.getAsList(context, KEY, new TypeToken<List<SourceSetting>>(){});
+        return preferences.getAsList(context, KEY, new TypeToken<List<SourceSetting>>() {
+        });
     }
 
     /**
      * Adds a source to the blocked list.
+     *
      * @param context The context.
-     * @param source The source.
+     * @param source  The source.
      */
     public void addSource(Context context, SourceSetting source) {
         Collection<SourceSetting> sources = getSources(context);
@@ -116,8 +136,9 @@ public class SourceController {
 
     /**
      * Removes a source from the blocked list.
+     *
      * @param context The context.
-     * @param source The source.
+     * @param source  The source.
      */
     public void removeSource(Context context, SourceSetting source) {
         Collection<SourceSetting> sources = getSources(context);

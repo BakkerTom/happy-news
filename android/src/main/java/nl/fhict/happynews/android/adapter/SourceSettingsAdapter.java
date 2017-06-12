@@ -70,7 +70,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
         final TextView sourceNameTextView = (TextView) v.findViewById(R.id.sourceTextView);
         final Switch sourceSwitch = (Switch) v.findViewById(R.id.sourceSwitch);
 
-        sourceNameTextView.setText(sourceSetting.getName());
+        sourceNameTextView.setText(sourceSetting.getCleanName());
 
         SourceSetting src = SourceController.getInstance().getSource(context, sourceSetting.getName());
 
@@ -85,12 +85,24 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SourceController.getInstance().toggleSource(getContext(), sourceSetting.getName());
+                boolean refresh = false;
+                if (sourceSetting.isParent()) {
+                    SourceController.getInstance().toggleSourceChildren(getContext(), sourceSetting.getName());
+                    refresh = true;
+                }
                 if (sourceSwitch.isChecked()) {
                     sourceNameTextView.setTextColor(Color.BLACK);
                 } else {
                     sourceNameTextView.setTextColor(Color.GRAY);
                 }
                 sort();
+
+                if (refresh) {
+                    parentActivity.finish();
+                    parentActivity.overridePendingTransition(0, 0);
+                    parentActivity.startActivity(parentActivity.getIntent());
+                    parentActivity.overridePendingTransition(0, 0);
+                }
             }
         });
         return v;
