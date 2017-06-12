@@ -27,6 +27,7 @@ services:
       - MONGO_PORT=27017
     volumes:
       - "./.docker/logs/crawler:/var/log/crawler"
+      - "./.docker/config/crawler:/opt/crawler/config"
   web:
     build: web/
     restart: always
