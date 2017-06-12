@@ -122,7 +122,10 @@ public class PostManager {
      */
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
         Ion.with(context)
-            .load(apiUrl + "/post?page=" + page + "&size=" + size + "&whitelist=" + generateWhitelist(context))
+            .load(apiUrl + "/post")
+            .addQuery("page", String.valueOf(page))
+            .addQuery("size", String.valueOf(size))
+            .addQuery("whitelist", generateWhitelist(context))
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }

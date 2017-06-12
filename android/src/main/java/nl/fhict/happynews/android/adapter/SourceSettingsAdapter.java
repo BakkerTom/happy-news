@@ -100,10 +100,7 @@ public class SourceSettingsAdapter extends ArrayAdapter<SourceSetting> {
                 sort();
 
                 if (refresh) {
-                    parentActivity.finish();
-                    parentActivity.overridePendingTransition(0, 0);
-                    parentActivity.startActivity(parentActivity.getIntent());
-                    parentActivity.overridePendingTransition(0, 0);
+                    parentActivity.refreshActivity();
                 }
             }
         });
