@@ -48,7 +48,7 @@ public class PostImageHolder extends ViewHolder {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        sourceTextView.setText(post.getSource());
+        sourceTextView.setText(post.getSourceName());
         timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
         headlineTextView.setText(post.getTitle());
 

@@ -11,10 +11,14 @@ import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.Page;
+import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -118,7 +122,10 @@ public class PostManager {
      */
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
         Ion.with(context)
-            .load(apiUrl + "/post?page=" + page + "&size=" + size)
+            .load(apiUrl + "/post")
+            .addQuery("page", String.valueOf(page))
+            .addQuery("size", String.valueOf(size))
+            .addQuery("whitelist", generateWhitelist(context))
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -137,8 +144,21 @@ public class PostManager {
             .addQuery("page", String.valueOf(page))
             .addQuery("size", String.valueOf(size))
             .addQuery("query", query)
+            .addQuery("whitelist", generateWhitelist(context))
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
+    }
+
+    private String generateWhitelist(Context context) {
+        String whitelist = "";
+        List<SourceSetting> sources = SourceController.getInstance().getSources(context);
+
+        for (SourceSetting source : sources) {
+            if (source.isEnabled()) {
+                whitelist += source.getName() + ",";
+            }
+        }
+        return whitelist.substring(0, whitelist.length() - 1);
     }
 
 

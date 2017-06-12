@@ -143,14 +143,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void addPage(Page page) {
         if (page != null) {
             this.lastPage = page;
-            List<Post> pageposts = new ArrayList<>();
-            for (Post post : page.getContent()) {
-                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-                if (src == null || (src != null && src.isEnabled())) {
-                    pageposts.add(post);
-                }
-            }
-            this.posts.addAll(pageposts);
+            this.posts.addAll(page.getContent());
             this.notifyDataSetChanged();
         }
     }
@@ -165,14 +158,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (page != null) {
             this.lastPage = page;
             this.posts.clear();
-            List<Post> pageposts = new ArrayList<>();
-            for (Post post : page.getContent()) {
-                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-                if (src == null || (src != null && src.isEnabled())) {
-                    pageposts.add(post);
-                }
-            }
-            this.posts.addAll(pageposts);
+            this.posts.addAll(page.getContent());
             this.notifyDataSetChanged();
         }
     }
