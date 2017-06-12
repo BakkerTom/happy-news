@@ -50,7 +50,6 @@ public class PostController {
         String[] sourcesWhitelist, @RequestParam(required = false, defaultValue = "") String query) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-
         if (query.isEmpty() && sourcesWhitelist != null) {
             return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
         } else if (query.isEmpty()) {
