@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Toggle from '../../components/toggle/Toggle';
-import Flags from '../../components/flags/Flags';
+//import Flags from '../../components/flags/Flags';
 
 import './Article.css';
 
@@ -37,8 +37,6 @@ class Article extends Component {
           </div>
           <Toggle hidden={ this.state.hidden } uuid={ data.uuid } parentHide={this.handleHide.bind(this)} />
         </div>
-
-        <Flags reasons={['Dit is een reden', 'En nog een', 'De laatste']}/>
       </li>
     );
   }

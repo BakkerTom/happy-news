@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Toggle from '../../components/toggle/Toggle';
+import TweetEmbed from 'react-tweet-embed';
+
 import './Tweet.css';
 
 class Tweet extends Component {
@@ -17,6 +19,10 @@ class Tweet extends Component {
     });
   }
 
+  getIDFromUrl(url){
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
+
   render() {
     const data = this.props.data;
 
@@ -24,9 +30,8 @@ class Tweet extends Component {
       <li className='list-group-item'>
         <div className={'flex ' + (this.state.hidden ? 'removed' : '')}>
           <div className='content'>
-            <span className="source source-tweet">{data.author}</span>
-
-            <p>{data.contentText}</p>
+            <span className="source source-tweet">Tweet</span>
+            <TweetEmbed id={this.getIDFromUrl(data.url)} options={{cards: 'hidden', width:550}}/>
           </div>
           <Toggle hidden={ this.state.hidden } uuid={ data.uuid } parentHide={this.handleHide.bind(this)} />
         </div>

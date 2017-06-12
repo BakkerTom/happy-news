@@ -32,7 +32,7 @@ class Flags extends Component {
       <div className='panel panel-warning flag-panel'>
         <div className='panel-heading'>
           <a className='panel-title' onClick={this.handleClick}>
-            Reported {this.props.reasons.length} times
+            <span className='glyphicon glyphicon-flag' aria-hidden='true'></span> Reported {this.props.reasons.length} times
           </a>
         </div>
         <div className={'panel-collapse ' + (this.state.collapsed ? 'collapse' : '')}>

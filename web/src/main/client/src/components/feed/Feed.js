@@ -6,6 +6,8 @@ import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
 import FilterBar from '../../components/filterbar/FilterBar';
 
+import './Feed.css';
+
 //Static page_size field
 let PAGE_SIZE = 20;
 
@@ -86,26 +88,28 @@ class Feed extends Component {
     });
 
     return (
-      <div>
-      
+    <div>
       <FilterBar handler={this.filterHandler}/>
 
       <ul className='list-group'>
         { posts }
       </ul>
-
-      <ReactPaginate previousLabel={"previous"}
-                       nextLabel={"next"}
-                       breakLabel={<a href="">...</a>}
-                       breakClassName={"break-me"}
-                       pageCount={this.state.pageCount}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={5}
-                       onPageChange={this.handlePageClick}
-                       containerClassName={"pagination"}
-                       subContainerClassName={"pages pagination"}
-                       activeClassName={"active"} />
+      
+      <div className='paginator'>
+        <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={<a href="">...</a>}
+        breakClassName={"break-me"}
+        pageCount={this.state.pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={this.handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"} />
       </div>
+    </div>
     );
   }
 }

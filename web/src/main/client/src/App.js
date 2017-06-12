@@ -4,6 +4,8 @@ import Login from './components/login/Login';
 
 import { Navbar } from 'react-bootstrap';
 
+import './App.css';
+
 class App extends Component {
   constructor(props){
     super(props);
