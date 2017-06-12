@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './FilterBar.css';
 
 class FilterBar extends Component {
@@ -17,7 +18,7 @@ class FilterBar extends Component {
       flaggedContent: !this.state.flaggedContent
     });
 
-    console.log(`Show flagged Content: ${this.state.flaggedContent}`);
+    this.props.handler("FLAGGED", this.state.flaggedContent);
   }
 
   render(){
@@ -25,10 +26,15 @@ class FilterBar extends Component {
       <div className='filter-bar'>
         <span>Filter:</span>
 
-        <a className={'filter-btn ' + (this.state.flaggedContent ? '' : 'toggled')} onClick={this.handleClick}>Flagged Content</a>
+        <a className={'filter-btn ' + (this.state.flaggedContent ? '' : 'toggled')} 
+          onClick={this.handleClick}>Flagged Content</a>
       </div>
     );
   }
+}
+
+FilterBar.propTypes = {
+  handler: PropTypes.func.isRequired
 }
 
 export default FilterBar;

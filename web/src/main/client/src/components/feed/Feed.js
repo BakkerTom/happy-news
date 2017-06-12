@@ -58,6 +58,15 @@ class Feed extends Component {
     window.scrollTo(0, 0);
   };
 
+  /**
+   * Handles the 
+   * @param {string} filter - The filter ID string
+   * @param {boolean} state - Set it on or off
+   */
+  filterHandler(filter, state) {
+    console.log(`${filter}: ${state}`);
+  }
+
   render() {
     //Display a loading text when no data is loaded yet
     if (!this.state.feedData) return <div>Loading...</div>;
@@ -79,7 +88,7 @@ class Feed extends Component {
     return (
       <div>
       
-      <FilterBar />
+      <FilterBar handler={this.filterHandler}/>
 
       <ul className='list-group'>
         { posts }
