@@ -22,9 +22,12 @@ class Flags extends Component {
   }
 
   render() {
+    var index = 0;
+
     const listItems = this.props.reasons.map(item => {
+      index++;
       return (
-        <li className='list-group-item' key={item}>{ item }</li>
+        <li className='list-group-item' key={index}>{ item }</li>
       );
     });
 

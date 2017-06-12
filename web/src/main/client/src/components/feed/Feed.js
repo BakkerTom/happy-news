@@ -17,7 +17,11 @@ class Feed extends Component {
     super(props);
 
     //Initialize an empty state object
-    this.state = {};
+    this.state = {
+      flagFilter: false
+    };
+
+    this.filterHandler = this.filterHandler.bind(this);
   }
 
   componentDidMount() {
@@ -61,12 +65,19 @@ class Feed extends Component {
   };
 
   /**
-   * Handles the 
+   * Handles the changes in filter state from Filterbar
+   * It is setup so we could potentially switch multiple kinds of filters
    * @param {string} filter - The filter ID string
    * @param {boolean} state - Wether the filter should be on or off
    */
   filterHandler(filter, state) {
-    console.log(`${filter}: ${state}`);
+    if (filter === 'FLAGGED') {
+      this.setState({
+        flagFilter: state
+      });
+    }
+
+    this.loadItems(this.state.pageNumber);
   }
 
   render() {

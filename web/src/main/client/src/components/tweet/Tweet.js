@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Toggle from '../../components/toggle/Toggle';
+import Flags from '../../components/flags/Flags';
 import TweetEmbed from 'react-tweet-embed';
 
 import './Tweet.css';
@@ -26,6 +27,14 @@ class Tweet extends Component {
   render() {
     const data = this.props.data;
 
+    const flags = () => {
+        if (data.flagReasons.length > 0) {
+          return <Flags reasons={data.flagReasons} />;
+        }
+
+        return null;
+    };
+
     return (
       <li className='list-group-item'>
         <div className={'flex ' + (this.state.hidden ? 'removed' : '')}>
@@ -35,6 +44,8 @@ class Tweet extends Component {
           </div>
           <Toggle hidden={ this.state.hidden } uuid={ data.uuid } parentHide={this.handleHide.bind(this)} />
         </div>
+
+        { flags() }
       </li>
     );
   }
