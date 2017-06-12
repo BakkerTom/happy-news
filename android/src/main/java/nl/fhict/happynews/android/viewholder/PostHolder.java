@@ -41,7 +41,7 @@ public class PostHolder extends ViewHolder {
     public void bindType(Post post) {
         super.bindType(post);
 
-        sourceTextView.setText(post.getSource());
+        sourceTextView.setText(post.getSourceName());
         timeTextView.setText(relativeTimeSpan(post.getPublishedAt()));
         headlineTextView.setText(post.getTitle());
         popupMenuImage.setOnClickListener(new View.OnClickListener() {

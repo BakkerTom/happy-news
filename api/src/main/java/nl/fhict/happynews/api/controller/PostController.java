@@ -41,17 +41,27 @@ public class PostController {
     /**
      * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
      *
-     * @param pageable the page and page size
+     * @param pageable         the page and page size
+     * @param sourcesWhitelist optional list of requested sources
      * @return A Page with Post information
      */
     @ApiOperation("Get all posts in a paginated format")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<Post> getAllByPage(Pageable pageable, @RequestParam(required = false, defaultValue = "") String query) {
+    public Page<Post> getAllByPage(Pageable pageable, @RequestParam(value = "whitelist", required = false)
+        String[] sourcesWhitelist, @RequestParam(required = false, defaultValue = "") String query) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-
-        if (query.isEmpty()) {
+        if (query.isEmpty() && sourcesWhitelist != null) {
+            return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
+        } else if (query.isEmpty()) {
             return postRepository.findAll(notHidden(), sortedPageable);
+        } else if (sourcesWhitelist != null) {
+            return postRepository.findAll(notHidden()
+                .and(
+                    QPost.post.title.containsIgnoreCase(query)
+                        .or(QPost.post.contentText.containsIgnoreCase(query))
+                        .or(QPost.post.sourceName.containsIgnoreCase(query))
+                ).and(isAllowed(sourcesWhitelist)), sortedPageable);
         } else {
             return postRepository.findAll(notHidden()
                 .and(
@@ -77,8 +87,9 @@ public class PostController {
     /**
      * Handles a GET request by returning a collection of Post after a certain date.
      *
-     * @param date    The date after which posts should be retrieved.
-     * @param ordered Whether the list should be ordered by latest or not.
+     * @param date             The date after which posts should be retrieved.
+     * @param ordered          Whether the list should be ordered by latest or not.
+     * @param sourcesWhitelist optional list of requested sources
      * @return The Posts in JSON.
      */
     @ApiOperation("Get posts after a given date")
@@ -86,9 +97,18 @@ public class PostController {
         produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Post> getPostAfterDate(
         @PathVariable("date") long date,
-        @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered) {
+        @RequestParam(required = false, defaultValue = "true", value = "ordered") boolean ordered,
+        @PathVariable(required = false) String[] sourcesWhitelist) {
 
-        BooleanExpression predicate = notHidden().and(QPost.post.publishedAt.after(new DateTime(date)));
+        BooleanExpression predicate = null;
+        if (sourcesWhitelist != null) {
+            predicate = notHidden()
+                .and(QPost.post.publishedAt.after(new DateTime(date)))
+                .and(isAllowed(sourcesWhitelist));
+        } else {
+            predicate = notHidden()
+                .and(QPost.post.publishedAt.after(new DateTime(date)));
+        }
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
 
         if (ordered) {
@@ -96,6 +116,10 @@ public class PostController {
         } else {
             return postRepository.findAll(predicate);
         }
+    }
+
+    private BooleanExpression isAllowed(String[] sourcesWhitelist) {
+        return QPost.post.source.in(sourcesWhitelist);
     }
 
     private BooleanExpression notHidden() {

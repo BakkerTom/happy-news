@@ -40,7 +40,7 @@ public class PostQuoteHolder extends ViewHolder {
     public void bindType(Post post) {
         super.bindType(post);
 
-        sourceTextView.setText(post.getSource());
+        sourceTextView.setText(post.getSourceName());
         headlineTextView.setText(post.getContentText());
         authorTextView.setText(post.getAuthor());
 
