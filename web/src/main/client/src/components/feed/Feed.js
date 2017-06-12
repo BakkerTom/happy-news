@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import Article from '../../components/article/Article';
 import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
+import Config from '../../Config';
 
 let PAGE_SIZE = 20;
 
@@ -23,8 +24,9 @@ class Feed extends Component {
   }
 
   //loadItems load
-  loadItems(pageNumber){
-    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
+  loadItems(pageNumber) {
+    const baseUrl = Config.get('url');
+    const url = `${baseUrl}/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
 
     fetch(url, {
         headers: {

@@ -18,7 +18,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.github.ksoichiro.build.info'
-//apply plugin: 'com.moowork.node'
 
 jar {
     baseName = 'web'
