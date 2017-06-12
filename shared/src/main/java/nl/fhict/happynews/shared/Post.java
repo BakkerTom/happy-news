@@ -223,4 +223,8 @@ public class Post {
             return getName();
         }
     }
+
+    public List<String> getFlagReasons() {
+        return flagReasons;
+    }
 }

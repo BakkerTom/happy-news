@@ -88,7 +88,7 @@ public abstract class ViewHolder extends RecyclerView.ViewHolder implements View
         PopupMenu popup = new PopupMenu(view.getContext(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_cardview_popup, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position));
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(position, view.getContext(), post));
         popup.show();
     }
 }

@@ -14,6 +14,7 @@ import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.model.Page;
+import nl.fhict.happynews.android.model.Post;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -83,7 +84,8 @@ public class PostManager {
 
     /**
      * Sends content of the first page to the FeedAdapter.
-     * @param context The Application context.
+     *
+     * @param context  The Application context.
      * @param listener Implementing the LoadListener Interface.
      */
     public void refresh(Context context, final LoadListener listener) {
@@ -105,9 +107,10 @@ public class PostManager {
 
     /**
      * Loads a page from the server and returns its results in a FutureCallback.
-     * @param page The requested page.
-     * @param size The requested pagesize.
-     * @param context The application context.
+     *
+     * @param page     The requested page.
+     * @param size     The requested pagesize.
+     * @param context  The application context.
      * @param callback FutureCallback
      */
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
@@ -120,6 +123,7 @@ public class PostManager {
 
     /**
      * Register an adapter to manage the date types as long values.
+     *
      * @param builder The GsonBuilder to register the TypeAdapter to.
      */
     private void registerTypeAdapter(GsonBuilder builder) {
@@ -140,5 +144,8 @@ public class PostManager {
         this.feedAdapter = feedAdapter;
     }
 
-
+    public void flagPost(String postUuid, String reason) {
+        Ion.with(context).load("/flagpost?uuid=" + postUuid + "&reason=" + reason);
+        //"/flagpost/uuid/{uuid}/reason/{reason}"
+    }
 }
