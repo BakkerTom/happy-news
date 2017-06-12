@@ -19,7 +19,6 @@
     <string name="share_text_disclaimer">Brought to you by Happy News</string>
     <string name="flag_content_title">Choose reason</string>
     <string name="intent_chooser_message">Share some positivity!</string>
-    <string name="choose_flag_error">Please select a reason</string>
     <string-array name="flag_options">
         <item>Sexual content</item>
         <item>Offensive</item>
