@@ -61,7 +61,7 @@ class Feed extends Component {
   /**
    * Handles the 
    * @param {string} filter - The filter ID string
-   * @param {boolean} state - Set it on or off
+   * @param {boolean} state - Wether the filter should be on or off
    */
   filterHandler(filter, state) {
     console.log(`${filter}: ${state}`);

@@ -1,0 +1,52 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import './Flags.css';
+
+class Flags extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collapsed: true
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+
+  }
+
+  handleClick() {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  }
+
+  render() {
+    const listItems = this.props.reasons.map(item => {
+      return (
+        <li className='list-group-item' key={item}>{ item }</li>
+      );
+    });
+
+    return (
+      <div className='panel panel-warning flag-panel'>
+        <div className='panel-heading'>
+          <a className='panel-title' onClick={this.handleClick}>
+            Reported {this.props.reasons.length} times
+          </a>
+        </div>
+        <div className={'panel-collapse ' + (this.state.collapsed ? 'collapse' : '')}>
+          <ul className='list-group'>
+            { listItems }
+          </ul>
+        </div>
+      </div>
+    )
+  }
+}
+
+Flags.PropTypes = {
+  reasons: PropTypes.arrayOf(PropTypes.string).isRequired
+}
+
+export default Flags;

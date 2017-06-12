@@ -43,7 +43,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Navbar>
+        <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
               <a href="/">Happy News</a>
