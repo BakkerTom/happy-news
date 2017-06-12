@@ -85,7 +85,7 @@ public class PostMenuItemClickListener implements PopupMenu.OnMenuItemClickListe
             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     if (selectedIndex[0] > -1) {
-                        PostManager.getInstance(context).flagPost(post.getUuid(), reasons[selectedIndex[0]]);
+                        PostManager.getInstance(context).flagPost(context,post.getUuid(), reasons[selectedIndex[0]]);
                     }
                 }
             })

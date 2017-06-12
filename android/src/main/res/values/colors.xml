@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#A773EB</color>
     <color name="colorPrimaryDark">#9566D1</color>
-    <color name="colorAccent">#A773EB</color>
+    <color name="colorAccent">#dba3ff</color>
 
     <color name="colorArticle">#ba37c6</color>
     <color name="colorTweet">#33BAFA</color>
@@ -12,4 +12,6 @@
     <color name="colorBackground">#f2f2f2</color>
 
     <color name="colorWhiteText">#FFFFFF</color>
+
+    <color name="colorFab">@color/colorPrimary</color>
 </resources>

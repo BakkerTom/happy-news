@@ -8,8 +8,8 @@ android {
         applicationId "nl.fhict.happynews.android"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -17,6 +17,8 @@ android {
         lintOptions {
             abortOnError false
         }
+
+        resValue 'string', 'application_id', applicationId
     }
     buildTypes {
         release {
@@ -30,6 +32,8 @@ android {
         local {
             applicationIdSuffix ".local"
             versionNameSuffix "-local"
+
+            resValue 'string', 'application_id', defaultConfig.applicationId + applicationIdSuffix
         }
     }
 }

@@ -18,4 +18,9 @@
         <item>Niet happy</item>
         <item>Gewelddadig</item>
     </string-array>
+    <string name="search_title">Zoeken</string>
+    <string name="bad_request_toast">Oeps, er ging iets mis</string>
+    <string name="network_error_title">Oh oh…</string>
+    <string name="no_internet_message">Het lijkt erop dat je geen actieve internetverbinding hebt. Kijk naar je instellingen en probeer opnieuw.</string>
+    <string name="retry_button">Probeer Opnieuw</string>
 </resources>

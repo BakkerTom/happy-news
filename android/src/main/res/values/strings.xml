@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Happy News</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="no_internet_message">You don\'t seem to have an active internet connection. Check your settings and try again.</string>
     <string name="api_url" translatable="false">https://happynews-api.svendubbeld.nl</string>
     <string name="notification_text">We\'ve got some positivity for you!</string>
     <string name="title_settings">Settings</string>
@@ -25,4 +27,8 @@
         <item>Not happy</item>
         <item>Violent</item>
     </string-array>
+    <string name="search_title">Search</string>
+    <string name="bad_request_toast">Oops, Something went wrong</string>
+    <string name="network_error_title">Uh oh…</string>
+    <string name="retry_button">Retry</string>
 </resources>
