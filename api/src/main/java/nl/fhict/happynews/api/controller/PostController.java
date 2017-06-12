@@ -46,13 +46,22 @@ public class PostController {
      */
     @ApiOperation("Get all posts in a paginated format")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<Post> getAllByPage(Pageable pageable, @RequestParam(required = false, defaultValue = "") String query) {
-    public Page<Post> getAllByPage(Pageable pageable, @PathVariable(required = false) String[] sourcesWhitelist) {
+    public Page<Post> getAllByPage(Pageable pageable, @RequestParam(value = "whitelist", required = false)
+        String[] sourcesWhitelist, @RequestParam(required = false, defaultValue = "") String query) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        if (query.isEmpty()) {
+        if (query.isEmpty() && sourcesWhitelist != null) {
+            return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
+        } else if (query.isEmpty()) {
             return postRepository.findAll(notHidden(), sortedPageable);
+        } else if (sourcesWhitelist != null) {
+            return postRepository.findAll(notHidden()
+                .and(
+                    QPost.post.title.containsIgnoreCase(query)
+                        .or(QPost.post.contentText.containsIgnoreCase(query))
+                        .or(QPost.post.sourceName.containsIgnoreCase(query))
+                ).and(isAllowed(sourcesWhitelist)), sortedPageable);
         } else {
             return postRepository.findAll(notHidden()
                 .and(
@@ -60,11 +69,6 @@ public class PostController {
                         .or(QPost.post.contentText.containsIgnoreCase(query))
                         .or(QPost.post.sourceName.containsIgnoreCase(query))
                 ), sortedPageable);
-        }
-        if (sourcesWhitelist != null) {
-            return postRepository.findAll(notHidden().and(isAllowed(sourcesWhitelist)), sortedPageable);
-        } else {
-            return postRepository.findAll(notHidden(), sortedPageable);
         }
     }
 

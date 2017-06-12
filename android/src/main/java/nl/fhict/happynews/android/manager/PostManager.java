@@ -91,8 +91,6 @@ public class PostManager {
      *
      * @param context  The Application context.
      * @param callback The callback when the page is loaded.
-     *
-     * @param context  The Application context.
      */
     public void refresh(final Context context, final FutureCallback<Page> callback) {
         final int firstPage = 0;

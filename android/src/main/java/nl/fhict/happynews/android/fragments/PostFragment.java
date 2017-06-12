@@ -92,6 +92,7 @@ public abstract class PostFragment extends Fragment implements LoadListener {
     @Override
     public void onResume() {
         super.onResume();
+        PostManager.getInstance(getActivity()).load(0, 20, getActivity(), null);
         feedAdapter.notifyDataSetChanged();
     }
 
