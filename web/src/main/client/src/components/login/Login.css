@@ -1,0 +1,19 @@
+.loginForm {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.loginHeader h1{
+  margin-bottom: 24px;
+}
+
+.loginHeader p {
+  width: 80%;
+  margin: 0 auto;
+
+}

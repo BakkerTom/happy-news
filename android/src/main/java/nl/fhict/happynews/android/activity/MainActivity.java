@@ -1,45 +1,29 @@
 package nl.fhict.happynews.android.activity;
 
+import android.app.FragmentManager;
 import android.app.NotificationManager;
-
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
-import nl.fhict.happynews.android.adapter.FeedAdapter;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.controller.SourceController;
+import nl.fhict.happynews.android.fragments.MainFragment;
+import nl.fhict.happynews.android.fragments.SearchFragment;
 import nl.fhict.happynews.android.manager.AlarmManager;
-import nl.fhict.happynews.android.manager.PostManager;
-import nl.fhict.happynews.android.model.Page;
-import nl.fhict.happynews.android.model.Post;
 import nl.fhict.happynews.android.receiver.NotificationReceiver;
 
-import java.util.ArrayList;
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    private State state = State.DEFAULT;
 
-public class MainActivity extends AppCompatActivity implements LoadListener {
-
-    private PostManager postManager;
-    private SwipeRefreshLayout swipeRefresh;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private FeedAdapter feedAdapter;
-
-
-    private boolean loading;
-    private int pastVisiblesItems;
-    private int visibleItemCount;
-    private int totalItemCount;
-    private static final int PAGE_SIZE = 20;
-
-
+    private MainFragment mainFragment;
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,43 +31,32 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         setContentView(R.layout.activity_main);
 
         NotificationManager notificationManager;
-        notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(NotificationReceiver.NOTIFICATION_ID);
 
-        ReadingHistoryController.getInstance().initialize(this);
-        SourceController.getInstance().initialize(this);
+        ReadingHistoryController.getInstance().initialize(getApplicationContext());
+        SourceController.getInstance().initialize(getApplicationContext());
 
-        AlarmManager.setAlarms(this);
+        AlarmManager.setAlarms(getApplicationContext());
 
-        postManager = PostManager.getInstance(getApplicationContext());
+        mainFragment = new MainFragment();
+        searchFragment = new SearchFragment();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-
-        feedAdapter = new FeedAdapter(this, new ArrayList<Post>());
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(feedAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-
-        postManager.setFeedAdapter(feedAdapter);
-
-        swipeRefresh.setRefreshing(true);
-        postManager.refresh(this, this);
-        loading = true;
-
-        addScrollListener();
-
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                postManager.refresh(MainActivity.this, MainActivity.this);
-            }
-        });
+        getFragmentManager().beginTransaction()
+            .replace(R.id.fragment, mainFragment)
+            .commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_layout, menu);
+
+        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
+
+        final SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        search.setOnQueryTextListener(this);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -100,47 +73,43 @@ public class MainActivity extends AppCompatActivity implements LoadListener {
         }
     }
 
-    private void addScrollListener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) { //Check if scrolled down
-                    visibleItemCount = layoutManager.getChildCount();
-                    totalItemCount = layoutManager.getItemCount();
-                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true; // Handle query here, do not launch search intent
+    }
 
-                    if (!loading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                            loading = true;
-                            Page lastPage = feedAdapter.getLastPage();
-                            if (!lastPage.isLast()) {
-                                postManager.load(
-                                    lastPage.getNumber() + 1,
-                                    PAGE_SIZE,
-                                    MainActivity.this,
-                                    MainActivity.this);
-                            }
-                        }
-                    }
-                }
+    @Override
+    public boolean onQueryTextChange(String query) {
+        if (query.isEmpty()) {
+            Log.d("Search", "Query empty");
+
+            if (state == State.SEARCH) {
+                Log.d("Search", "Closing SearchFragment");
+
+                state = State.DEFAULT;
+                getFragmentManager().popBackStack("search", FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
-        });
+        } else {
+            if (state != State.SEARCH) {
+                Log.d("Search", "Opening SearchFragment");
+
+                state = State.SEARCH;
+                getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment, searchFragment)
+                    .addToBackStack("search")
+                    .commit();
+
+                getFragmentManager().executePendingTransactions();
+            }
+
+            searchFragment.onSearch(query);
+        }
+
+        return true;
     }
 
-    /**
-     * When this activity is subscribed to a PostManager,
-     * this notification will be called when content
-     * is finished loading.
-     */
-    @Override
-    public void onFinishedLoading() {
-        loading = false;
-        swipeRefresh.setRefreshing(false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        feedAdapter.notifyDataSetChanged();
+    private enum State {
+        DEFAULT,
+        SEARCH
     }
 }

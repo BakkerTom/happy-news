@@ -9,4 +9,9 @@
     <string name="title_settings_rate_app">Beoordeel App</string>
     <string name="about_text">Met Happy News brengen wij jou de positiviteit die jij nodig hebt! Uit onze grote hoeveelheid bronnen halen wij alleen het meest positieve nieuws om jouw dag beter te maken. Je hoeft niet in te loggen, het is compleet gratis en 24/7 beschikbaar! \n\nHappy News heeft:\n - Een constante stroom aan positieve artikelen\n - Vrolijke tweets zorgvuldig door ons gefilterd\n - Inspirerende citaten om jou te motiveren\n\nWij van Happy news hebben als missie om iedereens dag wat positiever te maken. Wij maken een lange werkdag draaglijker door wat vrolijkheid en positiviteit te leveren wanneer jij het nodig hebt!</string>
     <string name="notification_text">Er staat positiviteit voor je klaar!</string>
+    <string name="search_title">Zoeken</string>
+    <string name="bad_request_toast">Oeps, er ging iets mis</string>
+    <string name="network_error_title">Oh oh…</string>
+    <string name="no_internet_message">Het lijkt erop dat je geen actieve internetverbinding hebt. Kijk naar je instellingen en probeer opnieuw.</string>
+    <string name="retry_button">Probeer Opnieuw</string>
 </resources>

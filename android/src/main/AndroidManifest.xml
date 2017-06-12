@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="nl.fhict.happynews.android">
 
+    <uses-permission  android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:allowBackup="true"
@@ -15,14 +18,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
 
-        <receiver android:name=".receiver.NotificationReceiver"
-                  android:enabled="true">
+        <receiver
+            android:name=".receiver.NotificationReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".activity.SettingsActivity"
             android:parentActivityName=".activity.MainActivity">
