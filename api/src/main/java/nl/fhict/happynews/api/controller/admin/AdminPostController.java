@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,9 +57,15 @@ public class AdminPostController {
      */
     @ApiOperation("Get all posts in a paginated format")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<Post> getAllByPage(Pageable pageable) {
+    public Page<Post> getAllByPage(Pageable pageable,
+                                   @RequestParam(required = false, defaultValue = "false") Boolean isFiltered) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        if (isFiltered) {
+            // TODO
+        }
+
         return postRepository.findAll(sortedPageable);
     }
 
