@@ -9,5 +9,16 @@
       "name": "oauth2.client.secret",
       "type": "java.lang.String",
       "description": "Secret for the OAuth2 client."
+    },
+    {
+      "name": "default-user.username",
+      "type": "java.lang.String",
+      "description": "Username for the default user."
+    },
+    {
+      "name": "default-user.password",
+      "type": "java.lang.String",
+      "description": "Password for the default password."
     }
-  ] }
+  ]
+}

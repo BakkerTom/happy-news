@@ -1,4 +1,5 @@
 const base64 = require('base-64');
+import Config from './Config';
 
 let instance = null;
 
@@ -13,11 +14,16 @@ class Authenticator {
   }
 
   authenticate(username, password, callback){
+    const baseUrl = Config.get('url');
+    const url = `${baseUrl}/oauth/token`;
+    const oauthId = Config.get('oauthId');
+    const oauthSecret = Config.get('oauthSecret');
+
     //Fetches the authentication token from the oauth api
-    fetch('https://happynews-api.svendubbeld.nl/oauth/token', {
+    fetch(url, {
       method: 'post',
       headers:{
-        "Authorization": "Basic " + base64.encode('happynews-editor:OuNNQtRGBIfUTG2IDICCdOUt'),
+        "Authorization": "Basic " + base64.encode(`${oauthId}:${oauthSecret}`),
         "Origin": window.location.hostname,
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
       },
