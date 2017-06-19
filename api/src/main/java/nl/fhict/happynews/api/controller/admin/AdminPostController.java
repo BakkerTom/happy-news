@@ -1,5 +1,6 @@
 package nl.fhict.happynews.api.controller.admin;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import io.swagger.annotations.ApiOperation;
 import nl.fhict.happynews.api.exception.NotFoundException;
 import nl.fhict.happynews.api.exception.PostCreationException;
@@ -7,6 +8,7 @@ import nl.fhict.happynews.api.hibernate.PostRepository;
 import nl.fhict.happynews.api.util.HideRequest;
 import nl.fhict.happynews.api.validator.PostValidator;
 import nl.fhict.happynews.shared.Post;
+import nl.fhict.happynews.shared.QPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,7 @@ public class AdminPostController {
      * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
      *
      * @param pageable the page and page size
+     * @param isFiltered only displays flagged posts if true, false by default
      * @return A Page with Post information
      */
     @ApiOperation("Get all posts in a paginated format")
@@ -63,7 +66,8 @@ public class AdminPostController {
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
         if (isFiltered) {
-            // TODO
+            BooleanExpression predecate = QPost.post.flagReasons.isNotEmpty();
+            return postRepository.findAll(predecate, sortedPageable);
         }
 
         return postRepository.findAll(sortedPageable);
