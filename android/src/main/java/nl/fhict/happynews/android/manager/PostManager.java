@@ -1,20 +1,26 @@
 package nl.fhict.happynews.android.manager;
 
 import android.content.Context;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import nl.fhict.happynews.android.R;
+import nl.fhict.happynews.android.adapter.FeedAdapter;
+import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.Page;
+import nl.fhict.happynews.android.model.SourceSetting;
 
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sander on 06/03/2017.
@@ -97,7 +103,7 @@ public class PostManager {
     /**
      * Sends content of the first page to the FeedAdapter, filtered by the query.
      *
-     * @param query The search query.
+     * @param query    The search query.
      * @param context  The Application context.
      * @param callback The callback when the page is loaded.
      */
@@ -118,7 +124,11 @@ public class PostManager {
      */
     private void loadPage(int page, int size, Context context, final FutureCallback<Page> callback) {
         Ion.with(context)
-            .load(apiUrl + "/post?page=" + page + "&size=" + size)
+            .load(apiUrl + "/post")
+            .addQuery("page", String.valueOf(page))
+            .addQuery("size", String.valueOf(size))
+            .addQuery("whitelist", generateWhitelist(context))
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
     }
@@ -137,8 +147,22 @@ public class PostManager {
             .addQuery("page", String.valueOf(page))
             .addQuery("size", String.valueOf(size))
             .addQuery("query", query)
+            .addQuery("whitelist", generateWhitelist(context))
+            .setTimeout(7000)
             .as(new TypeToken<Page>() {
             }).setCallback(callback);
+    }
+
+    private String generateWhitelist(Context context) {
+        String whitelist = "";
+        List<SourceSetting> sources = SourceController.getInstance().getSources(context);
+
+        for (SourceSetting source : sources) {
+            if (source.isEnabled()) {
+                whitelist += source.getName() + ",";
+            }
+        }
+        return whitelist.substring(0, whitelist.length() - 1);
     }
 
 
@@ -154,5 +178,33 @@ public class PostManager {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }
         });
+    }
+
+    /**
+     * Send a call to the api to flag given post with a given reason.
+     *
+     * @param postUuid uuid for the post
+     * @param reason   reason for flag
+     */
+    public void flagPost(final Context context, String postUuid, String reason) {
+        String uri = apiUrl + "/post/" + postUuid + "/flag";
+        JsonObject json = new JsonObject();
+        json.addProperty("reason", reason);
+        Ion.with(context)
+            .load(uri)
+            .setTimeout(5000)
+            .setJsonObjectBody(json)
+            .asString()
+            .setCallback(new FutureCallback<String>() {
+                @Override
+                public void onCompleted(Exception e, String result) {
+
+                    if (e == null) {
+                        Toast.makeText(context, R.string.flag_response, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, R.string.flag_error_response, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 }
