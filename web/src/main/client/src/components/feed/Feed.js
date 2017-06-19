@@ -4,10 +4,13 @@ import ReactPaginate from 'react-paginate';
 import Article from '../../components/article/Article';
 import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
+import FilterBar from '../../components/filterbar/FilterBar';
 import Config from '../../Config';
 
-let PAGE_SIZE = 20;
+import './Feed.css';
 
+//Static page_size field
+let PAGE_SIZE = 20;
 
 class Feed extends Component {
 
@@ -15,7 +18,11 @@ class Feed extends Component {
     super(props);
 
     //Initialize an empty state object
-    this.state = {};
+    this.state = {
+      filtered: false
+    };
+
+    this.filterHandler = this.filterHandler.bind(this);
   }
 
   componentDidMount() {
@@ -23,10 +30,13 @@ class Feed extends Component {
     this.loadItems(0);
   }
 
-  //loadItems load
+  /**
+   * load the items via the Happy News API
+   * @param {int} pageNumber 
+   */
   loadItems(pageNumber) {
     const baseUrl = Config.get('url');
-    const url = `${baseUrl}/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
+    const url = `${baseUrl}/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&filter=${this.state.filtered}`;
 
     fetch(url, {
         headers: {
@@ -56,6 +66,24 @@ class Feed extends Component {
     window.scrollTo(0, 0);
   };
 
+  /**
+   * Handles the changes in filter state from Filterbar
+   * It is setup so we could potentially switch multiple kinds of filters
+   * @param {string} filter - The filter ID string
+   * @param {boolean} state - Wether the filter should be on or off
+   */
+  filterHandler(filter, state) {
+    if (filter === 'FLAGGED') {
+      this.setState({
+        filtered: state
+      }, () => {
+        this.loadItems(this.state.pageNumber);
+      });
+    }
+
+    
+  }
+
   render() {
     //Display a loading text when no data is loaded yet
     if (!this.state.feedData) return <div>Loading...</div>;
@@ -75,23 +103,28 @@ class Feed extends Component {
     });
 
     return (
-      <div>
+    <div>
+      <FilterBar handler={this.filterHandler} filtered={this.state.filtered}/>
+
       <ul className='list-group'>
         { posts }
       </ul>
-
-      <ReactPaginate previousLabel={"previous"}
-                       nextLabel={"next"}
-                       breakLabel={<a href="">...</a>}
-                       breakClassName={"break-me"}
-                       pageCount={this.state.pageCount}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={5}
-                       onPageChange={this.handlePageClick}
-                       containerClassName={"pagination"}
-                       subContainerClassName={"pages pagination"}
-                       activeClassName={"active"} />
+      
+      <div className='paginator'>
+        <ReactPaginate
+        previousLabel={"previous"}
+        nextLabel={"next"}
+        breakLabel={<a href="">...</a>}
+        breakClassName={"break-me"}
+        pageCount={this.state.pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={this.handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"} />
       </div>
+    </div>
     );
   }
 }

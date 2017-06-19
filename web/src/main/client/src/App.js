@@ -4,6 +4,8 @@ import Login from './components/login/Login';
 
 import { Navbar } from 'react-bootstrap';
 
+import './App.css';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -43,7 +45,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Navbar>
+        <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
               <a href="/">Happy News</a>
