@@ -5,6 +5,7 @@ import Article from '../../components/article/Article';
 import Tweet from '../../components/tweet/Tweet';
 import Quote from '../../components/quote/Quote';
 import FilterBar from '../../components/filterbar/FilterBar';
+import Config from '../../Config';
 
 import './Feed.css';
 
@@ -33,8 +34,9 @@ class Feed extends Component {
    * load the items via the Happy News API
    * @param {int} pageNumber 
    */
-  loadItems(pageNumber){
-    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&filter=${this.state.filtered}`;
+  loadItems(pageNumber) {
+    const baseUrl = Config.get('url');
+    const url = `${baseUrl}/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&filter=${this.state.filtered}`;
 
     fetch(url, {
         headers: {
