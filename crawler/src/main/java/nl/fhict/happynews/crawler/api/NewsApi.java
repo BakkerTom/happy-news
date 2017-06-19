@@ -26,7 +26,7 @@ public class NewsApi extends Api<NewsSource> {
     /**
      * Get newsposts from the api.
      *
-     * @param args [0] = source, [1] = type
+     * @param args [0] = source, [1] = type, [2] = clean name
      * @return NewsSource object containing list of articles and source information
      */
     public NewsSource getRaw(String... args) {
@@ -39,6 +39,7 @@ public class NewsApi extends Api<NewsSource> {
 
         try {
             newsSource = restTemplate.getForObject(url, NewsSource.class);
+            newsSource.setSourceName(args[2]);
             logger.info("received " + newsSource.getArticles().size() + " articles from " + args[0]);
         } catch (HttpClientErrorException ex) {
             logger.error("Bad Request", ex);

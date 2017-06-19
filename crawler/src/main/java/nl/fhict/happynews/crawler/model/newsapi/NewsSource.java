@@ -9,6 +9,7 @@ public class NewsSource {
 
     private String status;
     private String source;
+    private String sourceName;
     private String sortBy;
     private List<Article> articles;
 
@@ -29,6 +30,14 @@ public class NewsSource {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 
     public List<Article> getArticles() {

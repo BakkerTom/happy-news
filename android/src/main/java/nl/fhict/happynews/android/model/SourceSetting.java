@@ -8,22 +8,25 @@ public class SourceSetting implements Comparable<SourceSetting> {
     private SourceSetting parent;
     private boolean isEnabled = true;
     private String name;
+    private String cleanName;
 
     /**
      * Constructor for sourceSetting.
      * @param parent parent sourceSetting object (sources of articles).
      * @param name name of the source.
      */
-    public SourceSetting(SourceSetting parent, String name) {
+    public SourceSetting(SourceSetting parent, String name, String cleanName) {
         this.name = name;
         this.parent = parent;
+        this.cleanName = cleanName;
         if (!parent.isEnabled()) {
             isEnabled = false;
         }
     }
 
-    public SourceSetting(String name) {
+    public SourceSetting(String name, String cleanName) {
         this.name = name;
+        this.cleanName = cleanName;
     }
 
     public SourceSetting getParent() {
@@ -50,7 +53,13 @@ public class SourceSetting implements Comparable<SourceSetting> {
         this.parent = setting;
     }
 
+    public String getCleanName() {
+        return cleanName;
+    }
 
+    public void setCleanName(String cleanName) {
+        this.cleanName = cleanName;
+    }
 
     @Override
     public String toString() {

@@ -34,7 +34,7 @@ class Quote extends Component {
       <li className='list-group-item'>
         <div className={'flex ' + (this.state.hidden ? 'removed' : '')}>
           <div className='content'>
-            <span className='source source-quote'>{ data.source }</span>
+            <span className='source source-quote'>{ data.sourceName }</span>
             <blockquote cite={ data.url}>
               <p>{ data.contentText }</p>
               <cite>– { data.author }</cite>

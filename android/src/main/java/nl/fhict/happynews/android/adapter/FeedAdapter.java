@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import nl.fhict.happynews.android.R;
-import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.controller.SourceController;
 import nl.fhict.happynews.android.model.Page;
 import nl.fhict.happynews.android.model.Post;
@@ -143,14 +142,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void addPage(Page page) {
         if (page != null) {
             this.lastPage = page;
-            List<Post> pageposts = new ArrayList<>();
-            for (Post post : page.getContent()) {
-                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-                if (src == null || (src != null && src.isEnabled())) {
-                    pageposts.add(post);
-                }
-            }
-            this.posts.addAll(pageposts);
+            this.posts.addAll(page.getContent());
             this.notifyDataSetChanged();
         }
     }
@@ -165,14 +157,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (page != null) {
             this.lastPage = page;
             this.posts.clear();
-            List<Post> pageposts = new ArrayList<>();
-            for (Post post : page.getContent()) {
-                SourceSetting src = SourceController.getInstance().getSource(context, post.getSourceName());
-                if (src == null || (src != null && src.isEnabled())) {
-                    pageposts.add(post);
-                }
-            }
-            this.posts.addAll(pageposts);
+            this.posts.addAll(page.getContent());
             this.notifyDataSetChanged();
         }
     }

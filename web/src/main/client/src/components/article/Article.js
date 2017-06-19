@@ -37,7 +37,7 @@ class Article extends Component {
             <img src={data.imageUrls[0]} alt='thumbnail'/>
           </div>
           <div className='content'>
-            <span className='source source-article'>{ data.source }</span>
+            <span className='source source-article'>{ data.sourceName }</span>
             <a href={data.url}>
               <h4 className='list-group-item-heading'>{ data.title }</h4>
             </a>
