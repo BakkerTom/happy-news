@@ -55,17 +55,17 @@ public class AdminPostController {
      * Handles a GET request by returning posts in a paginated format. Default page is 0, and default size = 20
      *
      * @param pageable the page and page size
-     * @param isFiltered only displays flagged posts if true, false by default
+     * @param filter only displays flagged posts if true, false by default
      * @return A Page with Post information
      */
     @ApiOperation("Get all posts in a paginated format")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Post> getAllByPage(Pageable pageable,
-                                   @RequestParam(required = false, defaultValue = "false") Boolean isFiltered) {
+                                   @RequestParam(required = false, defaultValue = "false") Boolean filter) {
         Sort sort = new Sort(Sort.Direction.DESC, "publishedAt");
         Pageable sortedPageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        if (isFiltered) {
+        if (filter) {
             BooleanExpression predecate = QPost.post.flagReasons.isNotEmpty();
             return postRepository.findAll(predecate, sortedPageable);
         }

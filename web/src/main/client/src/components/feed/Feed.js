@@ -34,7 +34,7 @@ class Feed extends Component {
    * @param {int} pageNumber 
    */
   loadItems(pageNumber){
-    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&isFiltered=${this.state.filtered}`;
+    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&filter=${this.state.filtered}`;
 
     fetch(url, {
         headers: {
