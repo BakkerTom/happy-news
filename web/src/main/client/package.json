@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://happynews-api.svendubbeld.nl",
   "devDependencies": {
     "react-scripts": "0.9.5"
   },
@@ -12,7 +11,8 @@
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
-    "react-paginate": "^4.4.2"
+    "react-paginate": "^4.4.2",
+    "react-tweet-embed": "^1.0.6"
   },
   "scripts": {
     "start": "react-scripts start",

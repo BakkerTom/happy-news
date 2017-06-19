@@ -1,0 +1,33 @@
+.filter-bar {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.filter-bar span {
+  margin-right: 16px;
+  font-weight: 600;
+}
+
+.filter-btn {
+  text-decoration: none;
+  padding: 8px 16px 8px 16px;
+  margin-right: 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  text-decoration: none;
+  border: 1px solid #CCCCCC;
+}
+
+.filter-btn.toggled {
+  background-color: #ebf2f9;
+  border: 1px solid #337ab7;
+}
+
+.filter-btn.toggled:hover {
+  background-color: #D1DFEE;
+}

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Feed from './components/feed/Feed';
+import Login from './components/login/Login';
 
 import { Navbar } from 'react-bootstrap';
-import Authenticator from './Authenticator';
+
+import './App.css';
 
 class App extends Component {
   constructor(props){
@@ -12,44 +14,47 @@ class App extends Component {
       isAuthenticated: false
     };
 
+    this.handleAuth = this.handleAuth.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
-  componentDidMount(){
-    const auth = new Authenticator();
+  componentDidMount() {
 
-    if (!auth.isAuthenticated()){
-      auth.authenticate(() => {
-        this.setState({
-          isAuthenticated: true
-        });
-      });
-    } else {
+    //Check to see if an access_token already exists in the sessionStorage
+    if (sessionStorage.access_token != null){
       this.setState({
         isAuthenticated: true
       });
     }
   }
 
-  render() {
-    let feed = <div>Loading...</div>;
+  //Callback if Login component correctly authenticates the user
+  handleAuth(){
+    this.setState({
+      isAuthenticated: true
+    });
+  }
 
+  render() {
+    let content = <Login handleAuth={this.handleAuth} />;
+
+    //If the user is authenticated display the feed
     if (this.state.isAuthenticated) {
-      feed = <Feed />;
+      content = <Feed />;
     }
 
     return (
       <div className="App">
-        <Navbar>
+        <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">Happy News</a>
+              <a href="/">Happy News</a>
             </Navbar.Brand>
           </Navbar.Header>
         </Navbar>
 
         <div className="container">
-          { feed }
+          { content }
         </div>
 
       </div>

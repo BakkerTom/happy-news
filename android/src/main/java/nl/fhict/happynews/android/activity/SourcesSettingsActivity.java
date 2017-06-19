@@ -30,11 +30,7 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(R.string.title_settings_sources);
 
-        sourcesListView = (ListView) findViewById(R.id.sourcesListView);
-        sources = SourceController.getInstance().getSources(getApplicationContext());
-        Collections.sort(sources);
-        refreshList();
-        sourcesAdapter.setParentActivity(this);
+        refreshActivity();
     }
 
     /**
@@ -47,5 +43,16 @@ public class SourcesSettingsActivity extends AppCompatActivity {
         sourcesListView.setAdapter(sourcesAdapter);
         sourcesAdapter.setParentActivity(this);
         sourcesAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Refresh the activity.
+     */
+    public void refreshActivity() {
+        sourcesListView = (ListView) findViewById(R.id.sourcesListView);
+        sources = SourceController.getInstance().getSources(getApplicationContext());
+        Collections.sort(sources);
+        refreshList();
+        sourcesAdapter.setParentActivity(this);
     }
 }

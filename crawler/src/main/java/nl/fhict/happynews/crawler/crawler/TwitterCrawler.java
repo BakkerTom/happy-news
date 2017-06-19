@@ -190,7 +190,7 @@ public class TwitterCrawler extends Crawler<TweetBundle> {
             + "/status/" + status.getId();
         newPost.setUrl(url);
 
-        newPost.setSource("Twitter");
+        newPost.setSource("twitter");
         newPost.setSourceName("Twitter");
         return newPost;
     }

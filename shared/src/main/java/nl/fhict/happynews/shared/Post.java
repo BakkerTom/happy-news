@@ -44,6 +44,7 @@ public class Post {
     private Type type;
     private List<String> tags = new ArrayList<>();
     private boolean hidden;
+    private List<String> flagReasons = new ArrayList<>();
 
     public Post() {
     }
@@ -181,6 +182,10 @@ public class Post {
         this.hidden = hidden;
     }
 
+    public void addFlagReason(String reason) {
+        flagReasons.add(reason);
+    }
+
     public enum Type {
         ARTICLE,
         TWEET,
@@ -217,5 +222,9 @@ public class Post {
         public String toString() {
             return getName();
         }
+    }
+
+    public List<String> getFlagReasons() {
+        return flagReasons;
     }
 }

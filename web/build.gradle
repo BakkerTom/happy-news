@@ -40,12 +40,14 @@ dependencies {
 
 compileJava.dependsOn(processResources)
 
-task installNpm(type: NpmTask){
+task installNpm(type: NpmTask) {
     workingDir = file("${project.projectDir}/src/main/client")
     args = ['install']
 }
 
 task jsBuild(type: NpmTask) {
+    onlyIf { !gradle.taskGraph.hasTask(rootProject.tasks.checkstyle) }
+
     workingDir = file("${project.projectDir}/src/main/client")
     args = ['run', 'build']
 }

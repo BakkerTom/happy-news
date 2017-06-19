@@ -27,6 +27,7 @@ public class SourceController {
 
     /**
      * Returns the instance.
+     *
      * @return An instance.
      */
     public static SourceController getInstance() {
@@ -39,14 +40,15 @@ public class SourceController {
 
     /**
      * Initializes the Source Set.
+     *
      * @param context The context.
      */
     public void initialize(Context context) {
         if (preferences.get(context, KEY) == null) {
             List<SourceSetting> sources = new ArrayList<>();
-            SourceSetting twitterSourceSetting = new SourceSetting("Twitter");
-            SourceSetting quoteSourceSetting = new SourceSetting("quote");
-            SourceSetting articleSourceSetting = new SourceSetting("Article");
+            SourceSetting twitterSourceSetting = new SourceSetting("twitter", "Twitter");
+            SourceSetting quoteSourceSetting = new SourceSetting("quote", "Inspirational Quote");
+            SourceSetting articleSourceSetting = new SourceSetting("article", "Article");
 
             sources.add(twitterSourceSetting);
             sources.add(quoteSourceSetting);
@@ -56,7 +58,7 @@ public class SourceController {
             Collection<Source> sourcesFromApi = sourceManager.getSources();
 
             for (Source s : sourcesFromApi) {
-                SourceSetting src = new SourceSetting(s.getName());
+                SourceSetting src = new SourceSetting(s.getName(), s.getCleanName());
                 src.setParent(articleSourceSetting);
                 sources.add(src);
             }
@@ -68,6 +70,7 @@ public class SourceController {
 
     /**
      * Gets the source.
+     *
      * @param context The context.
      * @param srcName The source name.
      * @return The source.
@@ -83,6 +86,7 @@ public class SourceController {
 
     /**
      * Toggles the source.
+     *
      * @param context The context.
      * @param srcName The sourcename.
      */
@@ -91,22 +95,40 @@ public class SourceController {
         removeSource(context, src);
         src.setEnabled(!src.isEnabled());
         addSource(context, src);
+    }
 
+    /**
+     * Toggles the source's children.
+     *
+     * @param context The context.
+     * @param srcName The sourcename.
+     */
+    public void toggleSourceChildren(Context context, String srcName, boolean value) {
+        for (SourceSetting sourcesetting : getSources(context)) {
+            if (sourcesetting.getParent() != null
+                && sourcesetting.getParent().getName().equals(srcName)
+                && sourcesetting.isEnabled() != value) {
+                toggleSource(context, sourcesetting.getName());
+            }
+        }
     }
 
     /**
      * Gets all the sources that are blocked.
+     *
      * @param context The context.
      * @return All sources.
      */
     public List<SourceSetting> getSources(Context context) {
-        return preferences.getAsList(context, KEY, new TypeToken<List<SourceSetting>>(){});
+        return preferences.getAsList(context, KEY, new TypeToken<List<SourceSetting>>() {
+        });
     }
 
     /**
      * Adds a source to the blocked list.
+     *
      * @param context The context.
-     * @param source The source.
+     * @param source  The source.
      */
     public void addSource(Context context, SourceSetting source) {
         Collection<SourceSetting> sources = getSources(context);
@@ -116,8 +138,9 @@ public class SourceController {
 
     /**
      * Removes a source from the blocked list.
+     *
      * @param context The context.
-     * @param source The source.
+     * @param source  The source.
      */
     public void removeSource(Context context, SourceSetting source) {
         Collection<SourceSetting> sources = getSources(context);

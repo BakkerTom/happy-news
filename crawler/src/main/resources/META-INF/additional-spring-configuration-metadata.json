@@ -21,21 +21,6 @@
       "description": "Whether the crawler should run. Defaults to \"true\"."
     },
     {
-      "name": "crawler.instagram.apikey",
-      "type": "java.lang.String",
-      "description": "The API key for Instagram."
-    },
-    {
-      "name": "crawler.instagram.apiurl",
-      "type": "java.lang.String",
-      "description": "The API url for Instagram."
-    },
-    {
-      "name": "crawler.instagram.enabled",
-      "type": "java.lang.Boolean",
-      "description": "Whether the crawler should run. Defaults to \"true\"."
-    },
-    {
       "name": "extractor.article.apikey",
       "type": "java.lang.String",
       "description": "The API key for extracting articles."
@@ -48,7 +33,7 @@
     {
       "name": "crawler.twitter.consumerkey",
       "type": "java.lang.String",
-      "description": "The consumer key for twitter"
+      "description": "The consumer key for twitter."
     },
     {
       "name": "crawler.twitter.consumersecret",
@@ -58,12 +43,17 @@
     {
       "name": "crawler.twitter.accestoken",
       "type": "java.lang.String",
-      "description": "The acces token for twitter"
+      "description": "The acces token for twitter."
     },
     {
       "name": "crawler.twitter.accestokensecret",
       "type": "java.lang.String",
-      "description": "The secret acces token for twitter"
+      "description": "The secret acces token for twitter."
+    },
+    {
+      "name": "crawler.quotes.delay",
+      "type": "java.lang.String",
+      "description": "Delay between each crawl."
     }
   ]
 }

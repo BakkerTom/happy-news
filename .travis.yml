@@ -12,3 +12,6 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
+script:
+  - cp web/src/main/client/config/config.dev.json web/src/main/client/config/config.json
+  - ./gradlew build connectedCheck
