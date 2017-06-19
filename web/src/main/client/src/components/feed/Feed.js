@@ -18,7 +18,7 @@ class Feed extends Component {
 
     //Initialize an empty state object
     this.state = {
-      flagFilter: false
+      filtered: false
     };
 
     this.filterHandler = this.filterHandler.bind(this);
@@ -34,7 +34,7 @@ class Feed extends Component {
    * @param {int} pageNumber 
    */
   loadItems(pageNumber){
-    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}`;
+    const url = `https://happynews-api.svendubbeld.nl/admin/posts?page=${pageNumber}&size=${PAGE_SIZE}&isFiltered=${this.state.filtered}`;
 
     fetch(url, {
         headers: {
@@ -73,11 +73,13 @@ class Feed extends Component {
   filterHandler(filter, state) {
     if (filter === 'FLAGGED') {
       this.setState({
-        flagFilter: state
+        filtered: state
+      }, () => {
+        this.loadItems(this.state.pageNumber);
       });
     }
 
-    this.loadItems(this.state.pageNumber);
+    
   }
 
   render() {
@@ -100,7 +102,7 @@ class Feed extends Component {
 
     return (
     <div>
-      <FilterBar handler={this.filterHandler}/>
+      <FilterBar handler={this.filterHandler} filtered={this.state.filtered}/>
 
       <ul className='list-group'>
         { posts }

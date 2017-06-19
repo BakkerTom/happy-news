@@ -7,7 +7,7 @@ class FilterBar extends Component {
     super(props);
 
     this.state = {
-      flaggedContent: true
+      flaggedContent: this.props.filtered
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -16,9 +16,9 @@ class FilterBar extends Component {
   handleClick() {
     this.setState({
       flaggedContent: !this.state.flaggedContent
+    }, () => {
+      this.props.handler("FLAGGED", this.state.flaggedContent);
     });
-
-    this.props.handler("FLAGGED", this.state.flaggedContent);
   }
 
   render(){
@@ -26,7 +26,7 @@ class FilterBar extends Component {
       <div className='filter-bar'>
         <span>Filter:</span>
 
-        <a className={'filter-btn ' + (this.state.flaggedContent ? '' : 'toggled')} 
+        <a className={'filter-btn ' + (this.state.flaggedContent ? 'toggled' : '')} 
           onClick={this.handleClick}>Flagged Content</a>
       </div>
     );
@@ -34,7 +34,8 @@ class FilterBar extends Component {
 }
 
 FilterBar.propTypes = {
-  handler: PropTypes.func.isRequired
+  handler: PropTypes.func.isRequired,
+  filtered: PropTypes.bool.isRequired
 }
 
 export default FilterBar;
