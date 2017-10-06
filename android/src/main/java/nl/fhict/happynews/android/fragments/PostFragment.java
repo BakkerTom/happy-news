@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.koushikdutta.async.future.FutureCallback;
 import nl.fhict.happynews.android.LoadListener;
 import nl.fhict.happynews.android.R;
@@ -75,6 +77,11 @@ public abstract class PostFragment extends Fragment implements LoadListener {
 
         recyclerView.addOnScrollListener(onScrollListener);
         swipeRefresh.setOnRefreshListener(onRefreshListener);
+
+        View adView = view.findViewById(R.id.adView);
+        if (adView != null && adView instanceof AdView) {
+            configureAds((AdView) adView);
+        }
 
         return view;
     }
@@ -198,6 +205,13 @@ public abstract class PostFragment extends Fragment implements LoadListener {
 
             doRefresh(postManager, refreshCallback);
         }
+    }
+
+    private void configureAds(AdView adView) {
+        AdRequest adRequest = new AdRequest.Builder()
+            .build();
+
+        adView.loadAd(adRequest);
     }
 
     /**

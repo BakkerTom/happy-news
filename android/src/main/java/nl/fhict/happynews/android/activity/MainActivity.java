@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.google.android.gms.ads.MobileAds;
 import nl.fhict.happynews.android.R;
 import nl.fhict.happynews.android.controller.ReadingHistoryController;
 import nl.fhict.happynews.android.controller.SourceController;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         getFragmentManager().beginTransaction()
             .replace(R.id.fragment, mainFragment)
             .commit();
+
+        MobileAds.initialize(this, "ca-app-pub-5654718756177389~7192583916");
     }
 
     @Override
